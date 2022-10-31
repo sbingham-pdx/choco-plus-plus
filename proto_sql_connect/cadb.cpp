@@ -6,7 +6,7 @@ cadb::cadb(void){
 	myDriver = nullptr;
 	myConn = nullptr;
 	myStmt = nullptr;
-	myRes = nullptr;
+	//myRes = nullptr;
 
 	std::cout << ">> Getting Driver Instance " << std::endl;
 	myDriver = get_driver_instance();
@@ -24,15 +24,19 @@ cadb::cadb(void){
 
 cadb::~cadb(void){
 
-	delete myRes;
+	//delete myRes;
 	delete myStmt;
 	delete myConn;
 }
 
-
+// pass in the table, column, and string to match at that column
+// and the column you want to get returned as a string
 string cadb::getString(const string table, const string column, const string tomatch, const string get){
 
 	string res;
+	//sql::Statement	*myStmt;
+	sql::ResultSet	*myRes = nullptr;
+	//myRes = nullptr;
 
 	string query = "SELECT * FROM";
 	query += " ";
@@ -51,17 +55,19 @@ string cadb::getString(const string table, const string column, const string tom
 		//shhhgggjjtd::string query = "SELECT * FROM provider WHERE id=";
 		//query += input;
 
-	//myRes = nullptr;
 
 	// You can modify this statement to 
 	myRes = myStmt->executeQuery(query);
-
 
 	while (myRes->next()){
 		res += myRes->getString(get);
 	}
 
 	//res = myRes->getString(get);
+	//myRes = NULL;
+	//myStmt = NULL;
+	delete myRes;
+
 
 	return res;
 }

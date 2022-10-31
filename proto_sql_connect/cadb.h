@@ -21,7 +21,7 @@ class cadb{
 		sql::Driver	*myDriver;
 		sql::Connection	*myConn;
 		sql::Statement	*myStmt;
-		sql::ResultSet	*myRes;
+		//sql::ResultSet	*myRes;
 
 };
 

@@ -1,0 +1,3 @@
+#!/bin/bash
+echo Logging on to ChocoAn MySQL Database
+mysql -h db.cecs.pdx.edu -u sbingham -px6Tcbcs5*a
