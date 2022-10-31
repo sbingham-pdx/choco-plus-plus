@@ -7,9 +7,26 @@
 #include <mysql_driver.h>
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
+#include <string>
 
 using namespace sql;
+using namespace std;
 
+class cadb{
+	public:
+		cadb(void);
+		virtual ~cadb(void);
+		string getString(const string, const string, const string, const string);
+	private:
+		sql::Driver	*myDriver;
+		sql::Connection	*myConn;
+		sql::Statement	*myStmt;
+		sql::ResultSet	*myRes;
+
+};
+
+
+/*
 int
 main()
 {
@@ -64,4 +81,4 @@ main()
 		std::cout << "Error Code : " << e.getErrorCode() << std::endl;
 	}
 	return 0;
-};
+};*/
