@@ -129,6 +129,83 @@ void cadb::setCell(const string table, const string column, const string tomatch
 	execute(update);
 }
 
+// This function serves to find a match on the specified column
+// on the specified table. if a match is found, this function returns
+// a 0 if no match is found, and the number of matches if they are found
+int cadb::findMatch(const string table, const string column, const string tomatch){
+	int matchfound = 0;
+
+	sql::Statement	*caStmt = nullptr;
+	sql::ResultSet	*caRes = nullptr;
+
+	string res;
+
+	string query = "SELECT * ";
+	//query += column;
+	query += " FROM ";
+	query += table;
+	query += " WHERE ";
+	query += column;
+	query += " = '";
+	query += tomatch;
+	query += "';";
+	//query += ";";
+	
+	cout << ">> Calling: " << query << endl;
+
+	queryDB(query, caRes);
+
+	try{
+		while (caRes->next()){
+			res.clear();
+			res = caRes->getString(column);
+			if (!strcmp(res.c_str(), tomatch.c_str())) matchfound += 1;
+		}
+	}
+	catch (sql::SQLException &e) {
+		std::cout << ">> Failed to execute statement:" << query << std::endl;
+		std::cout << ">> Error : " << e.what() << std::endl;
+		std::cout << ">> Error Code : " << e.getErrorCode() << std::endl;
+	}
+	delete caRes;
+	delete caStmt;
+
+	return matchfound;
+
+}
+
+// This function serves to count the # of rows in 
+// the table passed to it as a string.
+int cadb::getRows(const string table){
+
+	sql::Statement	*caStmt = nullptr;
+	sql::ResultSet	*caRes = nullptr;
+	string query = "SELECT id FROM ";
+	query += table;
+	query += ";";
+	int ret = 0;
+	int biggest = 0;
+
+	cout << ">> Calling: " << query << endl;
+
+	queryDB(query, caRes);
+	try{
+		while (caRes->next()){
+			ret = caRes->getInt(1);
+			if (ret > biggest) biggest = ret;
+		}
+		}
+	catch (sql::SQLException &e) {
+		std::cout << ">> Failed to execute statement:" << query << std::endl;
+		std::cout << ">> Error : " << e.what() << std::endl;
+		std::cout << ">> Error Code : " << e.getErrorCode() << std::endl;
+	}
+	delete caRes;
+	delete caStmt;
+	return biggest;
+}
+
+
 // This function serves to input a visit to the transaction table
 //>> INSERT INTO transaction (trans_date, provider_id, service_id, member_id) 
 //>> VALUES ('date', 'provider_id', 'service_id', 'member_id');
@@ -165,35 +242,6 @@ void cadb::insertVisit(const string date, const int provider_id, const int servi
 	execute(insert);
 }
 
-// This function serves to count the # of rows in 
-// the table passed to it as a string.
-int cadb::getRows(const string table){
-
-	sql::Statement	*caStmt = nullptr;
-	sql::ResultSet	*caRes = nullptr;
-	string query = "SELECT id FROM ";
-	query += table;
-	query += ";";
-	int ret = 0;
-	int biggest = 0;
-
-	queryDB(query, caRes);
-	try{
-		while (caRes->next()){
-			ret = caRes->getInt(1);
-			if (ret > biggest) biggest = ret;
-		}
-		}
-	catch (sql::SQLException &e) {
-		std::cout << ">> Failed to execute statement:" << query << std::endl;
-		std::cout << ">> Error : " << e.what() << std::endl;
-		std::cout << ">> Error Code : " << e.getErrorCode() << std::endl;
-	}
-	delete caRes;
-	delete caStmt;
-	return biggest;
-}
-
 // This function will error check the inputs provided 
 // before building the execute statement, then calling execute(statement);
 void cadb::insertProvider(const string number, const string name, const string street, const string city, const string state, const string zip){
@@ -223,7 +271,10 @@ void cadb::insertProvider(const string number, const string name, const string s
 	}
 	// Put in error check for matching provider_number here - make universal
 	// check for match
-	//if (check match)
+	if (findMatch("provider", "provider_number", number)){
+		std::cout << ">> ERROR: Provider Number:" << number << " is already in use." << std::endl;
+		return;
+	}
 
 	//Build your query string
 	string insert = "INSERT INTO provider (provider_number, provider_name, provider_street, provider_city, provider_state, provider_zip) VALUES ('";
@@ -244,3 +295,59 @@ void cadb::insertProvider(const string number, const string name, const string s
 	execute(insert);
 
 }
+
+// This function will error check the inputs provided 
+// before building the execute statement, then calling execute(statement);
+void cadb::insertMember(const string number, const string name, const string street, const string city, const string state, const string zip){
+	if (number.length() != 9) {
+		std::cout << ">> ERROR: Member Number must be 9 digits. Member Number: " << number << " is invalid." << std::endl;
+		return;
+	}
+	if (name.length() > 25) {
+		std::cout << ">> ERROR: Member Name must be less than 25 characters. Member Number: " << name << " is invalid." << std::endl;
+		return;
+	}
+	if (street.length() > 25) {
+		std::cout << ">> ERROR: Member Street address must be less than 25 characters. Member Steet Address: " << street << " is invalid." << std::endl;
+		return;
+	}
+	if (city.length() > 14) {
+		std::cout << ">> ERROR: Member City must be less than 14 characters. Member City: " << city << " is invalid." << std::endl;
+		return;
+	}
+	if (state.length() != 2) {
+		std::cout << ">> ERROR: Member State must be 2 characters. Member State: " << state << " is invalid." << std::endl;
+		return;
+	}
+	if (zip.length() != 5) {
+		std::cout << ">> ERROR: Member Zipcode must be 5 characters. Member Zipcpde: " << zip << " is invalid." << std::endl;
+		return;
+	}
+	
+	// check for matching number
+	if (findMatch("member", "member_number", number)){
+		std::cout << ">> ERROR: Member Number:" << number << " is already in use." << std::endl;
+		return;
+	}
+
+	//Build your query string
+	string insert = "INSERT INTO member (member_number, member_name, member_street, member_city, member_state, member_zip) VALUES ('";
+	insert += number;
+	insert += "', '";
+	insert += name;
+	insert += "', '";
+	insert += street;
+	insert += "', '";
+	insert += city;
+	insert += "', '";
+	insert += state;
+	insert += "', '";
+	insert += zip;
+	insert += "');";
+
+	cout << ">> Calling: " << insert << endl;
+	execute(insert);
+
+}
+
+

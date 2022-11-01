@@ -16,20 +16,23 @@ class cadb{
 	public:
 		cadb(void);
 		virtual ~cadb(void);
-		void execute(const string);
-		void queryDB(const string, sql::ResultSet *&);
-		string getString(const string, const string, const string, const string);
-		void setCell(const string, const string, const string, const string, const string);
-		void insertVisit(const string, const int, const int, const int);
-		void insertProvider(const string, const string, const string, const string, const string, const string);
-		int getRows(const string);
-		//int insertProvider(const string,  )
+
+		void execute(const string statement);
+		void queryDB(const string statment, sql::ResultSet *& foRes);
+		string getString(const string table, const string column, const string tomatch, const string get);
+		void setCell(const string table, const string column, const string tomatch, const string setcolumn, const string set);
+		int findMatch(const string table, const string column, const string tomatch);
+		int getRows(const string table);
+
+		void insertVisit(const string date, const int provider_id, const int service_id, const int member_id);
+		void insertProvider(const string number, const string name, const string street, const string city, const string state, const string zip);
+		void insertMember(const string number, const string name, const string street, const string city, const string state, const string zip);
 
 	private:
 		sql::Driver	*caDriver;
 		sql::Connection	*caConn;
-		//sql::Statement	*myStmt;
-		//sql::ResultSet	*myRes;
+		//sql::Statement	*caStmt;
+		//sql::ResultSet	*caRes;
 
 };
 // LOOK HERE FOR STUFF!!!

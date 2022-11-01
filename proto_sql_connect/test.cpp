@@ -7,12 +7,12 @@ main()
 
 	cadb mydb;
 
-	string s1 = "469898441";
-	string s2 = "Jack Ransom";
-	string s3 = "1452 Ready Room Way";
-	string s4 = "Cerritos";
-	string s5 = "CA";
-	string s6 = "75567";
+	string s1 = "140789076";
+	string s2 = "Sally Forthewith";
+	string s3 = "654652 Whatsup Lanne";
+	string s4 = "Peoria";
+	string s5 = "IL";
+	string s6 = "61525";
 	//cout << "calling database" << endl;
 	//cout << mydb.getString(s1, s2, s3, s4) << endl;
 	//cout << "database call done" << endl;
@@ -23,15 +23,18 @@ main()
 	//cout << mydb.getString(s1, s2, s3, s4) << endl;
 	//cout << "database call done" << endl;
 
-	int i = mydb.getRows("provider");
+	//int i = mydb.findMatch("provider","provider_city", "Cerritos");
 
-	cout << "The # of rows in " << "provider" << " equals: " << i << endl;
+	//if (i) cout << "Found "<< i << " instances of Cerritos!" << endl;
+	//else cout << "Did not find jack" << endl;
 
-	//mydb.insertProvider(s1, s2, s3, s4, s5, s6);
+	//cout << "The # of rows in " << "provider" << " equals: " << i << endl;
 
-	i = mydb.getRows("provider");
+	mydb.insertMember(s1, s2, s3, s4, s5, s6);
 
-	cout << "The # of rows in " << "provider" << " equals: " << i << endl;
+	//i = mydb.getRows("provider");
+
+	//cout << "The # of rows in " << "provider" << " equals: " << i << endl;
 
 	
 
