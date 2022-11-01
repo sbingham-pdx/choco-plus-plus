@@ -17,13 +17,18 @@ class cadb{
 		cadb(void);
 		virtual ~cadb(void);
 		string getString(const string, const string, const string, const string);
+		void setCell(const string, const string, const string, const string, const string);
+
 	private:
 		sql::Driver	*myDriver;
 		sql::Connection	*myConn;
-		sql::Statement	*myStmt;
+		//sql::Statement	*myStmt;
 		//sql::ResultSet	*myRes;
 
 };
+// LOOK HERE FOR STUFF!!!
+///usr/include/cppconn/statement.h:76:24
+
 
 
 /*

@@ -5,27 +5,32 @@ cadb::cadb(void){
 
 	myDriver = nullptr;
 	myConn = nullptr;
-	myStmt = nullptr;
+	//myStmt = nullptr;
 	//myRes = nullptr;
 
-	std::cout << ">> Getting Driver Instance " << std::endl;
-	myDriver = get_driver_instance();
-	std::cout << ">> Driver instance obtained " << std::endl;
+	try{
+		//std::cout << ">> Getting Driver Instance " << std::endl;
+		myDriver = get_driver_instance();
+		//std::cout << ">> Driver instance obtained " << std::endl;
 
-	std::cout << ">> Connecting to database " << std::endl;
-	myConn = myDriver->connect("db.cecs.pdx.edu", "sbingham", "x6Tcbcs5*a");
-	std::cout << ">> Connected to database " << std::endl;
-	std::cout << ">> Connecting to schema 'sbingham'  " << std::endl;
-	myConn->setSchema("sbingham");
-	std::cout << ">> Connected to schema 'sbingham'  " << std::endl;
+		//std::cout << ">> Connecting to database " << std::endl;
+		myConn = myDriver->connect("db.cecs.pdx.edu", "sbingham", "x6Tcbcs5*a");
+		//std::cout << ">> Connected to database " << std::endl;
+		//std::cout << ">> Connecting to schema 'sbingham'  " << std::endl;
+		myConn->setSchema("sbingham");
+		//std::cout << ">> Connected to schema 'sbingham'  " << std::endl;
+	}
+	catch (sql::SQLException &e) {
+		std::cout << "Failed to Connect to MySql DB 'sbingham'" << std::endl;
+		std::cout << "Error : " << e.what() << std::endl;
+		std::cout << "Error Code : " << e.getErrorCode() << std::endl;
+	}
 
-	myStmt = myConn->createStatement();
 }
 
 cadb::~cadb(void){
 
-	//delete myRes;
-	delete myStmt;
+	//myConn = nullptr;
 	delete myConn;
 }
 
@@ -34,40 +39,68 @@ cadb::~cadb(void){
 string cadb::getString(const string table, const string column, const string tomatch, const string get){
 
 	string res;
-	//sql::Statement	*myStmt;
+	sql::Statement	*myStmt = nullptr;
 	sql::ResultSet	*myRes = nullptr;
-	//myRes = nullptr;
 
-	string query = "SELECT * FROM";
-	query += " ";
+	string query = "SELECT * FROM ";
 	query += table;
-	query += " ";
-	query += "WHERE";
-	query += " ";
+	query += " WHERE ";
 	query += column;
-	query += " ";
-	query += "=";
-	query += " ";
+	query += " = '";
 	query += tomatch;
-	//
-	cout << "Calling: " << query << endl;
-		//std::string input = "2";
-		//shhhgggjjtd::string query = "SELECT * FROM provider WHERE id=";
-		//query += input;
+	query += "';";
 
+	cout << ">> Calling: " << query << endl;
 
-	// You can modify this statement to 
-	myRes = myStmt->executeQuery(query);
+	try{
+		myStmt = myConn->createStatement();
+		myRes = myStmt->executeQuery(query);
 
-	while (myRes->next()){
-		res += myRes->getString(get);
+		while (myRes->next()){
+			res += myRes->getString(get);
+		}
+	
+	}
+	catch (sql::SQLException &e) {
+
+		std::cout << "Failed to execute query" << std::endl;
+		std::cout << "Error : " << e.what() << std::endl;
+		std::cout << "Error Code : " << e.getErrorCode() << std::endl;
 	}
 
-	//res = myRes->getString(get);
-	//myRes = NULL;
-	//myStmt = NULL;
 	delete myRes;
-
-
+	delete myStmt;
 	return res;
+}
+
+
+void cadb::setCell(const string table, const string column, const string tomatch, const string setcolumn, const string set){
+
+	sql::Statement	*myStmt = nullptr;
+	sql::ResultSet	*myRes = nullptr;
+	
+	string update = "UPDATE ";
+	update += table;
+	update += " SET ";
+	update += setcolumn;
+	update += " = '";
+	update += set;
+	update += "' WHERE ";
+	update += column;
+	update += " = '";
+	update += tomatch;
+	update += "';";
+	
+	cout << ">> Calling: " << update << endl;
+	try{
+		myStmt = myConn->createStatement();
+		myStmt->executeUpdate(update);
+	}
+	catch (sql::SQLException &e) {
+		std::cout << ">> Failed to execute update" << std::endl;
+		std::cout << ">> Error : " << e.what() << std::endl;
+		std::cout << ">> Error Code : " << e.getErrorCode() << std::endl;
+	}
+	delete myRes;
+	delete myStmt;
 }
