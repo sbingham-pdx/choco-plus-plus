@@ -104,3 +104,34 @@ void cadb::setCell(const string table, const string column, const string tomatch
 	delete myRes;
 	delete myStmt;
 }
+
+//insert INTO sbingham.transaction (trans_date, provider_id, service_id, member_id) 
+//values ('2022-09-26', '4', '6', '22');
+void cadb::insertVisit(const string date, const int provider_id, const int service_id, const int member_id){
+	
+	sql::Statement	*myStmt = nullptr;
+	sql::ResultSet	*myRes = nullptr;
+	
+	string insert = "INSERT INTO transaction (trans_date, provider_id, service_id, member_id) VALUES ('";
+	insert += date;
+	insert += "', '";
+	insert += to_string(provider_id);
+	insert += "', '";
+	insert += to_string(service_id);
+	insert += "', '";
+	insert += to_string(member_id);
+	insert += "');";
+		
+	cout << ">> Calling: " << insert << endl;
+	try{
+		myStmt = myConn->createStatement();
+		myStmt->executeUpdate(insert);
+	}
+	catch (sql::SQLException &e) {
+		std::cout << ">> Failed to execute update" << std::endl;
+		std::cout << ">> Error : " << e.what() << std::endl;
+		std::cout << ">> Error Code : " << e.getErrorCode() << std::endl;
+	}
+	delete myRes;
+	delete myStmt;
+}

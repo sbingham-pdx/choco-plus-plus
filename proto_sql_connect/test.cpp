@@ -21,5 +21,11 @@ main()
 	//cout << "calling database again:" << endl;
 	cout << mydb.getString(s1, s2, s3, s4) << endl;
 	//cout << "database call done" << endl;
+
+	int provider_id = 6;
+	int service_id = 7;
+	int member_id = 13;
+
+	//mydb.insertVisit("2022-10-17", provider_id, service_id, member_id);
 	return 0;
 };

@@ -18,6 +18,7 @@ class cadb{
 		virtual ~cadb(void);
 		string getString(const string, const string, const string, const string);
 		void setCell(const string, const string, const string, const string, const string);
+		void insertVisit(const string, const int, const int, const int);
 
 	private:
 		sql::Driver	*myDriver;
@@ -29,7 +30,8 @@ class cadb{
 // LOOK HERE FOR STUFF!!!
 ///usr/include/cppconn/statement.h:76:24
 
-
+//insert INTO sbingham.transaction (trans_date, provider_id, service_id, member_id) 
+//values ('2022-09-26', '4', '6', '22');
 
 /*
 int
