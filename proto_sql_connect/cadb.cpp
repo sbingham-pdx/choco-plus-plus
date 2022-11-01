@@ -193,3 +193,54 @@ int cadb::getRows(const string table){
 	delete caStmt;
 	return biggest;
 }
+
+// This function will error check the inputs provided 
+// before building the execute statement, then calling execute(statement);
+void cadb::insertProvider(const string number, const string name, const string street, const string city, const string state, const string zip){
+	if (number.length() != 9) {
+		std::cout << ">> ERROR: Provider Number must be 9 digits. Provider Number: " << number << " is invalid." << std::endl;
+		return;
+	}
+	if (name.length() > 25) {
+		std::cout << ">> ERROR: Provider Name must be less than 25 characters. Provider Number: " << name << " is invalid." << std::endl;
+		return;
+	}
+	if (street.length() > 25) {
+		std::cout << ">> ERROR: Provider Street address must be less than 25 characters. Provider Steet Address: " << street << " is invalid." << std::endl;
+		return;
+	}
+	if (city.length() > 14) {
+		std::cout << ">> ERROR: Provider City must be less than 14 characters. Provider City: " << city << " is invalid." << std::endl;
+		return;
+	}
+	if (state.length() != 2) {
+		std::cout << ">> ERROR: Provider State must be 2 characters. Provider State: " << state << " is invalid." << std::endl;
+		return;
+	}
+	if (zip.length() != 5) {
+		std::cout << ">> ERROR: Provider Zipcode must be 5 characters. Provider Zipcpde: " << zip << " is invalid." << std::endl;
+		return;
+	}
+	// Put in error check for matching provider_number here - make universal
+	// check for match
+	//if (check match)
+
+	//Build your query string
+	string insert = "INSERT INTO provider (provider_number, provider_name, provider_street, provider_city, provider_state, provider_zip) VALUES ('";
+	insert += number;
+	insert += "', '";
+	insert += name;
+	insert += "', '";
+	insert += street;
+	insert += "', '";
+	insert += city;
+	insert += "', '";
+	insert += state;
+	insert += "', '";
+	insert += zip;
+	insert += "');";
+
+	cout << ">> Calling: " << insert << endl;
+	execute(insert);
+
+}

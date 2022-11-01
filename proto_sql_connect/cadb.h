@@ -21,6 +21,7 @@ class cadb{
 		string getString(const string, const string, const string, const string);
 		void setCell(const string, const string, const string, const string, const string);
 		void insertVisit(const string, const int, const int, const int);
+		void insertProvider(const string, const string, const string, const string, const string, const string);
 		int getRows(const string);
 		//int insertProvider(const string,  )
 
