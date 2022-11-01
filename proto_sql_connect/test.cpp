@@ -7,12 +7,13 @@ main()
 
 	cadb mydb;
 
-	string s1 = "140789076";
-	string s2 = "Sally Forthewith";
-	string s3 = "654652 Whatsup Lanne";
+	string s1 = "422416";
+	string s2 = "Reiki";
+	string f1 = "325.65";
+	/*tring s3 = "654652 Whatsup Lanne";
 	string s4 = "Peoria";
 	string s5 = "IL";
-	string s6 = "61525";
+	string s6 = "61525";*/
 	//cout << "calling database" << endl;
 	//cout << mydb.getString(s1, s2, s3, s4) << endl;
 	//cout << "database call done" << endl;
@@ -30,7 +31,7 @@ main()
 
 	//cout << "The # of rows in " << "provider" << " equals: " << i << endl;
 
-	mydb.insertMember(s1, s2, s3, s4, s5, s6);
+	//mydb.insertService(s1, s2, f1);
 
 	//i = mydb.getRows("provider");
 

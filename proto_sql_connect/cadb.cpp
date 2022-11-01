@@ -212,17 +212,17 @@ int cadb::getRows(const string table){
 void cadb::insertVisit(const string date, const int provider_id, const int service_id, const int member_id){
 
 	// Error checking in here to make sure that transactions map to correct bounds of other tables.
-	if ( provider_id == 1 || provider_id > getRows("provider") ){
+	if ( provider_id <= 1 || provider_id > getRows("provider") ){
 		std::cout << "ERROR: Provider ID outside of range:" << provider_id << std::endl;
 		return;
 	}
 
-	if ( service_id == 1 || service_id > getRows("service") ){
+	if ( service_id <= 1 || service_id > getRows("service") ){
 		std::cout << "ERROR: Service ID outside of range:" << service_id << std::endl;
 		return;
 	}
 
-	if ( member_id ==1 || member_id > getRows("member") ){
+	if ( member_id <= 1 || member_id > getRows("member") ){
 		std::cout << "ERROR: Member ID outside of range:" << member_id << std::endl;
 		return;
 	}
@@ -245,28 +245,28 @@ void cadb::insertVisit(const string date, const int provider_id, const int servi
 // This function will error check the inputs provided 
 // before building the execute statement, then calling execute(statement);
 void cadb::insertProvider(const string number, const string name, const string street, const string city, const string state, const string zip){
-	if (number.length() != 9) {
+	if (number.length() != 9 || number.empty()) {
 		std::cout << ">> ERROR: Provider Number must be 9 digits. Provider Number: " << number << " is invalid." << std::endl;
 		return;
 	}
-	if (name.length() > 25) {
-		std::cout << ">> ERROR: Provider Name must be less than 25 characters. Provider Number: " << name << " is invalid." << std::endl;
+	if (name.length() > 25 || name.empty()) {
+		std::cout << ">> ERROR: Provider Name must be less than 25 characters. Provider Name: " << name << " is invalid." << std::endl;
 		return;
 	}
-	if (street.length() > 25) {
+	if (street.length() > 25 || street.empty()) {
 		std::cout << ">> ERROR: Provider Street address must be less than 25 characters. Provider Steet Address: " << street << " is invalid." << std::endl;
 		return;
 	}
-	if (city.length() > 14) {
+	if (city.length() > 14 || city.empty()) {
 		std::cout << ">> ERROR: Provider City must be less than 14 characters. Provider City: " << city << " is invalid." << std::endl;
 		return;
 	}
-	if (state.length() != 2) {
+	if (state.length() != 2 || state.empty()) {
 		std::cout << ">> ERROR: Provider State must be 2 characters. Provider State: " << state << " is invalid." << std::endl;
 		return;
 	}
-	if (zip.length() != 5) {
-		std::cout << ">> ERROR: Provider Zipcode must be 5 characters. Provider Zipcpde: " << zip << " is invalid." << std::endl;
+	if (zip.length() != 5 || zip.empty()) {
+		std::cout << ">> ERROR: Provider Zipcode must be 5 characters. Provider Zipcode: " << zip << " is invalid." << std::endl;
 		return;
 	}
 	// Put in error check for matching provider_number here - make universal
@@ -299,28 +299,28 @@ void cadb::insertProvider(const string number, const string name, const string s
 // This function will error check the inputs provided 
 // before building the execute statement, then calling execute(statement);
 void cadb::insertMember(const string number, const string name, const string street, const string city, const string state, const string zip){
-	if (number.length() != 9) {
+	if (number.length() != 9 || number.empty()) {
 		std::cout << ">> ERROR: Member Number must be 9 digits. Member Number: " << number << " is invalid." << std::endl;
 		return;
 	}
-	if (name.length() > 25) {
-		std::cout << ">> ERROR: Member Name must be less than 25 characters. Member Number: " << name << " is invalid." << std::endl;
+	if (name.length() > 25 || name.empty()) {
+		std::cout << ">> ERROR: Member Name must be less than 25 characters. Member Name: " << name << " is invalid." << std::endl;
 		return;
 	}
-	if (street.length() > 25) {
+	if (street.length() > 25 || street.empty()) {
 		std::cout << ">> ERROR: Member Street address must be less than 25 characters. Member Steet Address: " << street << " is invalid." << std::endl;
 		return;
 	}
-	if (city.length() > 14) {
+	if (city.length() > 14 || city.empty()) {
 		std::cout << ">> ERROR: Member City must be less than 14 characters. Member City: " << city << " is invalid." << std::endl;
 		return;
 	}
-	if (state.length() != 2) {
+	if (state.length() != 2 || state.empty()) {
 		std::cout << ">> ERROR: Member State must be 2 characters. Member State: " << state << " is invalid." << std::endl;
 		return;
 	}
-	if (zip.length() != 5) {
-		std::cout << ">> ERROR: Member Zipcode must be 5 characters. Member Zipcpde: " << zip << " is invalid." << std::endl;
+	if (zip.length() != 5 || zip.empty()) {
+		std::cout << ">> ERROR: Member Zipcode must be 5 characters. Member Zipcode: " << zip << " is invalid." << std::endl;
 		return;
 	}
 	
@@ -348,6 +348,36 @@ void cadb::insertMember(const string number, const string name, const string str
 	cout << ">> Calling: " << insert << endl;
 	execute(insert);
 
+}
+
+void cadb::insertService(const string number, const string name, const string cost){
+	if (number.length() != 6 || number.empty()) {
+		std::cout << ">> ERROR: Service Number must be 6 digits. Service Number: " << number << " is invalid." << std::endl;
+		return;
+	}
+	if (name.length() > 20 || name.empty()) {
+		std::cout << ">> ERROR: Service Name must be 20 characaters or less. Service Name: " << name << " is invalid." << std::endl;
+		return;
+	}
+	/*if (cost >= 1000 || !cost) {
+		std::cout << ">> ERROR: Service cost must be between $0 and $999.99. Service cost: " << cost << " is invalid." << std::endl;
+		return;
+	}*/
+	// check for matching number
+	if (findMatch("service", "service_number", number)){
+		std::cout << ">> ERROR: Service Number:" << number << " is already in use." << std::endl;
+		return;
+	}
+	//Build your query string
+	string insert = "INSERT INTO service (service_number, service_name, service_cost) VALUES ('";
+	insert += number;
+	insert += "', '";
+	insert += name;
+	insert += "', '";
+	insert += cost;
+	insert += "');";
+	cout << ">> Calling: " << insert << endl;
+	execute(insert);
 }
 
 

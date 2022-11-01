@@ -27,6 +27,7 @@ class cadb{
 		void insertVisit(const string date, const int provider_id, const int service_id, const int member_id);
 		void insertProvider(const string number, const string name, const string street, const string city, const string state, const string zip);
 		void insertMember(const string number, const string name, const string street, const string city, const string state, const string zip);
+		void insertService(const string number, const string name, const string cost);
 
 	private:
 		sql::Driver	*caDriver;
