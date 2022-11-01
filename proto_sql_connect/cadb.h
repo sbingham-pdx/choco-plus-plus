@@ -16,13 +16,17 @@ class cadb{
 	public:
 		cadb(void);
 		virtual ~cadb(void);
+		void execute(const string);
+		void queryDB(const string, sql::ResultSet *&);
 		string getString(const string, const string, const string, const string);
 		void setCell(const string, const string, const string, const string, const string);
 		void insertVisit(const string, const int, const int, const int);
+		int getRows(const string);
+		//int insertProvider(const string,  )
 
 	private:
-		sql::Driver	*myDriver;
-		sql::Connection	*myConn;
+		sql::Driver	*caDriver;
+		sql::Connection	*caConn;
 		//sql::Statement	*myStmt;
 		//sql::ResultSet	*myRes;
 
@@ -40,23 +44,23 @@ main()
 	std::cout << "Start C++ connect mysql test example \n";
 	try {
 		// Do the thing
-		sql::Driver	*myDriver;
-		sql::Connection	*myConn;
+		sql::Driver	*caDriver;
+		sql::Connection	*caConn;
 		sql::Statement	*myStmt;
 		sql::ResultSet	*myRes;
 
 		std::cout << ">> Getting Driver Instance " << std::endl;
-		myDriver = get_driver_instance();
+		caDriver = get_driver_instance();
 		std::cout << ">> Driver instance obtained " << std::endl;
 
 		std::cout << ">> Connecting to database " << std::endl;
-		myConn = myDriver->connect("db.cecs.pdx.edu", "sbingham", "x6Tcbcs5*a");
+		caConn = caDriver->connect("db.cecs.pdx.edu", "sbingham", "x6Tcbcs5*a");
 		std::cout << ">> Connected to database " << std::endl;
 		std::cout << ">> Connecting to schema 'sbingham'  " << std::endl;
-		myConn->setSchema("sbingham");
+		caConn->setSchema("sbingham");
 		std::cout << ">> Connected to schema 'sbingham'  " << std::endl;
 
-		myStmt = myConn->createStatement();
+		myStmt = caConn->createStatement();
 
 		std::string input = "2";
 		std::string query = "SELECT * FROM provider WHERE id=";
@@ -77,7 +81,7 @@ main()
 
 		delete myRes;
 		delete myStmt;
-		delete myConn;
+		delete caConn;
 
 
 	}

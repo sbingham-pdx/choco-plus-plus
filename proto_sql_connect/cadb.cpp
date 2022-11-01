@@ -1,47 +1,82 @@
 #include "cadb.h"
 
-
+// This function serves to initialize and begin the connection 
+// to the default database. 
 cadb::cadb(void){
-
-	myDriver = nullptr;
-	myConn = nullptr;
-	//myStmt = nullptr;
-	//myRes = nullptr;
-
+	caDriver = nullptr;
+	caConn = nullptr;
+	// Initialize MySQL Driver Instance
+	// Set connection to the Driver
+	// And Log In
 	try{
-		//std::cout << ">> Getting Driver Instance " << std::endl;
-		myDriver = get_driver_instance();
-		//std::cout << ">> Driver instance obtained " << std::endl;
-
-		//std::cout << ">> Connecting to database " << std::endl;
-		myConn = myDriver->connect("db.cecs.pdx.edu", "sbingham", "x6Tcbcs5*a");
-		//std::cout << ">> Connected to database " << std::endl;
-		//std::cout << ">> Connecting to schema 'sbingham'  " << std::endl;
-		myConn->setSchema("sbingham");
-		//std::cout << ">> Connected to schema 'sbingham'  " << std::endl;
+		caDriver = get_driver_instance();
+		caConn = caDriver->connect("db.cecs.pdx.edu", "sbingham", "x6Tcbcs5*a");
+		caConn->setSchema("sbingham");
 	}
 	catch (sql::SQLException &e) {
 		std::cout << "Failed to Connect to MySql DB 'sbingham'" << std::endl;
 		std::cout << "Error : " << e.what() << std::endl;
 		std::cout << "Error Code : " << e.getErrorCode() << std::endl;
 	}
-
 }
 
+// This function serves to delete the connection
+// when the objects life has ended. 
 cadb::~cadb(void){
-
-	//myConn = nullptr;
-	delete myConn;
+	delete caConn;
 }
 
-// pass in the table, column, and string to match at that column
+// This Function serves as a primary means of 
+// executing SQL commands, -NOT- queries. More specific
+// functions should build their string first, then 
+// call "execute(string);" 
+void cadb::execute(const string statement){
+
+	sql::Statement	*caStmt = nullptr;
+	sql::ResultSet	*caRes = nullptr;
+
+	try{
+		caStmt = caConn->createStatement();
+		caStmt->executeUpdate(statement);
+	}
+	catch (sql::SQLException &e) {
+		std::cout << ">> Failed to execute statement:" << statement << std::endl;
+		std::cout << ">> Error : " << e.what() << std::endl;
+		std::cout << ">> Error Code : " << e.getErrorCode() << std::endl;
+	}
+	
+	delete caRes;
+	delete caStmt;
+}
+
+// This Function serves as a primary means of
+// executing SQL queries, -NOT- commands. More speficic
+// functions should build their string first, then call
+// "queryDB(string, ResPTR)"
+void cadb::queryDB(const string statement, sql::ResultSet *& foRes){
+	sql::Statement	*caStmt = nullptr;
+	
+	try{
+		caStmt = caConn->createStatement();
+		foRes = caStmt->executeQuery(statement);
+	}
+	catch (sql::SQLException &e) {
+		std::cout << ">> Failed to execute statement:" << statement << std::endl;
+		std::cout << ">> Error : " << e.what() << std::endl;
+		std::cout << ">> Error Code : " << e.getErrorCode() << std::endl;
+	}
+	
+	delete caStmt;
+}
+
+// pass in the table, column, and string to match atcl that column
 // and the column you want to get returned as a string
 string cadb::getString(const string table, const string column, const string tomatch, const string get){
 
 	string res;
-	sql::Statement	*myStmt = nullptr;
-	sql::ResultSet	*myRes = nullptr;
-
+	sql::Statement	*caStmt = nullptr;
+	sql::ResultSet	*caRes = nullptr;
+	//Build your query string
 	string query = "SELECT * FROM ";
 	query += table;
 	query += " WHERE ";
@@ -51,34 +86,32 @@ string cadb::getString(const string table, const string column, const string tom
 	query += "';";
 
 	cout << ">> Calling: " << query << endl;
-
-	try{
-		myStmt = myConn->createStatement();
-		myRes = myStmt->executeQuery(query);
-
-		while (myRes->next()){
-			res += myRes->getString(get);
-		}
 	
+	// Execute the Query
+	queryDB(query, caRes);
+	// Load query into string.
+	try{
+		while (caRes->next()){
+			res += caRes->getString(get);
+		}
 	}
 	catch (sql::SQLException &e) {
-
 		std::cout << "Failed to execute query" << std::endl;
 		std::cout << "Error : " << e.what() << std::endl;
 		std::cout << "Error Code : " << e.getErrorCode() << std::endl;
 	}
 
-	delete myRes;
-	delete myStmt;
+	delete caRes;
+	delete caStmt;
+
 	return res;
 }
 
-
+// This function serves to set a specific cell of a table based on the 
+// following SQL Call: 
+// >> UPDATE table SET setcolumn = 'set' WHERE column = 'tomatch';
 void cadb::setCell(const string table, const string column, const string tomatch, const string setcolumn, const string set){
-
-	sql::Statement	*myStmt = nullptr;
-	sql::ResultSet	*myRes = nullptr;
-	
+	//Build your query string
 	string update = "UPDATE ";
 	update += table;
 	update += " SET ";
@@ -92,26 +125,31 @@ void cadb::setCell(const string table, const string column, const string tomatch
 	update += "';";
 	
 	cout << ">> Calling: " << update << endl;
-	try{
-		myStmt = myConn->createStatement();
-		myStmt->executeUpdate(update);
-	}
-	catch (sql::SQLException &e) {
-		std::cout << ">> Failed to execute update" << std::endl;
-		std::cout << ">> Error : " << e.what() << std::endl;
-		std::cout << ">> Error Code : " << e.getErrorCode() << std::endl;
-	}
-	delete myRes;
-	delete myStmt;
+
+	execute(update);
 }
 
-//insert INTO sbingham.transaction (trans_date, provider_id, service_id, member_id) 
-//values ('2022-09-26', '4', '6', '22');
+// This function serves to input a visit to the transaction table
+//>> INSERT INTO transaction (trans_date, provider_id, service_id, member_id) 
+//>> VALUES ('date', 'provider_id', 'service_id', 'member_id');
 void cadb::insertVisit(const string date, const int provider_id, const int service_id, const int member_id){
-	
-	sql::Statement	*myStmt = nullptr;
-	sql::ResultSet	*myRes = nullptr;
-	
+
+	// Error checking in here to make sure that transactions map to correct bounds of other tables.
+	if ( provider_id == 1 || provider_id > getRows("provider") ){
+		std::cout << "ERROR: Provider ID outside of range:" << provider_id << std::endl;
+		return;
+	}
+
+	if ( service_id == 1 || service_id > getRows("service") ){
+		std::cout << "ERROR: Service ID outside of range:" << service_id << std::endl;
+		return;
+	}
+
+	if ( member_id ==1 || member_id > getRows("member") ){
+		std::cout << "ERROR: Member ID outside of range:" << member_id << std::endl;
+		return;
+	}
+	//Build your query string
 	string insert = "INSERT INTO transaction (trans_date, provider_id, service_id, member_id) VALUES ('";
 	insert += date;
 	insert += "', '";
@@ -121,17 +159,37 @@ void cadb::insertVisit(const string date, const int provider_id, const int servi
 	insert += "', '";
 	insert += to_string(member_id);
 	insert += "');";
-		
+
 	cout << ">> Calling: " << insert << endl;
+	
+	execute(insert);
+}
+
+// This function serves to count the # of rows in 
+// the table passed to it as a string.
+int cadb::getRows(const string table){
+
+	sql::Statement	*caStmt = nullptr;
+	sql::ResultSet	*caRes = nullptr;
+	string query = "SELECT id FROM ";
+	query += table;
+	query += ";";
+	int ret = 0;
+	int biggest = 0;
+
+	queryDB(query, caRes);
 	try{
-		myStmt = myConn->createStatement();
-		myStmt->executeUpdate(insert);
-	}
+		while (caRes->next()){
+			ret = caRes->getInt(1);
+			if (ret > biggest) biggest = ret;
+		}
+		}
 	catch (sql::SQLException &e) {
-		std::cout << ">> Failed to execute update" << std::endl;
+		std::cout << ">> Failed to execute statement:" << query << std::endl;
 		std::cout << ">> Error : " << e.what() << std::endl;
 		std::cout << ">> Error Code : " << e.getErrorCode() << std::endl;
 	}
-	delete myRes;
-	delete myStmt;
+	delete caRes;
+	delete caStmt;
+	return biggest;
 }
