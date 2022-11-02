@@ -16,15 +16,32 @@ class cadb{
 	public:
 		cadb(void);
 		virtual ~cadb(void);
-		string getString(const string, const string, const string, const string);
+
+		void execute(const string statement);
+		void queryDB(const string statment, sql::ResultSet *& foRes);
+		string getString(const string table, const string column, const string tomatch, const string get);
+		void setCell(const string table, const string column, const string tomatch, const string setcolumn, const string set);
+		int findMatch(const string table, const string column, const string tomatch);
+		int getRows(const string table);
+		int getID(const string table, string tomatch);
+
+		void insertVisit(const string date, const int provider_id, const int service_id, const int member_id);
+		void insertProvider(const string number, const string name, const string street, const string city, const string state, const string zip);
+		void insertMember(const string number, const string name, const string street, const string city, const string state, const string zip);
+		void insertService(const string number, const string name, const string cost);
+
 	private:
-		sql::Driver	*myDriver;
-		sql::Connection	*myConn;
-		sql::Statement	*myStmt;
-		//sql::ResultSet	*myRes;
+		sql::Driver	*caDriver;
+		sql::Connection	*caConn;
+		//sql::Statement	*caStmt;
+		//sql::ResultSet	*caRes;
 
 };
+// LOOK HERE FOR STUFF!!!
+///usr/include/cppconn/statement.h:76:24
 
+//insert INTO sbingham.transaction (trans_date, provider_id, service_id, member_id) 
+//values ('2022-09-26', '4', '6', '22');
 
 /*
 int
@@ -33,23 +50,23 @@ main()
 	std::cout << "Start C++ connect mysql test example \n";
 	try {
 		// Do the thing
-		sql::Driver	*myDriver;
-		sql::Connection	*myConn;
+		sql::Driver	*caDriver;
+		sql::Connection	*caConn;
 		sql::Statement	*myStmt;
 		sql::ResultSet	*myRes;
 
 		std::cout << ">> Getting Driver Instance " << std::endl;
-		myDriver = get_driver_instance();
+		caDriver = get_driver_instance();
 		std::cout << ">> Driver instance obtained " << std::endl;
 
 		std::cout << ">> Connecting to database " << std::endl;
-		myConn = myDriver->connect("db.cecs.pdx.edu", "sbingham", "x6Tcbcs5*a");
+		caConn = caDriver->connect("db.cecs.pdx.edu", "sbingham", "x6Tcbcs5*a");
 		std::cout << ">> Connected to database " << std::endl;
 		std::cout << ">> Connecting to schema 'sbingham'  " << std::endl;
-		myConn->setSchema("sbingham");
+		caConn->setSchema("sbingham");
 		std::cout << ">> Connected to schema 'sbingham'  " << std::endl;
 
-		myStmt = myConn->createStatement();
+		myStmt = caConn->createStatement();
 
 		std::string input = "2";
 		std::string query = "SELECT * FROM provider WHERE id=";
@@ -70,7 +87,7 @@ main()
 
 		delete myRes;
 		delete myStmt;
-		delete myConn;
+		delete caConn;
 
 
 	}
