@@ -23,6 +23,7 @@ class cadb{
 		void setCell(const string table, const string column, const string tomatch, const string setcolumn, const string set);
 		int findMatch(const string table, const string column, const string tomatch);
 		int getRows(const string table);
+		int getID(const string table, string tomatch);
 
 		void insertVisit(const string date, const int provider_id, const int service_id, const int member_id);
 		void insertProvider(const string number, const string name, const string street, const string city, const string state, const string zip);

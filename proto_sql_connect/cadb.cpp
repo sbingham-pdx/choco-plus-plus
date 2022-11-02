@@ -205,6 +205,71 @@ int cadb::getRows(const string table){
 	return biggest;
 }
 
+int cadb::getID(const string table, const string tomatch){
+
+	int id = 0;
+
+	if (table.empty() || tomatch.empty()) return id;
+
+	if (strcmp(table.c_str(), "provider") && strcmp(table.c_str(), "member") && strcmp(table.c_str(), "service")) return id;
+	
+	if (!strcmp(table.c_str(), "provider") || !strcmp(table.c_str(), "member")){
+		if (tomatch.length() != 9 || tomatch.empty()) {
+			std::cout << ">> ERROR: Identity Number must be 9 digits. Identity Number: " << tomatch << " is invalid." << std::endl;
+			return id;
+		}
+	}
+	if (!strcmp(table.c_str(), "service")){
+		if (tomatch.length() != 6 || tomatch.empty()) {
+			std::cout << ">> ERROR: Service Number must be 9 digits. Service Number: " << tomatch << " is invalid." << std::endl;
+			return id;
+		}
+	}
+	
+
+	sql::Statement	*caStmt = nullptr;
+	sql::ResultSet	*caRes = nullptr;
+
+	string query = "SELECT * FROM ";
+	query += table;
+	query += " WHERE ";
+	query += table;
+	query += "_number = '";
+	query += tomatch;
+	query += "';";
+
+	cout << ">> Calling: " << query << endl;
+
+	queryDB(query, caRes);
+
+	try{
+		while (caRes->next()){
+			id = caRes->getInt(1);
+		}
+	}
+	catch (sql::SQLException &e) {
+		std::cout << ">> Failed to execute statement:" << query << std::endl;
+		std::cout << ">> Error : " << e.what() << std::endl;
+		std::cout << ">> Error Code : " << e.getErrorCode() << std::endl;
+	}
+	delete caRes;
+	delete caStmt;
+	return id;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // This function serves to input a visit to the transaction table
 //>> INSERT INTO transaction (trans_date, provider_id, service_id, member_id) 
@@ -356,6 +421,10 @@ void cadb::insertService(const string number, const string name, const string co
 		return;
 	}
 	if (name.length() > 20 || name.empty()) {
+		std::cout << ">> ERROR: Service Name must be 20 characaters or less. Service Name: " << name << " is invalid." << std::endl;
+		return;
+	}
+	if (cost.length() > 6 || cost.empty()) {
 		std::cout << ">> ERROR: Service Name must be 20 characaters or less. Service Name: " << name << " is invalid." << std::endl;
 		return;
 	}

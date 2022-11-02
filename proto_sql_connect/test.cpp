@@ -7,9 +7,14 @@ main()
 
 	cadb mydb;
 
-	string s1 = "422416";
-	string s2 = "Reiki";
+	string s1 = "provider";
+	string s2 = "823677843";
 	string f1 = "325.65";
+	cout << "length of string is: " << f1.length();
+
+	int i = mydb.getID(s1, s2);
+
+	cout << "ID of " << s1 << ": " << s2 << " = " << i << endl;
 	/*tring s3 = "654652 Whatsup Lanne";
 	string s4 = "Peoria";
 	string s5 = "IL";
