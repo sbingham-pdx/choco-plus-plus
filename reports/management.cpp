@@ -80,4 +80,11 @@ int management:: etf_report(const string & fname)
 	return obj.run('B', fname); 
 }
 
+int management:: provider_directory(const string & fname)
+{
+	service_directory obj;
+
+	return obj.run(fname);
+}
+
 

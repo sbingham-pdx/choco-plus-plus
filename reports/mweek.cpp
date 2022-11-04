@@ -22,7 +22,7 @@ int member_week:: run(int m_id, const string & fname)
 	string member_query, service_query; 
 	sql:: ResultSet *mem = NULL, *ser = NULL;
 	cadb db;
-	service temp;
+	m_service temp;
 
 	begin = date(6);
 	end = date(0);

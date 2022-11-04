@@ -142,6 +142,13 @@ int provider_week:: write(const string & fname)
 	return 1;
 }
 
+int provider_week:: provider_directory(const string & fname)
+{
+	service_directory obj; 
+
+	return obj.run(fname);
+}
+
 
 
 

@@ -2,28 +2,28 @@
 
 
 
-service:: service()
+m_service:: m_service()
 {
 }
 
-service:: ~service()
+m_service:: ~m_service()
 {
 }
 
-void service::display()
+void m_service::display()
 {
 	cout << left << setw(13) << date << left << setw(20)<<  service_name 
 	     << "\t" << provider;
 	return;
 }
 
-void service::write(ostream & file)
+void m_service::write(ofstream & file)
 {
 	file << date << "," << service_name << "," << provider;
 	return; 
 }
 
-void service::read(const string & ndate, const string & nservice, const string & nprovider)
+void m_service::read(const string & ndate, const string & nservice, const string & nprovider)
 {
 	date = ndate;
        	service_name = nservice; 
@@ -32,12 +32,12 @@ void service::read(const string & ndate, const string & nservice, const string &
 	return; 
 }
 
-bool service::operator<(const service & two) const
+bool m_service::operator<(const m_service & two) const
 {
 	return compare(two); 
 }
 
-bool service::compare(const service & two) const
+bool m_service::compare(const m_service & two) const
 {
 	string dates[2][3];
 	stringstream temp(date); 
@@ -84,7 +84,7 @@ float p_service::display()
 	return fee;
 }
 
-float p_service::write(ostream & file)
+float p_service::write(ofstream & file)
 {
 	file << sdate << "," << rdate << "," << mname << "," << mnumber << "," << service_code
 	     << "," << fee;
@@ -168,7 +168,7 @@ float provider::display(char type, int & service_count)
 	return total;
 }
 
-float provider::write(char type, ostream & file, int & service_count)
+float provider::write(char type, ofstream & file, int & service_count)
 {
 	file  << number << "," << name << ",";
 	if(type == 'A')
@@ -186,4 +186,51 @@ void provider:: read(const string & nname, int nnumber, int nscount, float ntota
 	total = ntotal; 
 	return;
 }
+
+
+/**************** service ***********************************/ 
+
+
+service:: service()
+{
+}
+
+service:: ~service()
+{
+}
+
+void service:: display()
+{
+	cout << left << setw(20) << name
+	     << left << setw(13) << service_code
+	     << left << setw(12) << fee;
+	return; 
+}
+
+void service:: write(ofstream & file)
+{
+	file << name << ","
+	     << service_code << ","
+	     << fee;
+	return; 
+}
+
+void service:: read(const string & nname, int nservice_code, float nfee)
+{
+	name = nname; 
+	service_code = nservice_code; 
+	fee = nfee;
+
+	return;
+}
+
+
+bool service:: operator<(const service & two) const
+{
+	if(name < two.name) return true; 
+	return false; 
+}
+
+
+
 
