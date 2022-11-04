@@ -201,9 +201,9 @@ service:: ~service()
 
 void service:: display()
 {
-	cout << left << setw(20) << name
-	     << left << setw(13) << service_code
-	     << left << setw(12) << fee;
+	cout << left << setw(24) << name
+	     << left << setw(15) << service_code
+	     << left << setw(14) << fee;
 	return; 
 }
 

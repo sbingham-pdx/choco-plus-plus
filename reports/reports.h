@@ -6,16 +6,16 @@
 #include "cadb.h"
 using sysclock_t = std::chrono::system_clock;
 
-class service
+class m_service
 {
 	public:
-		service();
-		~service();
+		m_service();
+		~m_service();
 		void display(); 
-		void write(ostream &);
+		void write(ofstream &);
 		void read(const string &, const string &, const string &);
-		bool operator<(const service &) const;
-		bool compare(const service &) const;
+		bool operator<(const m_service &) const;
+		bool compare(const m_service &) const;
 	protected: 
 		string date;
 		string service_name; 
@@ -28,7 +28,7 @@ class p_service
 		p_service();
 		~p_service(); 
 		float display(); 
-		float write(ostream &); 
+		float write(ofstream &); 
 		void read(const string &, const string &, const string &, int, 
 				int , float);
 		bool operator<(const p_service &) const;
@@ -42,13 +42,28 @@ class p_service
 		float fee; 
 };
 
+class service
+{
+	public: 
+		service(); 
+		~service(); 
+		 void display(); 
+		 void write(ofstream &); 
+		 void read(const string &, int, float);
+		 bool operator<(const service &)  const;
+	protected: 
+		string name;
+		int service_code; 
+		float fee; 
+};
+
 class provider
 {
 	public: 
 		provider(); 
 		~provider();
 		float display(char, int &);
-		float write(char, ostream &, int &);
+		float write(char, ofstream &, int &);
 		void read(const string&, int , int, float);
 	protected:
 		string name;
@@ -64,9 +79,6 @@ class member_week
 		member_week();
 		~member_week();
 		int run(int, const string & fname = "");
-		int display();
-		int write(const string &);
-		void reset();
 
 	protected: 
 		string name;
@@ -79,8 +91,11 @@ class member_week
 		string begin;
 		string end;
 
-		forward_list<service> data;
-		cadb db;
+		forward_list<m_service> data;
+
+		int display();
+		int write(const string &);
+		void reset();
 };
 
 
@@ -90,9 +105,8 @@ class provider_week
 		provider_week();
 		~provider_week();
 		int run(int, const string & fname = "");
-		int display();
-		int write(const string &);
-		void reset();
+		int provider_directory(const string & fname = "");
+
 	protected: 
 		string name;
 		int number; 
@@ -105,6 +119,10 @@ class provider_week
 		string end;
 
 		forward_list<p_service> data;
+
+		int display();
+		int write(const string &);
+		void reset();
 };
 
 class etf_week
@@ -113,12 +131,26 @@ class etf_week
 		etf_week();
 		~etf_week();
 		int run(char = 'B',const string & fname = ""); 
-		int display(char); 
-		int write(char, const string &); 
 	protected:
 		string begin; 
 		string end;
 		forward_list<provider> data;
+
+		int display(char); 
+		int write(char, const string &); 
+};
+
+class service_directory
+{
+	public:
+		service_directory();
+		~service_directory(); 
+		int run(const string & fname = "");
+	protected: 
+		forward_list<service> data;
+
+		int display();
+		int write(const string & fname);
 };
 
 class management
@@ -130,6 +162,7 @@ class management
 		int individual_member(int,const string & fname = ""); 
 		int ap_report(const string & fname = "");
 		int etf_report(const string & fname = ""); 
+		int provider_directory(const string & fname = "");
 	protected: 
 };
 

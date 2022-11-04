@@ -40,7 +40,7 @@ int service_directory:: run(const string & fname)
 		
 int service_directory:: display()
 {
-	cout << left << setw(20) << "Service Name"
+	cout << left << setw(24) << "Service Name"
 	     << left << setw(15) << "Service Number"
 	     << left << setw(14) << "Service Cost" << endl;
 	for(auto it = data.begin(); it != data.end(); ++it)
@@ -56,7 +56,7 @@ int service_directory:: write(const string & fname)
 {
 	ofstream file;
 
-	file.open(fname+"csv"); 
+	file.open(fname+".csv"); 
 	
 	if(!file) return 0;
 
