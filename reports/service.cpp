@@ -1,7 +1,5 @@
 #include "reports.h" 
 
-
-
 m_service:: m_service()
 {
 }
@@ -19,7 +17,10 @@ void m_service::display()
 
 void m_service::write(ofstream & file)
 {
+	if(!file) return;
+
 	file << date << "," << service_name << "," << provider;
+
 	return; 
 }
 
@@ -86,6 +87,8 @@ float p_service::display()
 
 float p_service::write(ofstream & file)
 {
+	if(!file) return 0;
+
 	file << sdate << "," << rdate << "," << mname << "," << mnumber << "," << service_code
 	     << "," << fee;
 	return fee;
@@ -164,17 +167,19 @@ float provider::display(char type, int & service_count)
 	if(type == 'A')
 		cout << scount << "\t\t";
 	cout << total; 
-	service_count = scount;
+	service_count += scount;
 	return total;
 }
 
 float provider::write(char type, ofstream & file, int & service_count)
 {
+	if(!file) return 0; 
+
 	file  << number << "," << name << ",";
 	if(type == 'A')
 		file << scount << ",";
 	file << total; 
-	service_count = scount;
+	service_count += scount;
 	return total;
 }
 
@@ -209,6 +214,8 @@ void service:: display()
 
 void service:: write(ofstream & file)
 {
+	if(!file) return;
+
 	file << name << ","
 	     << service_code << ","
 	     << fee;

@@ -38,7 +38,7 @@ int all_members(const string & fname)
 	cadb db;
 	member_week obj;
 
-	query = " SELECT DISTINCT memmber_number ";
+	query = " SELECT DISTINCT member_number ";
 	query += "FROM member ";
 	query += "WHERE member_status = 1;";
 

@@ -4,7 +4,6 @@
 //	custom dates(all files)
 //	check write to file
 //	test more cases
-//	managent reports
 
 member_week:: member_week()
 {
@@ -64,7 +63,7 @@ int member_week:: run(int m_id, const string & fname)
 		cout << "Member: " << number << " does not exist\n";
 		return 0;
 	}
-
+	// should the report still be written if no services for that week? 
 	while(ser && ser->next())
 	{
 		temp.read(ser->getString(1),ser->getString(2),ser->getString(3));
@@ -121,10 +120,10 @@ int member_week:: write(const string & fname)
 	file << "Member: " << name << endl;
 	file  << "Address: " << street << ", " << city << ", " << state << ", " << zip << endl; 
 	file << "Service Report from " << begin << " to " << end << endl;
-	file << "Service Date,Service,Provider" << endl;
+	file << "Count, Service Date,Service,Provider" << endl;
 	for(auto it = data.begin(); it != data.end(); ++it)
 	{
-		file << ++count << ": ";
+		file << ++count << ",";
 		it->write(file); 
 		file << endl;
 	}

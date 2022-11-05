@@ -38,7 +38,7 @@ int etf_week::run(char type, const string & fname)
 	if(res)
 		delete res; 
 
-	//sort data
+	//sort data?
 	
 	if(fname == "") display(type); 
 	else write(type, fname);
@@ -97,7 +97,7 @@ int etf_week::write(char type, const string & fname)
 	{
 		file << "Provider Count: " << pcount << endl;
 		file << "Service Count: " << scount << endl;
-		file << " Service Fee Total: " << sfee << endl;
+		file << "Service Fee Total: " << sfee << endl;
 	}
 	file.close();
 	return 1;

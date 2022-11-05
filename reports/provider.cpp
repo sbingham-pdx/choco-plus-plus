@@ -19,7 +19,7 @@ int provider_week:: run(int p_id, const string & fname)
 	cadb db;
 	sql::ResultSet *mem = NULL, *ser = NULL;
 	
-	begin = "2022-09-01"; //date(6);
+	begin = date(6);
 	end = date(0); 
 	
 	if(number) reset();
@@ -127,10 +127,10 @@ int provider_week:: write(const string & fname)
 	file << "Provider: " << name << endl;
 	file  << "Address: " << street << ", " << city << ", " << state << ", " << zip << endl; 
 	file << "Service Report from " << begin << " to " << end << endl;
-	file << "Date of Service,Date of Record,Member Name,Member Number,Service Code,Fee\n";
+	file << "Count,Date of Service,Date of Record,Member Name,Member Number,Service Code,Fee\n";
 	for(auto it = data.begin(); it != data.end(); ++it)
 	{
-		file << count++ << ": ";
+		file << count++ << ",";
 		week_fee += it->write(file); 
 		file << endl;
 	}

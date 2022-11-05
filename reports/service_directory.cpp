@@ -29,7 +29,9 @@ int service_directory:: run(const string & fname)
 		temp.read(ptr->getString(1), ptr->getInt(2), ptr->getDouble(3));
 		data.push_front(temp); 
 	}
-
+	
+	if(ptr)
+		delete ptr;
 	data.sort(); 
 
 	if(fname == "") display(); 
