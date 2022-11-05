@@ -5,6 +5,7 @@
 //	check write to file
 //	test more cases
 
+
 member_week:: member_week()
 {
 	number = 0; 

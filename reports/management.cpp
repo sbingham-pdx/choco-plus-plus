@@ -87,4 +87,3 @@ int management:: provider_directory(const string & fname)
 	return obj.run(fname);
 }
 
-

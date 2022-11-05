@@ -101,7 +101,7 @@ class member_week
 
 class provider_week
 {
-	public: 
+	public:
 		provider_week();
 		~provider_week();
 		int run(int, const string & fname = "");
@@ -135,7 +135,6 @@ class etf_week
 		string begin; 
 		string end;
 		forward_list<provider> data;
-
 		int display(char); 
 		int write(char, const string &); 
 };

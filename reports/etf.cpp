@@ -99,6 +99,7 @@ int etf_week::write(char type, const string & fname)
 		file << "Service Count: " << scount << endl;
 		file << "Service Fee Total: " << sfee << endl;
 	}
+
 	file.close();
 	return 1;
 }
