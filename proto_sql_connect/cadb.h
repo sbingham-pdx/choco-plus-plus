@@ -19,7 +19,7 @@ class cadb{
 
 		void execute(const string statement);
 		void queryDB(const string statment, sql::ResultSet *& foRes);
-		string getString(const string table, const string column, const string tomatch, const string get);
+		string getString(const string table, const string column, const string tomatch, const string getcolumn);
 		void setCell(const string table, const string column, const string tomatch, const string setcolumn, const string set);
 		int findMatch(const string table, const string column, const string tomatch);
 		int getRows(const string table);

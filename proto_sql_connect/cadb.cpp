@@ -71,7 +71,7 @@ void cadb::queryDB(const string statement, sql::ResultSet *& foRes){
 
 // pass in the table, column, and string to match atcl that column
 // and the column you want to get returned as a string
-string cadb::getString(const string table, const string column, const string tomatch, const string get){
+string cadb::getString(const string table, const string column, const string tomatch, const string getcolumn){
 
 	string res;
 	sql::Statement	*caStmt = nullptr;
@@ -92,7 +92,7 @@ string cadb::getString(const string table, const string column, const string tom
 	// Load query into string.
 	try{
 		while (caRes->next()){
-			res += caRes->getString(get);
+			res += caRes->getString(getcolumn);
 		}
 	}
 	catch (sql::SQLException &e) {
