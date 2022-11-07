@@ -27,12 +27,12 @@ int service_directory:: run(const string & fname)
 	while(ptr->next())
 	{
 		temp.read(ptr->getString(1), ptr->getInt(2), ptr->getDouble(3));
-		data.push_front(temp); 
+		service_list.push_front(temp); 
 	}
 	
 	if(ptr)
 		delete ptr;
-	data.sort(); 
+	service_list.sort(); 
 
 	if(fname == "") display(); 
 	else write(fname);
@@ -45,7 +45,7 @@ int service_directory:: display()
 	cout << left << setw(24) << "Service Name"
 	     << left << setw(15) << "Service Number"
 	     << left << setw(14) << "Service Cost" << endl;
-	for(auto it = data.begin(); it != data.end(); ++it)
+	for(auto it = service_list.begin(); it != service_list.end(); ++it)
 	{
 		it->display();
 		cout << endl;
@@ -66,7 +66,7 @@ int service_directory:: write(const string & fname)
 	    << "Service Number" << ","
 	    << "Service Cost" << endl;
 
-	for(auto it = data.begin(); it != data.end(); ++it)
+	for(auto it = service_list.begin(); it != service_list.end(); ++it)
 	{
 		it->write(file);
 		file << endl;

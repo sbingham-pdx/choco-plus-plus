@@ -1,21 +1,21 @@
 #include "reports.h" 
 
-m_service:: m_service()
+member_service:: member_service()
 {
 }
 
-m_service:: ~m_service()
+member_service:: ~member_service()
 {
 }
 
-void m_service::display()
+void member_service::display()
 {
 	cout << left << setw(13) << date << left << setw(20)<<  service_name 
 	     << "\t" << provider;
 	return;
 }
 
-void m_service::write(ofstream & file)
+void member_service::write(ofstream & file)
 {
 	if(!file) return;
 
@@ -24,7 +24,7 @@ void m_service::write(ofstream & file)
 	return; 
 }
 
-void m_service::read(const string & ndate, const string & nservice, const string & nprovider)
+void member_service::read(const string & ndate, const string & nservice, const string & nprovider)
 {
 	date = ndate;
        	service_name = nservice; 
@@ -33,12 +33,12 @@ void m_service::read(const string & ndate, const string & nservice, const string
 	return; 
 }
 
-bool m_service::operator<(const m_service & two) const
+bool member_service::operator<(const member_service & two) const
 {
 	return compare(two); 
 }
 
-bool m_service::compare(const m_service & two) const
+bool member_service::compare(const member_service & two) const
 {
 	string dates[2][3];
 	stringstream temp(date); 
@@ -62,19 +62,19 @@ bool m_service::compare(const m_service & two) const
 	return false;
 }
 
-/******************** p_service *********************/
+/******************** provider_service *********************/
 
-p_service:: p_service()
+provider_service:: provider_service()
 {
 	fee  = 0.0;
 	mnumber = service_code = 0;
 }
 
-p_service:: ~p_service()
+provider_service:: ~provider_service()
 {
 }
 
-float p_service::display()
+float provider_service::display()
 {
 	cout << left << setw(13) << sdate
 	     << left << setw(20) << rdate
@@ -85,7 +85,7 @@ float p_service::display()
 	return fee;
 }
 
-float p_service::write(ofstream & file)
+float provider_service::write(ofstream & file)
 {
 	if(!file) return 0;
 
@@ -94,7 +94,7 @@ float p_service::write(ofstream & file)
 	return fee;
 }
 
-void p_service::read(const string & nsdate, const string & nrdate, const string & nmname,
+void provider_service::read(const string & nsdate, const string & nrdate, const string & nmname,
 	       		int nmnumber, int sc, float nfee)
 {
 	sdate = nsdate; 
@@ -106,12 +106,12 @@ void p_service::read(const string & nsdate, const string & nrdate, const string 
 	return;
 }
 
-bool p_service::operator<(const p_service & two) const
+bool provider_service::operator<(const provider_service & two) const
 {
 	return compare(two); 
 }
 
-bool p_service::compare(const p_service & two) const
+bool provider_service::compare(const provider_service & two) const
 {
 	string date[2][3];
 	stringstream temp(sdate); 

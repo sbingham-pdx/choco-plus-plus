@@ -1,11 +1,12 @@
 #include "reports.h" 
 
-int management:: all_providers(const string & fname)
+// Change file to append rather than overwrite
+int management_report:: all_providers(const string & fname)
 {
 	sql::ResultSet *ptr = NULL; 
 	string query;
 	cadb db;
-	provider_week obj;
+	provider_report obj;
 
 	query = " SELECT DISTINCT provider_number ";
 	query += "FROM provider;";
@@ -24,19 +25,20 @@ int management:: all_providers(const string & fname)
 	return 1;
 }
 
-int management:: individual_provider(int p_id, const string & fname)
+int management_report:: individual_provider(int p_id, const string & fname)
 {
-	provider_week obj; 
+	provider_report obj; 
 	
 	return obj.run(p_id, fname);
 }
 
+// Change file to append rather than overwrite
 int all_members(const string & fname)
 {
 	sql::ResultSet *ptr = NULL; 
 	string query;
 	cadb db;
-	member_week obj;
+	member_report obj;
 
 	query = " SELECT DISTINCT member_number ";
 	query += "FROM member ";
@@ -58,29 +60,29 @@ int all_members(const string & fname)
 }
 
 
-int management:: individual_member(int m_id, const string & fname)
+int management_report:: individual_member(int m_id, const string & fname)
 {
-	member_week obj; 
+	member_report obj; 
 
 	return obj.run(m_id, fname);
 }
 
 
-int management:: ap_report(const string & fname)
+int management_report:: ap_report(const string & fname)
 {
-	etf_week obj;
+	accounting_report obj;
 
 	return obj.run('A', fname);
 }
 
-int management:: etf_report(const string & fname)
+int management_report:: etf_report(const string & fname)
 {
-	etf_week  obj; 
+	accounting_report  obj; 
 
 	return obj.run('B', fname); 
 }
 
-int management:: provider_directory(const string & fname)
+int management_report:: provider_directory(const string & fname)
 {
 	service_directory obj;
 
