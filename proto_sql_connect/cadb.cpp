@@ -274,7 +274,7 @@ int cadb::getID(const string table, const string tomatch){
 // This function serves to input a visit to the transaction table
 //>> INSERT INTO transaction (trans_date, provider_id, service_id, member_id) 
 //>> VALUES ('date', 'provider_id', 'service_id', 'member_id');
-void cadb::insertVisit(const string date, const int provider_id, const int service_id, const int member_id){
+void cadb::insertVisit(const string date, const int provider_id, const int service_id, const int member_id, const string comments){
 
 	// Error checking in here to make sure that transactions map to correct bounds of other tables.
 	if ( provider_id <= 1 || provider_id > getRows("provider") ){
@@ -291,6 +291,11 @@ void cadb::insertVisit(const string date, const int provider_id, const int servi
 		std::cout << "ERROR: Member ID outside of range:" << member_id << std::endl;
 		return;
 	}
+	if (comments.length() > 100 || comments.empty()) {
+		std::cout << ">> ERROR: Comments must be 100 characters or less. Comments entered: " << comments << " is invalid." << std::endl;
+		return;
+	}
+	
 	//Build your query string
 	string insert = "INSERT INTO transaction (trans_date, provider_id, service_id, member_id) VALUES ('";
 	insert += date;

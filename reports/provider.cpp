@@ -1,26 +1,26 @@
 #include "reports.h"
 
 
-provider_week:: provider_week()
+provider_report:: provider_report()
 {
 	number = 0; 
 }
 
 
-provider_week:: ~provider_week()
+provider_report:: ~provider_report()
 {
 }
 
 
-int provider_week:: run(int p_id, const string & fname)
+int provider_report:: run(int p_id, const string & fname)
 { 
 	string provider_query, service_query; 
-	p_service temp;
+	provider_service temp;
 	cadb db;
 	sql::ResultSet *mem = NULL, *ser = NULL;
 	
-	begin = "2022-09-01"; //date(6);
-	end = date(0); 
+	start_date = date(6);
+	end_date = date(0); 
 	
 	if(number) reset();
 
@@ -37,8 +37,8 @@ int provider_week:: run(int p_id, const string & fname)
 	service_query += "JOIN member b  ON a.member_id= b.id   ";
 	service_query += "JOIN service c ON a.service_id = c.id ";
 	service_query += "WHERE a.provider_id= " + to_string(p_id) + " ";
-	service_query += "AND a.trans_date >= '" + begin + "' ";
-	service_query += "AND a.trans_date <= '" + end +"' ;";
+	service_query += "AND a.trans_date >= '" + start_date + "' ";
+	service_query += "AND a.trans_date <= '" + end_date +"' ;";
 
 	db.queryDB(provider_query,mem);	
 	db.queryDB(service_query,ser);
@@ -65,13 +65,13 @@ int provider_week:: run(int p_id, const string & fname)
 	{
 		temp.read(ser->getString(1),ser->getString(2), ser->getString(3),ser->getInt(4),
 				ser->getInt(5),ser->getDouble(6));
-		data.push_front(temp);
+		provider_service_list.push_front(temp);
 	}
 
 	if(ser)
 		delete ser;
 	
-	data.sort();
+	provider_service_list.sort();
 
 	if(fname == "") display(); 
 	else write(fname);
@@ -80,15 +80,15 @@ int provider_week:: run(int p_id, const string & fname)
 }
 
 
-void provider_week:: reset()
+void provider_report:: reset()
 {
 	zip = name = street = city = state = "";
        	number = 0;
 	
-	data.clear();
+	provider_service_list.clear();
 }	
 
-int provider_week:: display()
+int provider_report:: display()
 {
 	int count = 0;
 	float week_fee = 0.0;
@@ -96,14 +96,14 @@ int provider_week:: display()
 	if(!number) return 0; 
 	cout << "Provider: " << name << endl; 
 	cout << "Address: " << street <<  endl << city << ", " << state << ", " << zip << endl; 
-	cout << "Service Report from " << begin << " to " << end << endl;
+	cout << "Service Report from " << start_date << " to " << end_date << endl;
 	cout <<"   " << left << setw(13) << "Service Date" 
 	     << left << setw(20) << "Record Date"
 	     << left << setw(25) << "Member Name"
 	     << left << setw(14) << "Member Number"
 	     << left << setw(13) << "Service Code"
 	     << left << setw(11) << "Fee" << endl;
-	for(auto it = data.begin(); it != data.end(); ++it)
+	for(auto it = provider_service_list.begin(); it != provider_service_list.end(); ++it)
 	{
 		cout << ++count << ": ";
 		week_fee+= it->display();
@@ -114,7 +114,7 @@ int provider_week:: display()
 	return 1;
 }
 
-int provider_week:: write(const string & fname)
+int provider_report:: write(const string & fname)
 {
 	ofstream file;
 	float week_fee = 0;
@@ -126,11 +126,11 @@ int provider_week:: write(const string & fname)
 
 	file << "Provider: " << name << endl;
 	file  << "Address: " << street << ", " << city << ", " << state << ", " << zip << endl; 
-	file << "Service Report from " << begin << " to " << end << endl;
-	file << "Date of Service,Date of Record,Member Name,Member Number,Service Code,Fee\n";
-	for(auto it = data.begin(); it != data.end(); ++it)
+	file << "Service Report from " << start_date << " to " << end_date << endl;
+	file << "Count,Date of Service,Date of Record,Member Name,Member Number,Service Code,Fee\n";
+	for(auto it = provider_service_list.begin(); it != provider_service_list.end(); ++it)
 	{
-		file << count++ << ": ";
+		file << count++ << ",";
 		week_fee += it->write(file); 
 		file << endl;
 	}
@@ -142,6 +142,12 @@ int provider_week:: write(const string & fname)
 	return 1;
 }
 
+int provider_report:: provider_directory(const string & fname)
+{
+	service_directory obj; 
+
+	return obj.run(fname);
+}
 
 
 
