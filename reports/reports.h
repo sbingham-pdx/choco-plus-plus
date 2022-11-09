@@ -6,6 +6,9 @@
 #include "cadb.h"
 using sysclock_t = std::chrono::system_clock;
 
+
+// add exception handling for db queries. 
+// add exception handling for report classes
 class member_service
 {
 	public:

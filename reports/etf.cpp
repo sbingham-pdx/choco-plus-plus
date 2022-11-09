@@ -16,6 +16,8 @@ int accounting_report::run(char type, const string & fname)
 	cadb db;
 	provider temp;
 
+	provider_list.clear();
+
 	start_date = date(6); 
 	end_date = date(0); 
 
