@@ -2,48 +2,58 @@
 #include <string>
 using namespace std;
 
-struct p_service 
+struct visit 
 {
     // Variables
-    string sdate;
-    string rdate;
-    string mname;
-    int mnumber;
-    int service_code;
+    string date;
+    int provider_id;    
+    int member_id;
+    int service_id;
     float fee;
+    string comment;
 
     // Class Methods
-    float display();
-    float write(ostream &);
-    void read(string &, string &, string &, int, int, float);
-    bool operator<(p_service &);
-    bool compare(p_service &);
+    bool read(const string date, const int provider_id, const int service_id, const int member_id, const string comment, const float fee);
+    bool operator<(visit & operand);
+    bool compare(visit & operand);
 };
 
 struct provider 
 {   
     // Variables
     string name;
-    int scount;
-    int number;
+    string street;
+    string city;
+    string state;
+    string zip;
+    int provider_id;
 
     // Class Methods
-    float display(char, int &);
-    float write(char, ostream &, int &);
-    void read(string &, int, int, float);
+    bool read(const int id, const string name, const string street, const string city, const string state, const string zip);
+};
+
+struct member
+{
+    // Variables
+    string name;
+    string street;
+    string city;
+    string state;
+    string zip;
+    int member_id;
+
+    // Class Methods
+    bool read(const int id, const string name, const string street, const string city, const string state, const string zip);
 };
 
 struct service
 {
     // Variables
-    string date;
-    string service_name;
-    string provider;
+    int number;
+    string name;
+    float fee;
 
     // Class Methods
-    void display();
-    void write(ostream &);
-    void read(string &, string &, string &);
-    bool operator<(service &);
-    bool compare(service &);
+    bool read(const int number, const string name, const float fee);
+    bool operator<(service & operand);
 };
