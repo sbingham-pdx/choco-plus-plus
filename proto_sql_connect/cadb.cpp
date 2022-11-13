@@ -297,7 +297,7 @@ void cadb::insertVisit(const string date, const int provider_id, const int servi
 	}
 	
 	//Build your query string
-	string insert = "INSERT INTO transaction (trans_date, provider_id, service_id, member_id) VALUES ('";
+	string insert = "INSERT INTO transaction (trans_date, provider_id, service_id, member_id, comments) VALUES ('";
 	insert += date;
 	insert += "', '";
 	insert += to_string(provider_id);
@@ -305,6 +305,8 @@ void cadb::insertVisit(const string date, const int provider_id, const int servi
 	insert += to_string(service_id);
 	insert += "', '";
 	insert += to_string(member_id);
+	insert += "', '";
+	insert += comments;
 	insert += "');";
 
 	cout << ">> Calling: " << insert << endl;
