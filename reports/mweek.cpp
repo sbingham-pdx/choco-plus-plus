@@ -1,6 +1,5 @@
 #include "reports.h"
 //to do: 
-//	align outputs (all files)
 //	custom dates(all files)
 //	check write to file
 //	test more cases
@@ -30,7 +29,10 @@ int member_report:: run(int m_id, const string & fname)
 	if(number) reset();
 
 	number = m_id;
+
 	m_id = db.getID("member",to_string(m_id));
+
+	if(!m_id) return 0;
 
 	member_query = "SELECT member_name, member_street, member_city, member_state, member_zip ";
 	member_query += "FROM member ";
@@ -60,8 +62,7 @@ int member_report:: run(int m_id, const string & fname)
 	}
 	else
 	{
-		//what is returned if member doesnt exist? 
-		cout << "Member: " << number << " does not exist\n";
+		if(mem) delete mem;
 		return 0;
 	}
 	// should the report still be written if no services for that week? 
@@ -85,7 +86,7 @@ int member_report:: run(int m_id, const string & fname)
 void member_report:: reset()
 {
 	name = street = city = state = zip = "";
-       	number = 0;
+    number = 0;
 	
 	member_service_list.clear();
 }	

@@ -27,6 +27,8 @@ int provider_report:: run(int p_id, const string & fname)
 	number = p_id; 
 	p_id = db.getID("provider", to_string(p_id));
 
+	if(!pid) return 0;
+
 	provider_query = "SELECT provider_name, provider_street, provider_city, ";
 	provider_query += "provider_state, provider_zip ";
 	provider_query += "FROM provider ";
@@ -55,7 +57,6 @@ int provider_report:: run(int p_id, const string & fname)
 	}
 	else
 	{
-		cout << "Provider: " << number << " does not exist\n";
 		if(mem)
 			delete mem;
 		return 0;
@@ -110,7 +111,7 @@ int provider_report:: display()
 		cout << endl;
 	}
 	
-	cout << "Count of Services Provided: " << count << " Fees Owed: " << week_fee << endl;
+	cout << endl << "Count of Services Provided: " << count << " Fees Owed: " << week_fee << endl;
 	return 1;
 }
 
@@ -135,7 +136,7 @@ int provider_report:: write(const string & fname)
 		file << endl;
 	}
 	
-	file << "Count of Services Provided: " << count << " Fees Owed: " << week_fee << endl;
+	file << endl << "Count of Services Provided: " << count << " Fees Owed: " << week_fee << endl;
 
 	file.close();
 
