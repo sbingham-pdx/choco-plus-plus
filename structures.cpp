@@ -32,6 +32,11 @@ bool visit::read(const string date, const int provider_id, const int service_id,
     }
 }
 
+void visit::insert() 
+{
+    
+}
+
 // COMPARE NOT IMPLEMENTED YET FOR VISIT, ARE WE COMPARING SERVICE ID OR DATE? WHAT FORMAT IS DATE?
 
 // Implementations of class methods for provider
@@ -64,6 +69,11 @@ bool provider::read(const int id, const string name, const string street, const 
     }
 }
 
+void provider::insert()
+{
+    
+}
+
 // Implementations of class methods for member
 
 // This function will read in input from the user and set up the struct for use. A boolean will return
@@ -92,6 +102,11 @@ bool member::read(const int id, const string name, const string street, const st
         this->zip = zip;
         return true;
     }
+}
+
+void member::insert() 
+{
+    
 }
 
 // Implementations of class methods for service
@@ -125,4 +140,9 @@ bool service::read(const int number, const string name, const float fee)
 bool service::operator<(service & operand)
 {
     return number < operand.number;
+}
+
+void service::insert()
+{
+    
 }
