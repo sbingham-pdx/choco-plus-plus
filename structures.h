@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "proto_sql_connect/cadb.h"
 using namespace std;
 
 struct visit 
