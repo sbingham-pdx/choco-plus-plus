@@ -34,7 +34,15 @@ bool visit::read(const string date, const int provider_id, const int service_id,
 
 void visit::insert() 
 {
+    // void insertVisit(const string date, const int provider_id, const int service_id, const int member_id)
     
+    // Convert datatypes
+    string p_number = to_string(provider_id);
+    string m_number = to_string(member_id);
+    string service_number = to_string(service_id);
+    
+    // Insert
+    insertProvider(date, p_number, service_number, m_number);
 }
 
 // COMPARE NOT IMPLEMENTED YET FOR VISIT, ARE WE COMPARING SERVICE ID OR DATE? WHAT FORMAT IS DATE?
@@ -71,7 +79,13 @@ bool provider::read(const int id, const string name, const string street, const 
 
 void provider::insert()
 {
+    // void insertProvider(const string number, const string name, const string street, const string city, const string state, const string zip)
     
+    // Convert datatypes
+    string number = to_string(provider_id);
+    
+    // Insert
+    insertProvider(number, name, street, city, state, zip);
 }
 
 // Implementations of class methods for member
@@ -106,7 +120,13 @@ bool member::read(const int id, const string name, const string street, const st
 
 void member::insert() 
 {
+    // void insertMember(const string number, const string name, const string street, const string city, const string state, const string zip)
     
+    // Convert datatypes
+    string number = to_string(member_id);
+    
+    // Insert
+    insertProvider(number, name, street, city, state, zip);
 }
 
 // Implementations of class methods for service
@@ -144,5 +164,12 @@ bool service::operator<(service & operand)
 
 void service::insert()
 {
+    // void insertService(const string number, const string name, const string cost)
     
+    // Convert datatypes
+    string service_number = to_string(number);
+    string cost = to_string(fee);
+    
+    // Insert
+    insertProvider(service_number, name, cost);
 }
