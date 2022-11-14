@@ -16,6 +16,7 @@ struct visit
     bool read(const string date, const int provider_id, const int service_id, const int member_id, const string comment, const float fee);
     bool operator<(visit & operand);
     bool compare(visit & operand);
+    void insert();
 };
 
 struct provider 
@@ -30,6 +31,7 @@ struct provider
 
     // Class Methods
     bool read(const int id, const string name, const string street, const string city, const string state, const string zip);
+    void insert();
 };
 
 struct member
@@ -44,6 +46,7 @@ struct member
 
     // Class Methods
     bool read(const int id, const string name, const string street, const string city, const string state, const string zip);
+    void insert();
 };
 
 struct service
@@ -56,4 +59,5 @@ struct service
     // Class Methods
     bool read(const int number, const string name, const float fee);
     bool operator<(service & operand);
+    void insert();
 };
