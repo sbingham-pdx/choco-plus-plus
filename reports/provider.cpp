@@ -51,7 +51,7 @@ int provider_report:: run(int p_id, const string & fname, int filetype)
 		street = mem->getString(2);
 		city  = mem->getString(3);
 		state = mem->getString(4);
-		zip = mem->getInt(3);
+		zip = mem->getString(5);
 
 		delete mem;
 	}
