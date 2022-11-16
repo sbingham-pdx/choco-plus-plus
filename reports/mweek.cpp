@@ -16,7 +16,7 @@ member_report:: ~member_report()
 }
 
 
-int member_report:: run(int m_id, const string & fname)
+int member_report:: run(int m_id, const string & fname, int filetype)
 { 
 	string member_query, service_query; 
 	sql:: ResultSet *mem = NULL, *ser = NULL;
@@ -63,6 +63,7 @@ int member_report:: run(int m_id, const string & fname)
 	else
 	{
 		if(mem) delete mem;
+		if(ser) delete ser;
 		return 0;
 	}
 	// should the report still be written if no services for that week? 
@@ -79,7 +80,7 @@ int member_report:: run(int m_id, const string & fname)
 	member_service_list.sort();
 
 	if(fname == "") display(); 
-	else write(fname);
+	else write(fname,filetype);
 	return 1; 
 }
 
@@ -110,14 +111,16 @@ int member_report:: display()
 	return 1;
 }
 
-int member_report:: write(const string & fname)
+int member_report:: write(const string & fname, int filetype)
 {
 	ofstream file;
 	int count = 0;
 
 	if(!number) return 0; 
-
-	file.open(fname + ".csv");
+	if(!filetype)
+		file.open(fname + ".csv");
+	else 
+		file.open(fname + ".csv", ios::app);
 
 	if(!file) return 0;
 
@@ -131,7 +134,7 @@ int member_report:: write(const string & fname)
 		it->write(file); 
 		file << endl;
 	}
-
+	file << endl;
 	file.close();
 
 	return 1;

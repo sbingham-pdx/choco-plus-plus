@@ -125,12 +125,13 @@ class provider
 //								  fname: the name of the file where the report should be 
 //										 stored (.csv will automtically be added end).
 //										 File will be overwritten. 
+//								filetype: 1 changes to append to file. 
 class member_report
 {
 	public:
 		member_report();
 		~member_report();
-		int run(int, const string & fname = "");
+		int run(int, const string & fname = "", int filetype = 0);
 
 	protected: 
 		string name;
@@ -146,7 +147,7 @@ class member_report
 		forward_list<member_service> member_service_list;
 
 		int display();
-		int write(const string &);
+		int write(const string &, int filetype = 0);
 		void reset();
 };
 
@@ -170,7 +171,7 @@ class provider_report
 	public:
 		provider_report();
 		~provider_report();
-		int run(int, const string & fname = "");
+		int run(int, const string & fname = "", int filetype = 0);
 		int provider_directory(const string & fname = "");
 
 	protected: 
@@ -187,7 +188,7 @@ class provider_report
 		forward_list<provider_service> provider_service_list;
 
 		int display();
-		int write(const string &);
+		int write(const string &, int filetype = 0);
 		void reset();
 };
 

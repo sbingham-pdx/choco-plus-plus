@@ -19,7 +19,7 @@ int management_report:: all_providers(const string & fname)
 	{
 		int num = ptr->getInt(1);
 		if(!num) continue;
-		obj.run(num, fname); 
+		obj.run(num, fname,1); 
 	}
 
 	if(ptr) delete ptr;
@@ -35,7 +35,7 @@ int management_report:: individual_provider(int p_id, const string & fname)
 }
 
 // Change file to append rather than overwrite
-int all_members(const string & fname)
+int management_report:: all_members(const string & fname)
 {
 	sql::ResultSet *ptr = NULL; 
 	string query;
@@ -54,7 +54,7 @@ int all_members(const string & fname)
 	{	
 		int num = ptr->getInt(1);
 		if(!num) continue;
-		obj.run(num, fname); 
+		obj.run(num, fname,1); 
 	}
 
 	if(ptr) delete ptr;

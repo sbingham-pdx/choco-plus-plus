@@ -12,7 +12,7 @@ provider_report:: ~provider_report()
 }
 
 
-int provider_report:: run(int p_id, const string & fname)
+int provider_report:: run(int p_id, const string & fname, int filetype)
 { 
 	string provider_query, service_query; 
 	provider_service temp;
@@ -27,7 +27,7 @@ int provider_report:: run(int p_id, const string & fname)
 	number = p_id; 
 	p_id = db.getID("provider", to_string(p_id));
 
-	if(!pid) return 0;
+	if(!p_id) return 0;
 
 	provider_query = "SELECT provider_name, provider_street, provider_city, ";
 	provider_query += "provider_state, provider_zip ";
@@ -59,6 +59,8 @@ int provider_report:: run(int p_id, const string & fname)
 	{
 		if(mem)
 			delete mem;
+		if(ser)
+			delete ser;
 		return 0;
 	}
 
@@ -75,7 +77,7 @@ int provider_report:: run(int p_id, const string & fname)
 	provider_service_list.sort();
 
 	if(fname == "") display(); 
-	else write(fname);
+	else write(fname, filetype);
 
 	return 1; 
 }
@@ -115,7 +117,7 @@ int provider_report:: display()
 	return 1;
 }
 
-int provider_report:: write(const string & fname)
+int provider_report:: write(const string & fname, int filetype)
 {
 	ofstream file;
 	float week_fee = 0;
@@ -123,7 +125,12 @@ int provider_report:: write(const string & fname)
 
 	if(!number) return 0; 
 
-	file.open(fname + ".csv");
+	if(!filetype)
+		file.open(fname + ".csv");
+	else 
+		file.open(fname + ".csv", ios::app);
+
+	if(!file) return 0;
 
 	file << "Provider: " << name << endl;
 	file  << "Address: " << street << ", " << city << ", " << state << ", " << zip << endl; 
@@ -136,7 +143,7 @@ int provider_report:: write(const string & fname)
 		file << endl;
 	}
 	
-	file << endl << "Count of Services Provided: " << count << " Fees Owed: " << week_fee << endl;
+	file << "Count of Services Provided: " << count << " Fees Owed: " << week_fee << endl << endl;
 
 	file.close();
 
