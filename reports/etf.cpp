@@ -86,7 +86,7 @@ int accounting_report::write(char type, const string & fname)
 	
 	if(!file) return 0;
 	if(type == 'A')
-		cout << "Provider Number,Provider,Service Count,tFee Total" << endl; 
+		file << "Provider Number,Provider,Service Count,,Fee Total" << endl; 
 	else 
 		file << "Provider Number,Provider,Fee Total" << endl; 
 	for(auto it = provider_list.begin(); it != provider_list.end(); ++it)
