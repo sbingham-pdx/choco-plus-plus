@@ -79,7 +79,7 @@ int management_report:: ap_report(const string & fname)
 	return obj.run('A', fname);
 }
 
-int management_report:: etf_report(const string & fname)
+int management_report:: eft_report(const string & fname)
 {
 	accounting_report  obj; 
 

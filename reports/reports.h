@@ -244,7 +244,7 @@ class management_report
 		int all_members(const string & fname = ""); 
 		int individual_member(int,const string & fname = ""); 
 		int ap_report(const string & fname = "");
-		int etf_report(const string & fname = ""); 
+		int eft_report(const string & fname = ""); 
 		int provider_directory(const string & fname = "");
 	protected: 
 };
