@@ -93,3 +93,41 @@ int management_report:: provider_directory(const string & fname)
 	return obj.run(fname);
 }
 
+int management_report:: mark_paid(int transaction_id)
+{
+	cadb obj; 
+
+	obj.setCell("transaction","id", to_string(transaction_id), "payment_status", "1");	
+	return 1;
+}
+
+int management_report:: batch_mark_paid(const string & fname)
+{
+	ifstream file; 
+	int tid =0, pn = 0;
+	float cost = 0;
+
+	file.open(fname +".csv");
+
+	if(!file) return 0; 
+
+	file.ignore(100,',');
+	file.ignore(100,',');
+	file.ignore(100,'\n');
+	
+	
+	file >> pn;
+	while(!file.eof())
+	{
+		file.ignore(100, ',');	
+		file >> tid; 
+		file.ignore(100,',');
+		file >> cost;
+		file.ignore(100, '\n');
+		if(mark_paid(tid))
+			cout << "Transaction: " << tid << " paid\n";
+		file >> pn;
+	}
+
+	return 1;
+}

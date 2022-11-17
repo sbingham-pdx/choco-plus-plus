@@ -37,6 +37,7 @@ int accounting_report::run(char type, const string & fname)
 	mod_query += "JOIN provider b ON b.id = a.provider_id ";
 	mod_query += "AND a.trans_date >= '" + start_date + "' ";
 	mod_query += "AND a.trans_date <= '" + end_date +"' ";
+	mod_query += "AND a.payment_status = 0 ";
 	mod_query += "ORDER BY b.provider_number;";
 
 	db.queryDB(query, res); 
