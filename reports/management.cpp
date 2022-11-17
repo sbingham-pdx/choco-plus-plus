@@ -83,7 +83,7 @@ int management_report:: eft_report(const string & fname)
 {
 	accounting_report  obj; 
 
-	return obj.run('B', fname); 
+	return obj.run('C', fname); 
 }
 
 int management_report:: provider_directory(const string & fname)

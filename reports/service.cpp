@@ -192,7 +192,16 @@ void provider:: read(const string & nname, int nnumber, int nscount, float ntota
 	return;
 }
 
+int provider:: compare(float sum) const
+{
+	return compare_float(sum,total);
+}
 
+int provider:: compare_provider(int pn) const
+{
+	if(pn != number) return 0; 
+	return 1;
+}
 /**************** service ***********************************/ 
 
 
@@ -239,4 +248,63 @@ bool service:: operator<(const service & two) const
 }
 
 
+/***************** trannsaction ID **********************/
 
+t_id:: t_id()
+{
+}
+
+t_id:: ~t_id()
+{
+}
+
+float t_id:: display()
+{
+	cout << left << setw(24) << provider_number
+	     << left << setw(15) << id
+	     << left << setw(14) << fee;
+	return fee;
+}
+
+float t_id:: write(ofstream & file)
+{
+	if(!file) return 0;
+
+	file << provider_number<< ","
+	     << id << ","
+	     << fee;
+	return fee;
+}
+
+void t_id:: read(int pn, int tid, float nfee)
+{
+	provider_number = pn;
+	id = tid; 
+	fee = nfee;
+
+	return;
+}
+
+
+bool t_id:: operator<(const t_id & two) const
+{
+	if(provider_number < two.provider_number) return true; 
+	return false; 
+}
+
+float t_id:: get_cost() const
+{
+	return fee;
+}
+
+int t_id:: compare_provider(const provider & to_comp) const
+{
+	return to_comp.compare_provider(provider_number);
+}
+
+bool compare_float(float x, float y, float epsilon)
+{
+   if(fabs(x - y) < epsilon)
+      return true;
+   return false;
+}

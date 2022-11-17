@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iomanip>
 #include "cadb.h"
+#include <cmath>
 using sysclock_t = std::chrono::system_clock;
 
 
@@ -91,6 +92,7 @@ class service
 		float fee; 
 };
 
+
 // The provider class handles the provider payable data
 // pulled from the database for the AP report/eft report. 
 // Data Members: 
@@ -107,6 +109,8 @@ class provider
 		float display(char, int &);
 		float write(char, ofstream &, int &);
 		void read(const string&, int , int, float);
+		int compare(float) const;
+		int compare_provider(int ) const;
 	protected:
 		string name;
 		int number; 
@@ -114,7 +118,22 @@ class provider
 		float total;
 };
 	
-
+class t_id
+{
+	public: 
+		t_id(); 
+		~t_id(); 
+		float display();
+		float write(ofstream &);
+		void read(int, int, float);
+		bool operator<(const t_id &) const;
+		float get_cost() const;
+		int compare_provider(const provider & ) const;
+	protected: 
+		int provider_number; 
+		int id; 
+		float fee;
+};
 // The member report class handles generating and outputing the indivudal 
 // member report. 
 // Client Methods: 
@@ -206,8 +225,10 @@ class accounting_report
 		string start_date; 
 		string end_date;
 		forward_list<provider> provider_list;
+		forward_list<t_id> t_id_list;
 		int display(char); 
 		int write(char, const string &); 
+		int compare_total(const provider&);
 };
 
 // The service_directory class handles generating and outputing the service
@@ -225,6 +246,7 @@ class service_directory
 
 		int display();
 		int write(const string & fname);
+		
 };
 
 // The management class handles generating and outputing all management reports
@@ -246,9 +268,12 @@ class management_report
 		int ap_report(const string & fname = "");
 		int eft_report(const string & fname = ""); 
 		int provider_directory(const string & fname = "");
+		int batch_mark_paid(const string & fname);
+		int mark_paid(int transaction_id);
 	protected: 
 };
 
 
 //used to determine report dates, based on current system date. 
 string date(int offset);
+bool compare_float(float x, float y, float epsilon = 0.01f);
