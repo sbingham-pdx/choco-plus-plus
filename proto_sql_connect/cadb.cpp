@@ -205,9 +205,12 @@ int cadb::getRows(const string table){
 	return biggest;
 }
 
+// Retur of 0 means no ID found
 int cadb::getID(const string table, const string tomatch){
 
 	int id = 0;
+	string table_number;
+	string resstring;
 
 	if (table.empty() || tomatch.empty()) return id;
 
@@ -225,56 +228,56 @@ int cadb::getID(const string table, const string tomatch){
 			return id;
 		}
 	}
+	table_number = table;
+	table_number += "_number";
+
+	resstring = getString(table, table_number, tomatch, "id");
+	cout << "result string: " << resstring << endl;
+	if (resstring.empty()) return 0;
 	
-
-	sql::Statement	*caStmt = nullptr;
-	sql::ResultSet	*caRes = nullptr;
-
-	string query = "SELECT * FROM ";
-	query += table;
-	query += " WHERE ";
-	query += table;
-	query += "_number = '";
-	query += tomatch;
-	query += "';";
-
-	cout << ">> Calling: " << query << endl;
-
-	queryDB(query, caRes);
-
-	try{
-		while (caRes->next()){
-			id = caRes->getInt(1);
-		}
-	}
-	catch (sql::SQLException &e) {
-		std::cout << ">> Failed to execute statement:" << query << std::endl;
-		std::cout << ">> Error : " << e.what() << std::endl;
-		std::cout << ">> Error Code : " << e.getErrorCode() << std::endl;
-	}
-	delete caRes;
-	delete caStmt;
+	id = stoi(resstring);
+		
 	return id;
 }
 
+// Return values:
+// 1 for status active
+// 0 status suspended
+// -1 for ID not found
+// -2 : invalid table information passed to function
+// -3: member or provider found but isDeleted
+int cadb::getStatus(const string table, const int id){
+	int retval = 0;
+	int isDel = 0;
+	string table_status;
+	string resstring;
 
+	if (table.empty()) return -2;
 
+	if (strcmp(table.c_str(), "provider") && strcmp(table.c_str(), "member") && strcmp(table.c_str(), "service")) return -2;
 
+	if (!strcmp(table.c_str(), "provider") || !strcmp(table.c_str(), "member")){
+		resstring = getString(table, "id", to_string(id), "isDeleted");
+		if (resstring.empty()) return -1;
+		isDel = stoi(resstring);
+		if (isDel == 1) return -3;
+	}
+	table_status = table;
+	table_status += "_status";
 
+	resstring = getString(table, "id", to_string(id), table_status);
+	if (resstring.empty()) return -1;
+	retval = stoi(resstring);
 
+	return retval;
 
-
-
-
-
-
-
+}
 
 
 // This function serves to input a visit to the transaction table
 //>> INSERT INTO transaction (trans_date, provider_id, service_id, member_id) 
 //>> VALUES ('date', 'provider_id', 'service_id', 'member_id');
-void cadb::insertVisit(const string date, const int provider_id, const int service_id, const int member_id){
+void cadb::insertVisit(const string date, const int provider_id, const int service_id, const int member_id, const string comments){
 
 	// Error checking in here to make sure that transactions map to correct bounds of other tables.
 	if ( provider_id <= 1 || provider_id > getRows("provider") ){
@@ -291,8 +294,13 @@ void cadb::insertVisit(const string date, const int provider_id, const int servi
 		std::cout << "ERROR: Member ID outside of range:" << member_id << std::endl;
 		return;
 	}
+	if (comments.length() > 100 || comments.empty()) {
+		std::cout << ">> ERROR: Comments must be 100 characters or less. Comments entered: " << comments << " is invalid." << std::endl;
+		return;
+	}
+	
 	//Build your query string
-	string insert = "INSERT INTO transaction (trans_date, provider_id, service_id, member_id) VALUES ('";
+	string insert = "INSERT INTO transaction (trans_date, provider_id, service_id, member_id, comments) VALUES ('";
 	insert += date;
 	insert += "', '";
 	insert += to_string(provider_id);
@@ -300,6 +308,8 @@ void cadb::insertVisit(const string date, const int provider_id, const int servi
 	insert += to_string(service_id);
 	insert += "', '";
 	insert += to_string(member_id);
+	insert += "', '";
+	insert += comments;
 	insert += "');";
 
 	cout << ">> Calling: " << insert << endl;
