@@ -19,6 +19,8 @@ int service_directory:: run(const string & fname)
 	query ="Select DISTINCT service_name, service_number, service_cost ";
 	query +="FROM service ";
 	query +="WHERE service_status = 1; ";
+	
+	service_list.clear();
 
 	db.queryDB(query, ptr); 
 

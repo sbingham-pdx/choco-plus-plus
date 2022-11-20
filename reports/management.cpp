@@ -22,6 +22,8 @@ int management_report:: all_providers(const string & fname)
 		obj.run(num, fname); 
 	}
 
+	if(ptr) delete ptr;
+
 	return 1;
 }
 
@@ -54,6 +56,8 @@ int all_members(const string & fname)
 		if(!num) continue;
 		obj.run(num, fname); 
 	}
+
+	if(ptr) delete ptr;
 
 	return 1;
 

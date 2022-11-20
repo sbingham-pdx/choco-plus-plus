@@ -1,12 +1,15 @@
 CC = g++
 DEBUG = -g
 DEFINES =
-DEFINES += -I/usr/include/mysqlcppconn
+#DEFINES += -DTEST
 
 CFLAGS = $(DEBUG) -Wall -Wshadow -Wunreachable-code -Wredundant-decls \
         -Wmissing-declarations \
     	-Wno-return-local-addr \
 		-Wuninitialized -Werror -Wunsafe-loop-optimizations $(DEFINES)
+
+IFLAGS = 
+IFLAGS += -I/usr/include/mysqlcppconn
 
 LFLAGS = 
 LFLAGS += -L/usr/lib
@@ -29,7 +32,7 @@ all: $(PROGS)
 #	chmod a+rx,g-w $@
 
 $(PROG1):  $(FILES) #?akefile
-	$(CC) $(CFLAGS) -o $@ $^ $(LFLAGS)
+	$(CC) $(CFLAGS) $(IFLAGS) -o $@ $^ $(LFLAGS)
 	chmod a+rx,g-w $@
 
 #all: cadb.h

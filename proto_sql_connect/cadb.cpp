@@ -257,6 +257,28 @@ int cadb::getID(const string table, const string tomatch){
 	return id;
 }
 
+// Return values:
+// -1 : invalid table information passed to function
+int cadb::getStatus(const string table, const int id){
+	int retval = 0;
+	int isDel = 0;
+
+	if (table.empty()) return -1;
+
+	if (strcmp(table.c_str(), "provider") && strcmp(table.c_str(), "member") && strcmp(table.c_str(), "service")) return -1;
+
+	if (!strcmp(table.c_str(), "provider") || !strcmp(table.c_str(), "member")){
+		isDel = stoi(getString(table, "id", to_string(id), "isDeleted"));
+		if (isDel == 1) return 3;
+
+	}
+	return retval;
+		
+
+
+
+}
+
 
 
 
