@@ -1,3 +1,8 @@
+#pragma once
+
+#ifndef REPORTS_H
+#define REPORTS_H
+
 #include <fstream>
 #include <forward_list>
 #include <chrono>
@@ -101,11 +106,11 @@ class service
 //				scount: the count of services rendered
 //				total: the total owed the the provider for the week. 
 
-class provider
+class provider_ap_record
 {
 	public: 
-		provider(); 
-		~provider();
+		provider_ap_record(); 
+		~provider_ap_record();
 		float display(char, int &);
 		float write(char, ofstream &, int &);
 		void read(const string&, int , int, float);
@@ -125,13 +130,18 @@ class t_id
 		~t_id(); 
 		float display();
 		float write(ofstream &);
-		void read(int, int, float);
+		void read(int, int,const string &, int, float);
 		bool operator<(const t_id &) const;
 		float get_cost() const;
-		int compare_provider(const provider & ) const;
+		int compare_provider(const provider_ap_record & ) const;
+		int compare_provider(const t_id & ) const;
+		bool operator==(const t_id &) const;
+		int get_id() const;
 	protected: 
 		int provider_number; 
 		int id; 
+		string date;
+		int member;
 		float fee;
 };
 // The member report class handles generating and outputing the indivudal 
@@ -224,11 +234,11 @@ class accounting_report
 	protected:
 		string start_date; 
 		string end_date;
-		forward_list<provider> provider_list;
+		forward_list<provider_ap_record> provider_list;
 		forward_list<t_id> t_id_list;
 		int display(char); 
 		int write(char, const string &); 
-		int compare_total(const provider&);
+		int compare_total(const provider_ap_record&);
 };
 
 // The service_directory class handles generating and outputing the service
@@ -276,4 +286,9 @@ class management_report
 
 //used to determine report dates, based on current system date. 
 string date(int offset);
+int validate_date(const string & toval);
+
+//compare floats
 bool compare_float(float x, float y, float epsilon = 0.01f);
+
+#endif //REPORTS_H

@@ -20,7 +20,8 @@ int service_directory:: run(const string & fname)
 	query +="FROM service ";
 	query +="WHERE service_status = 1; ";
 	
-	service_list.clear();
+	if(!service_list.empty())
+		service_list.clear();
 
 	db.queryDB(query, ptr); 
 
@@ -34,6 +35,7 @@ int service_directory:: run(const string & fname)
 	
 	if(ptr)
 		delete ptr;
+
 	service_list.sort(); 
 
 	if(fname == "") display(); 

@@ -14,11 +14,13 @@ int accounting_report::run(char type, const string & fname)
 	string query, mod_query;
 	sql::ResultSet *res=NULL, *res2=NULL;
 	cadb db;
-	provider temp;
+	provider_ap_record temp;
 	t_id temp2;
 
-	provider_list.clear();
-	t_id_list.clear();
+	if(!provider_list.empty())	
+		provider_list.clear();
+	if(!t_id_list.empty())
+		t_id_list.clear();
 
 	start_date = date(6); 
 	end_date = date(0); 
@@ -31,10 +33,11 @@ int accounting_report::run(char type, const string & fname)
 	query+= "AND b.trans_date >= '" + start_date + "' ";
 	query+= "GROUP BY a.provider_name, a.provider_number;";
 
-	mod_query = "SELECT b.provider_number, a.id , c.service_cost ";
+	mod_query = "SELECT b.provider_number, a.id, a.trans_date, d.member_number, c.service_cost ";
 	mod_query+= "FROM transaction a ";
 	mod_query += "JOIN service c ON a.service_id = c.id ";
 	mod_query += "JOIN provider b ON b.id = a.provider_id ";
+	mod_query += "JOIN member d ON a.member_id = d.id ";
 	mod_query += "AND a.trans_date >= '" + start_date + "' ";
 	mod_query += "AND a.trans_date <= '" + end_date +"' ";
 	mod_query += "AND a.payment_status = 0 ";
@@ -51,16 +54,19 @@ int accounting_report::run(char type, const string & fname)
 
 	while(res2 && res2->next())
 	{
-		temp2.read(res2->getInt(1), res2->getInt(2), res2->getDouble(3));
+		temp2.read(res2->getInt(1), res2->getInt(2), res2->getString(3), res2->getInt(4), res2->getDouble(5));
 		t_id_list.push_front(temp2);
 	}
+
 	if(res2)
 		delete res2;
 	if(res)
 		delete res; 
 
-	//sort provider_list?
+
 	if(provider_list.empty()) return 0;
+
+	t_id_list.sort();
 
 	if(type == 'C')
 	{
@@ -93,14 +99,21 @@ int accounting_report::run(char type, const string & fname)
 		return 1; 
 }
 
-int accounting_report:: compare_total(const provider & to_comp)
+int accounting_report:: compare_total(const provider_ap_record & to_comp)
 {
 	float sum = 0.0;
 
 	for(auto it = t_id_list.begin(); it!=t_id_list.end(); ++it)
 	{
-		if(it->compare_provider(to_comp))
+		if(!it->compare_provider(to_comp)) continue;
+
+		while(it!=t_id_list.end() && it->compare_provider(to_comp))
+		{	
 			sum += it->get_cost(); 
+			++it;
+		}
+
+		break;
 	}
 
 	return to_comp.compare(sum);
@@ -134,7 +147,7 @@ int accounting_report::display(char type)
 
 	else
 	{
-		cout << "Provider Number\t\tService ID\t\tService Cost" << endl; 
+		cout << "Provider Number\t\tService ID\t\tService Date\t\tMember Number\t\tService Cost" << endl; 
 		for (auto it = t_id_list.begin(); it != t_id_list.end(); ++it)
 		{
 			it->display();
@@ -155,7 +168,7 @@ int accounting_report::write(char type, const string & fname)
 	if(type == 'A' || type == 'B')
 		file.open(fname + ".csv");
 	else 
-		file.open(fname +"paid.csv");
+		file.open(fname +"_detailed_report.csv");
 
 	if(!file) return 0;
 
@@ -183,7 +196,7 @@ int accounting_report::write(char type, const string & fname)
 
 	else
 	{
-		file << "Provider Number,Service ID,Service Cost" << endl; 
+		file << "Provider Number,Service ID,Service Date,Member Number,Service Cost" << endl; 
 		for (auto it = t_id_list.begin(); it != t_id_list.end(); ++it)
 		{
 			it->write(file);
@@ -192,6 +205,7 @@ int accounting_report::write(char type, const string & fname)
 	}
 
 	file.close();
+
 	return 1;
 }
 
