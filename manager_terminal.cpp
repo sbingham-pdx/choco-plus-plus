@@ -3,31 +3,38 @@
 
 //Include modular files 
 #include "reports.h"
-//#include "cadb.h"
 
-//Function prototype 
+
+//DEFINED Macros
+#define ERROR
+//Function prototypes 
 void to_report(string &);   //Grabs the file name 
-void to_id(int & a_id);     //Grabs an ID
+void to_id(int &);     //Grabs an ID
+void to_visit(int &);
+
+//int manager(); 
 
 int
 main()
 {
 
     //Local variables 
-    int choice, exception, id; 
+    int choice, id; 
     management_report manage_report; 
     string report; 
 
     do{
         //The different options the manager terminal will carry out 
         cout  << "\n0 = Exit the manager terminal"
-              << "\n1 = Display all providers"
-              << "\n2 = Display a specific provider"
-              << "\n3 = Dispaly all members "
-              << "\n4 = Display a specific member"
-              << "\n5 = Display the account payable report"
-              << "\n6 = Display the electronic fund transfer"
-              << "\n7 = Display the provider directoy\n";
+              << "\n1 = Display all providers to a file"
+              << "\n2 = Display a specific provider to a file"
+              << "\n3 = Dispaly all members to a file"
+              << "\n4 = Display a specific member to a file"
+              << "\n5 = Display the account payable report to a file"
+              << "\n6 = Display the electronic fund transfer to a file"
+              << "\n7 = Display the provider directoy to a file"
+              << "\n8 = Display the paid visits to a file"
+              << "\n9 = Mark a visit a paid\n"; 
  
         cout << "\nPlease choose from the menu above: ";
         cin >> choice; cin.ignore(100,'\n');
@@ -76,6 +83,14 @@ main()
                 to_report(report);
                 manage_report.provider_directory(report);
                 break; 
+            //Displays the reports to be paid 
+            case 8:
+                to_report(report); 
+                manage_report.batch_mark_paid(report);
+            //Marks a visit as paid based on the transaction ID
+            case 9: 
+                to_visit(id); 
+                manage_report.mark_paid(id); 
             //Default when none of the cases are true
             default: /* ? */
                 cout << "\nNo matches found, ERROR NUMBER: " << choice << endl;
@@ -88,7 +103,8 @@ main()
     return 1;
     
 }
-//Function definition 
+#ifdef ERROR
+//Function definitions
 void
 to_report(string & a_report){
 
@@ -104,26 +120,46 @@ to_report(string & a_report){
         }
     }
     catch(...){
-        cout << "\nAn invalid file, ERROR FILE: INVALID " << endl; 
-
+        cout << "\nAn invalid file (Must Exist), ERROR FILE: INVALID " << endl; 
+        to_report(a_report);
     }
 }
 void 
 to_id(int & a_id)
-{
+{ 
     //Exception handling in case the ID is not valid 
     try{
 
         cout << "\nPlease enter the ID: ";
         cin >> a_id; //cin.ignore(100, '\n'); 
 
-        if(a_id < 6 || a_id > 7){
+        if(a_id < 9 || a_id > 9){
             throw a_id;
         }
     }
     catch(int a_id){
-        cout << "\nAn invalid ID # format (Must be 6 digits) , ERROR NUMBER: " << a_id << endl; 
-
+        cout << "\nAn invalid ID # format (Must Be 9 Digits) , ERROR NUMBER: " << a_id << endl;
+        to_id(a_id); 
     }
 }
+void
+to_visit(int & a_id)
+{
+    //Exception handling in case the transaction ID is not valid 
+    try{
+
+        cout << "\nPlease enter the ID: ";
+        cin >> a_id; //cin.ignore(100, '\n'); 
+
+        if(a_id < 6 || a_id > 6){
+            throw a_id;
+        }
+    }
+    catch(int a_id){
+        cout << "\nAn invalid ID # format (Must Be 6 Digits) , ERROR NUMBER: " << a_id << endl;
+        to_visit(a_id); 
+    }
+}
+#endif // ERROR
+
 #endif // _MANAGER
