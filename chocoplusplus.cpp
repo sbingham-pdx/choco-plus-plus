@@ -1,5 +1,6 @@
 #include <iostream>
 #include "pterminal.cpp"
+#include "reports/reports.h"
 using namespace std; 
 
 int main(){
