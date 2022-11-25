@@ -235,18 +235,18 @@ int provider_ap_record:: compare_provider(int pn) const
 	if(pn != number) return 0; 
 	return 1;
 }
-/**************** service ***********************************/ 
+/**************** service_record ***********************************/ 
 
 
-service:: service()
+service_record:: service_record()
 {
 }
 
-service:: ~service()
+service_record:: ~service_record()
 {
 }
 
-void service:: display()
+void service_record:: display()
 {
 	cout << left << setw(24) << name
 	     << left << setw(15) << service_code
@@ -254,7 +254,7 @@ void service:: display()
 	return; 
 }
 
-void service:: write(ofstream & file)
+void service_record:: write(ofstream & file)
 {
 	if(!file) return;
 
@@ -264,7 +264,7 @@ void service:: write(ofstream & file)
 	return; 
 }
 
-void service:: read(const string & nname, int nservice_code, float nfee)
+void service_record:: read(const string & nname, int nservice_code, float nfee)
 {
 	name = nname; 
 	service_code = nservice_code; 
@@ -274,7 +274,7 @@ void service:: read(const string & nname, int nservice_code, float nfee)
 }
 
 
-bool service:: operator<(const service & two) const
+bool service_record:: operator<(const service_record & two) const
 {
 	if(name < two.name) return true; 
 	return false; 

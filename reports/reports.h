@@ -82,15 +82,15 @@ class provider_service
 //				service_code: the code of the service provided
 //				fee: the cost of the service provided
 
-class service
+class service_record
 {
 	public: 
-		service(); 
-		~service(); 
+		service_record(); 
+		~service_record(); 
 		 void display(); 
 		 void write(ofstream &); 
 		 void read(const string &, int, float);
-		 bool operator<(const service &)  const;
+		 bool operator<(const service_record &)  const;
 	protected: 
 		string name;
 		int service_code; 
@@ -252,7 +252,7 @@ class service_directory
 		~service_directory(); 
 		int run(const string & fname = "");
 	protected: 
-		forward_list<service> service_list;
+		forward_list<service_record> service_list;
 
 		int display();
 		int write(const string & fname);
