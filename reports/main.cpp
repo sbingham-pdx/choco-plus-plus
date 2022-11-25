@@ -6,12 +6,9 @@ int main()
 {
 	management_report obj;
 
-	obj.all_providers("test");
-	obj.all_members("test2");
-	obj.ap_report("aptest");
 	obj.eft_report("efttest");
-	obj.provider_directory("pdir");
-
+	obj.batch_mark_paid("efttest_detailed_report");
+	obj.eft_report("efttest2");
 	return 0;
 }
 
