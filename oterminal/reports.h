@@ -18,13 +18,13 @@ using sysclock_t = std::chrono::system_clock;
 // The member_report, provider_report, and management report classes are the only 
 // ones dessigned to be utilized by client/terminal. 
 
-// The member service class handles service record
+// The member service_record class handles service_record record
 // data pulled from the database for the individual 
 // member report. 
 // Data Members: 
-//				date: the data the service was provided
-//				service_name: the name of the service
-//				provider: the provider who provided the service
+//				date: the data the service_record was provided
+//				service_name: the name of the service_record
+//				provider: the provider who provided the service_record
 
 class member_service
 {
@@ -42,18 +42,18 @@ class member_service
 		string provider;
 };
 
-// The provider service class handles service record
+// The provider service_record class handles service_record record
 // data pulled from the database for the individual 
 // provider report. 
 // Data Members: 
-//				sdate: the data the service was provided
-//				rdate: the date the service was recorded
+//				sdate: the data the service_record was provided
+//				rdate: the date the service_record was recorded
 //				mname: the name of the member who received the
-//						service.
+//						service_record.
 //				mnumber: the member number of the member who received
-//						 the service. 
-//				service_code: the code of the service provided
-//				fee: the cost of the service provided
+//						 the service_record. 
+//				service_code: the code of the service_record provided
+//				fee: the cost of the service_record provided
 
 class provider_service
 {
@@ -75,22 +75,22 @@ class provider_service
 		float fee; 
 };
 
-// The  service class handles the service option
-// data pulled from the database for the service directory. 
+// The  service_record class handles the service_record option
+// data pulled from the database for the service_record directory. 
 // Data Members: 
-//				name: the name of the service
-//				service_code: the code of the service provided
-//				fee: the cost of the service provided
+//				name: the name of the service_record
+//				service_code: the code of the service_record provided
+//				fee: the cost of the service_record provided
 
-class service
+class service_record
 {
 	public: 
-		service(); 
-		~service(); 
+		service_record(); 
+		~service_record(); 
 		 void display(); 
 		 void write(ofstream &); 
 		 void read(const string &, int, float);
-		 bool operator<(const service &)  const;
+		 bool operator<(const service_record &)  const;
 	protected: 
 		string name;
 		int service_code; 
@@ -150,7 +150,7 @@ class t_id
 //				Run:   Purpose: runs the report base on the Member Number
 //								 passed in by the user 
 //					   Arguments: Member Number(int), the member who's weekly 
-//								  service report should be run. 
+//								  service_record report should be run. 
 //								  fname: the name of the file where the report should be 
 //										 stored (.csv will automtically be added end).
 //										 File will be overwritten. 
@@ -181,16 +181,16 @@ class member_report
 };
 
 // The provider report class handles generating and outputing the indivudal 
-// provider report, and the service directory.
+// provider report, and the service_record directory.
 // Client Methods: 
 //				Run:   Purpose: runs the report base on the Provider Number
 //								 passed in by the user 
 //					   Arguments: Provider Number(int), the provider who's weekly 
-//								  service report should be run. 
+//								  service_record report should be run. 
 //								  fname: the name of the file where the report should be 
 //										 stored (.csv will automtically be added end).
 //										 File will be overwritten. 
-//	provider_directory:	Purpose: generates the service directory. 
+//	provider_directory:	Purpose: generates the service_record directory. 
 //						Arguments: fname: the name of the file where the report should be 
 //										 stored (.csv will automtically be added end).
 //										 File will be overwritten. 		
@@ -241,7 +241,7 @@ class accounting_report
 		int compare_total(const provider_ap_record&);
 };
 
-// The service_directory class handles generating and outputing the service
+// The service_directory class handles generating and outputing the service_record
 // directory.
 // Client Methods: None, only meant to be utilized by the management class, and 
 //				   provider class. 
@@ -252,7 +252,7 @@ class service_directory
 		~service_directory(); 
 		int run(const string & fname = "");
 	protected: 
-		forward_list<service> service_list;
+		forward_list<service_record> service_list;
 
 		int display();
 		int write(const string & fname);

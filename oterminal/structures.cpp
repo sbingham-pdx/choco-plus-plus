@@ -1,5 +1,7 @@
 #include "structures.h"
 
+static cadb database;
+
 // Implementations of class methods for visit
 
 // This function will read in input from the user and set up the struct for use. A boolean will return
@@ -37,12 +39,12 @@ void visit::insert()
     // void insertVisit(const string date, const int provider_id, const int service_id, const int member_id)
     
     // Convert datatypes
-    string p_number = to_string(provider_id);
-    string m_number = to_string(member_id);
-    string service_number = to_string(service_id);
-    
+    // string p_number = to_string(provider_id);
+    // string m_number = to_string(member_id);
+    // string service_number = to_string(service_id);
+
     // Insert
-    insertProvider(date, p_number, service_number, m_number);
+    database.insertVisit(date, provider_id, service_id, member_id, comment);
 }
 
 // COMPARE NOT IMPLEMENTED YET FOR VISIT, ARE WE COMPARING SERVICE ID OR DATE? WHAT FORMAT IS DATE?
@@ -85,7 +87,7 @@ void provider::insert()
     string number = to_string(provider_id);
     
     // Insert
-    insertProvider(number, name, street, city, state, zip);
+    database.insertProvider(number, name, street, city, state, zip);
 }
 
 // Implementations of class methods for member
@@ -126,7 +128,7 @@ void member::insert()
     string number = to_string(member_id);
     
     // Insert
-    insertProvider(number, name, street, city, state, zip);
+    database.insertMember(number, name, street, city, state, zip);
 }
 
 // Implementations of class methods for service
@@ -171,5 +173,5 @@ void service::insert()
     string cost = to_string(fee);
     
     // Insert
-    insertProvider(service_number, name, cost);
+    database.insertService(service_number, name, cost);
 }

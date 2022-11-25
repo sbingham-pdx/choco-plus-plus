@@ -14,7 +14,7 @@ int service_directory:: run(const string & fname)
 	cadb db; 
 	sql::ResultSet *ptr = NULL;
 	string query; 
-	service temp; 
+	service_record temp; 
 	
 	query ="Select DISTINCT service_name, service_number, service_cost ";
 	query +="FROM service ";
