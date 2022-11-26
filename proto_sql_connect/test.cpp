@@ -13,9 +13,15 @@ main()
 #ifdef TEST
 	cout << "Define test worked!" << endl;
 #endif // TEST
+<<<<<<< HEAD
 	mydb.setCell("provider", "provider_number", "333333333", "provider_status", "0");
 
 	//cout << "Charlie status: " << charliestatus << endl;
+=======
+	int charliestatus = mydb.getStatus("member", 33);
+
+	cout << "Charlie status: " << charliestatus << endl;
+>>>>>>> 2cc0a9c138dfdf31f35c675a19bf9492fe40ee10
 
 	//int provider_id = 0;//(rand() % 25) + 1;
 	//int service_id = 0; //(rand() % 15) + 1;
