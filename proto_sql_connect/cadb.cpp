@@ -295,11 +295,7 @@ void cadb::insertVisit(const string date, const int provider_id, const int servi
 		return;
 	}
 	if (comments.length() > 100 || comments.empty()) {
-<<<<<<< HEAD
 		std::cout << ">> ERROR: Comments must be 100 characters or less. Comments entered: \"" << comments << "\" is invalid." << std::endl;
-=======
-		std::cout << ">> ERROR: Comments must be 100 characters or less. Comments entered: " << comments << " is invalid." << std::endl;
->>>>>>> 2cc0a9c138dfdf31f35c675a19bf9492fe40ee10
 		return;
 	}
 	
