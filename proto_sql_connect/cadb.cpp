@@ -224,7 +224,7 @@ int cadb::getID(const string table, const string tomatch){
 	}
 	if (!strcmp(table.c_str(), "service")){
 		if (tomatch.length() != 6 || tomatch.empty()) {
-			std::cout << ">> ERROR: Service Number must be 9 digits. Service Number: \"" << tomatch << "\" is invalid." << std::endl;
+			std::cout << ">> ERROR: Service Number must be 6 digits. Service Number: \"" << tomatch << "\" is invalid." << std::endl;
 			return id;
 		}
 	}
