@@ -11,7 +11,7 @@ void oterminal::printMenu() {
     cout << "Welcome to Choco-Plus-Plus!\n---\n";
     cout << "Please enter a selection:\n";
     cout << "(1) Add new provider (2) Add new member (3) Add new service\n";
-    cout << "(4) Update provider status (5) Update member status (6) Update service status\n";
+    cout << "(4) Update existing provider (5) Update existing member (6) Update existing service\n";
     cout << "Enter any other integer to quit.\n";
 }
 
@@ -105,31 +105,43 @@ service oterminal::inputService() {
     return newService;
 }
 
+// STATUS
 // 1 for status active
 // 0 status suspended
 // -1 for ID not found
 // -2 : invalid table information passed to function
 // -3: member or provider found but isDeleted
+// DELETED
+// 0 for not deleted
+// 1 for deleted
 void oterminal::interpretProviderStatus(const int status, const string providerToEdit) {
     switch(status) {
         case 1: {
             cadb tempDatabase;
             cout << "This provider status is ACTIVE.\n";
-            cout << "Would you like to suspend this provider?\n";
-            cout << "(1) Yes (2) No\n";
+            cout << "Would you like to suspend or delete this provider?\n";
+            cout << "(1) Suspend (2) Delete (3) Neither\n";
             int choice = validateInputInteger();
             if (choice == 1) {
-                tempDatabase.setCell("provider", "provider_number", providerToEdit, "provider_status", "0");
+                tempDatabase.setCell("provider", "id", providerToEdit, "provider_status", "0");
+                cout << "This provider has been suspended.\n";
+            } else if (choice == 2) {
+                tempDatabase.setCell("provider", "id", providerToEdit, "isDeleted", "1");
+                cout << "This provider has been deleted.\n";
             }
         } break;
         case 0: {
             cadb tempDatabase;
             cout << "This provider status is SUSPENDED.\n";
-            cout << "Would you like to activate this provider?\n";
-            cout << "(1) Yes (2) No\n";
+            cout << "Would you like to activate or delete this provider?\n";
+            cout << "(1) Activate (2) Delete (3) Neither\n";
             int choice = validateInputInteger();
             if (choice == 1) {
-                tempDatabase.setCell("provider", "provider_number", providerToEdit, "provider_status", "1");
+                tempDatabase.setCell("provider", "id", providerToEdit, "provider_status", "1");
+                cout << "This provider has been activated.\n";
+            } else if (choice == 2) {
+                tempDatabase.setCell("provider", "id", providerToEdit, "isDeleted", "1");
+                cout << "This provider has been deleted.\n";
             }
         } break;
         case -1: {
@@ -139,7 +151,15 @@ void oterminal::interpretProviderStatus(const int status, const string providerT
             cout << "ERROR: Invalid table information passed to function.\n";
         } break;
         case -3: {
-            cout << "ERROR: Member or provider found, but was deleted and cannot be edited.\n";
+            cadb tempDatabase;
+            cout << "This provider was found, but was deleted.\n";
+            cout << "Would you like to reenable this provider?\n";
+            cout << "(1) Yes (2) No\n";
+            int choice = validateInputInteger();
+            if (choice == 1) {
+                tempDatabase.setCell("provider", "id", providerToEdit, "isDeleted", "0");
+                cout << "This provider has been reenabled.\n";
+            }
         } break;
         default: {
             cout << "ERROR: Status of provider was unattainable at this time. Try again later.\n";
@@ -152,21 +172,29 @@ void oterminal::interpretMemberStatus(const int status, const string memberToEdi
         case 1: {
             cadb tempDatabase;
             cout << "This members status is ACTIVE.\n";
-            cout << "Would you like to suspend this member?\n";
-            cout << "(1) Yes (2) No\n";
+            cout << "Would you like to suspend or delete this member?\n";
+            cout << "(1) Suspend (2) Delete (3) Neither\n";
             int choice = validateInputInteger();
             if (choice == 1) {
-                tempDatabase.setCell("member", "member_number", memberToEdit, "member_status", "0");
+                tempDatabase.setCell("member", "id", memberToEdit, "member_status", "0");
+                cout << "This member has been suspended.\n";
+            } else if (choice == 2) {
+                tempDatabase.setCell("member", "id", memberToEdit, "isDeleted", "1");
+                cout << "This member has been deleted.\n";
             }
         } break;
         case 0: {
             cadb tempDatabase;
             cout << "This members status is SUSPENDED.\n";
-            cout << "Would you like to activate this member?\n";
-            cout << "(1) Yes (2) No\n";
+            cout << "Would you like to activate or delete this member?\n";
+            cout << "(1) Activate (2) Delete (3) Neither\n";
             int choice = validateInputInteger();
             if (choice == 1) {
-                tempDatabase.setCell("member", "member_number", memberToEdit, "member_status", "1");
+                 tempDatabase.setCell("member", "id", memberToEdit, "member_status", "1");
+                cout << "This member has been activated.\n";
+            } else if (choice == 2) {
+                 tempDatabase.setCell("member", "id", memberToEdit, "isDeleted", "1");
+                cout << "This member has been deleted.\n";
             }
         } break;
         case -1: {
@@ -176,7 +204,15 @@ void oterminal::interpretMemberStatus(const int status, const string memberToEdi
             cout << "ERROR: Invalid table information passed to function.\n";
         } break;
         case -3: {
-            cout << "ERROR: Member was found, but was deleted and cannot be edited.\n";
+            cadb tempDatabase;
+            cout << "Member was found, but was deleted.\n";
+            cout << "Would you like to reenable this member?\n";
+            cout << "(1) Yes (2) No\n";
+            int choice = validateInputInteger();
+            if (choice == 1) {
+                tempDatabase.setCell("member", "id", memberToEdit, "isDeleted", "0");
+                cout << "This member has been reenabled.\n";
+            }
         } break;
         default: {
             cout << "ERROR: Status of member was unattainable at this time. Try again later.\n";
@@ -189,21 +225,31 @@ void oterminal::interpretServiceStatus(const int status, const string serviceToE
         case 1: {
             cadb tempDatabase;
             cout << "This service status is ACTIVE.\n";
-            cout << "Would you like to suspend this member?\n";
-            cout << "(1) Yes (2) No\n";
+            cout << "Would you like to suspend or delete this member?\n";
+            cout << "(1) Suspend (2) Delete (3) Neither\n";
             int choice = validateInputInteger();
             if (choice == 1) {
-                tempDatabase.setCell("service", "service_number", serviceToEdit, "service_status", "0");
+                tempDatabase.setCell("service", "id", serviceToEdit, "service_status", "0");
+                cout << "This service has been suspended.\n";
+            } else if (choice == 2) {
+                // no isDelete for services?
+                // tempDatabase.setCell("service", "id", serviceToEdit, "isDeleted", "0");
+                // cout << "This service has been deleted.\n";
             }
         } break;
         case 0: {
             cadb tempDatabase;
             cout << "This service status is SUSPENDED.\n";
-            cout << "Would you like to activate this member?\n";
-            cout << "(1) Yes (2) No\n";
+            cout << "Would you like to activate or delete this member?\n";
+            cout << "(1) Activate (2) Delete (3) Neither\n";
             int choice = validateInputInteger();
             if (choice == 1) {
-                tempDatabase.setCell("service", "service_number", serviceToEdit, "service_status", "1");
+                tempDatabase.setCell("service", "id", serviceToEdit, "service_status", "1");
+                cout << "This service has been activated.\n";
+            } else if (choice == 2) {
+                // no isDelete for services?
+                // tempDatabase.setCell("service", "id", serviceToEdit, "isDeleted", "1");
+                // cout << "This service has been deleted.\n";
             }
         } break;
         case -1: {
@@ -213,7 +259,15 @@ void oterminal::interpretServiceStatus(const int status, const string serviceToE
             cout << "ERROR: Invalid table information passed to function.\n";
         } break;
         case -3: {
-            cout << "ERROR: Service was found, but was deleted and cannot be edited.\n";
+            cadb tempDatabase;
+            cout << "Service was found, but was deleted.\n";
+            cout << "Would you like to reenable this service?\n";
+            cout << "(1) Yes (2) No\n";
+            int choice = validateInputInteger();
+            if (choice == 1) {
+                // tempDatabase.setCell("service", "id", serviceToEdit, "isDeleted", "0");
+                // cout << "This service has been reenabled\n";
+            }
         } break;
         default: {
             cout << "ERROR: Status of service was unattainable at this time. Try again later.\n";
@@ -280,9 +334,8 @@ int oterminal::useTerminal() {
                 cout << "Returning to main menu.\n---\n";
                 break;
             case 4: {
-                // TODO
                 cadb tempDatabase;
-                cout << "Updating provider status . . .\n";
+                cout << "Updating provider . . .\n";
                 cout << "Enter provider number\n";
                 int provider_id_tocheck = tempDatabase.getID("provider", to_string(validateInputInteger()));
                 int status = tempDatabase.getStatus("provider", provider_id_tocheck);
@@ -292,27 +345,23 @@ int oterminal::useTerminal() {
                 cout << "Returning to main menu.\n---\n";
                 break;
             case 5: {
-                // TODO
-                /*
-                cout << "Updating member status . . .\n";
+                cadb tempDatabase;
+                cout << "Updating member . . .\n";
                 cout << "Enter member number\n";
-                int memberToEdit = validateInputInteger();
-                // int status = database.getStatus("member", memberToEdit);
-                interpretMemberStatus(status, memberToEdit);
-                */
+                int member_id_tocheck = tempDatabase.getID("member", to_string(validateInputInteger()));
+                int status = tempDatabase.getStatus("member", member_id_tocheck);
+                interpretMemberStatus(status, to_string(member_id_tocheck));
             }   
                 // Returns to main terminal
                 cout << "Returning to main menu.\n---\n";
                 break;
             case 6: {
-                // TODO
-                /*
-                cout << "Updating service status . . .\n";
+                cadb tempDatabase;
+                cout << "Updating service . . .\n";
                 cout << "Enter service number\n";
-                int serviceToEdit = validateInputInteger();
-                int status = database.getStatus("service", serviceToEdit);
-                interpretServiceStatus(status, serviceToEdit);
-                */
+                int service_id_tocheck = tempDatabase.getID("service", to_string(validateInputInteger()));
+                int status = tempDatabase.getStatus("service", service_id_tocheck);
+                interpretServiceStatus(status, to_string(service_id_tocheck));
             }
                 // Returns to main terminal
                 cout << "Returning to main menu.\n---\n";
