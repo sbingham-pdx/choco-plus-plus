@@ -1,9 +1,15 @@
+#pragma once
+
+#ifndef REPORTS_H
+#define REPORTS_H
+
 #include <fstream>
 #include <forward_list>
 #include <chrono>
 #include <sstream>
 #include <iomanip>
 #include "cadb.h"
+#include <cmath>
 using sysclock_t = std::chrono::system_clock;
 
 
@@ -76,20 +82,21 @@ class provider_service
 //				service_code: the code of the service provided
 //				fee: the cost of the service provided
 
-class service
+class service_record
 {
 	public: 
-		service(); 
-		~service(); 
+		service_record(); 
+		~service_record(); 
 		 void display(); 
 		 void write(ofstream &); 
 		 void read(const string &, int, float);
-		 bool operator<(const service &)  const;
+		 bool operator<(const service_record &)  const;
 	protected: 
 		string name;
 		int service_code; 
 		float fee; 
 };
+
 
 // The provider class handles the provider payable data
 // pulled from the database for the AP report/eft report. 
@@ -99,14 +106,16 @@ class service
 //				scount: the count of services rendered
 //				total: the total owed the the provider for the week. 
 
-class provider
+class provider_ap_record
 {
 	public: 
-		provider(); 
-		~provider();
+		provider_ap_record(); 
+		~provider_ap_record();
 		float display(char, int &);
 		float write(char, ofstream &, int &);
 		void read(const string&, int , int, float);
+		int compare(float) const;
+		int compare_provider(int ) const;
 	protected:
 		string name;
 		int number; 
@@ -114,7 +123,27 @@ class provider
 		float total;
 };
 	
-
+class t_id
+{
+	public: 
+		t_id(); 
+		~t_id(); 
+		float display();
+		float write(ofstream &);
+		void read(int, int,const string &, int, float);
+		bool operator<(const t_id &) const;
+		float get_cost() const;
+		int compare_provider(const provider_ap_record & ) const;
+		int compare_provider(const t_id & ) const;
+		bool operator==(const t_id &) const;
+		int get_id() const;
+	protected: 
+		int provider_number; 
+		int id; 
+		string date;
+		int member;
+		float fee;
+};
 // The member report class handles generating and outputing the indivudal 
 // member report. 
 // Client Methods: 
@@ -205,9 +234,11 @@ class accounting_report
 	protected:
 		string start_date; 
 		string end_date;
-		forward_list<provider> provider_list;
+		forward_list<provider_ap_record> provider_list;
+		forward_list<t_id> t_id_list;
 		int display(char); 
 		int write(char, const string &); 
+		int compare_total(const provider_ap_record&);
 };
 
 // The service_directory class handles generating and outputing the service
@@ -221,10 +252,11 @@ class service_directory
 		~service_directory(); 
 		int run(const string & fname = "");
 	protected: 
-		forward_list<service> service_list;
+		forward_list<service_record> service_list;
 
 		int display();
 		int write(const string & fname);
+		
 };
 
 // The management class handles generating and outputing all management reports
@@ -246,9 +278,17 @@ class management_report
 		int ap_report(const string & fname = "");
 		int eft_report(const string & fname = ""); 
 		int provider_directory(const string & fname = "");
+		int batch_mark_paid(const string & fname);
+		int mark_paid(int transaction_id);
 	protected: 
 };
 
 
 //used to determine report dates, based on current system date. 
 string date(int offset);
+int validate_date(const string & toval);
+
+//compare floats
+bool compare_float(float x, float y, float epsilon = 0.01f);
+
+#endif //REPORTS_H

@@ -14,13 +14,14 @@ int service_directory:: run(const string & fname)
 	cadb db; 
 	sql::ResultSet *ptr = NULL;
 	string query; 
-	service temp; 
+	service_record temp; 
 	
 	query ="Select DISTINCT service_name, service_number, service_cost ";
 	query +="FROM service ";
 	query +="WHERE service_status = 1; ";
 	
-	service_list.clear();
+	if(!service_list.empty())
+		service_list.clear();
 
 	db.queryDB(query, ptr); 
 
@@ -34,6 +35,7 @@ int service_directory:: run(const string & fname)
 	
 	if(ptr)
 		delete ptr;
+
 	service_list.sort(); 
 
 	if(fname == "") display(); 
