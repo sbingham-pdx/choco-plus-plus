@@ -110,7 +110,7 @@ service oterminal::inputService() {
 // -1 for ID not found
 // -2 : invalid table information passed to function
 // -3: member or provider found but isDeleted
-void oterminal::interpretProviderStatus(const int status, const string providerNumber) {
+void oterminal::interpretProviderStatus(const int status, const string providerToEdit) {
     switch(status) {
         case 1: {
             cadb tempDatabase;
@@ -119,17 +119,17 @@ void oterminal::interpretProviderStatus(const int status, const string providerN
             cout << "(1) Yes (2) No\n";
             int choice = validateInputInteger();
             if (choice == 1) {
-                // TODO: Change status
-                tempDatabase.setCell("provider", "provider_number", providerNumber, "provider_status", "0");
+                tempDatabase.setCell("provider", "provider_number", providerToEdit, "provider_status", "0");
             }
         } break;
         case 0: {
+            cadb tempDatabase;
             cout << "This provider status is SUSPENDED.\n";
             cout << "Would you like to activate this provider?\n";
             cout << "(1) Yes (2) No\n";
             int choice = validateInputInteger();
             if (choice == 1) {
-                // TODO: Change status
+                tempDatabase.setCell("provider", "provider_number", providerToEdit, "provider_status", "1");
             }
         } break;
         case -1: {
@@ -150,21 +150,23 @@ void oterminal::interpretProviderStatus(const int status, const string providerN
 void oterminal::interpretMemberStatus(const int status, const string memberToEdit) {
     switch(status) {
         case 1: {
+            cadb tempDatabase;
             cout << "This members status is ACTIVE.\n";
             cout << "Would you like to suspend this member?\n";
             cout << "(1) Yes (2) No\n";
             int choice = validateInputInteger();
             if (choice == 1) {
-                // TODO: Change status
+                tempDatabase.setCell("member", "member_number", memberToEdit, "member_status", "0");
             }
         } break;
         case 0: {
+            cadb tempDatabase;
             cout << "This members status is SUSPENDED.\n";
             cout << "Would you like to activate this member?\n";
             cout << "(1) Yes (2) No\n";
             int choice = validateInputInteger();
             if (choice == 1) {
-                // TODO: Change status
+                tempDatabase.setCell("member", "member_number", memberToEdit, "member_status", "1");
             }
         } break;
         case -1: {
@@ -185,21 +187,23 @@ void oterminal::interpretMemberStatus(const int status, const string memberToEdi
 void oterminal::interpretServiceStatus(const int status, const string serviceToEdit) {
     switch(status) {
         case 1: {
+            cadb tempDatabase;
             cout << "This service status is ACTIVE.\n";
             cout << "Would you like to suspend this member?\n";
             cout << "(1) Yes (2) No\n";
             int choice = validateInputInteger();
             if (choice == 1) {
-                // TODO: Change status
+                tempDatabase.setCell("service", "service_number", serviceToEdit, "service_status", "0");
             }
         } break;
         case 0: {
+            cadb tempDatabase;
             cout << "This service status is SUSPENDED.\n";
             cout << "Would you like to activate this member?\n";
             cout << "(1) Yes (2) No\n";
             int choice = validateInputInteger();
             if (choice == 1) {
-                // TODO: Change status
+                tempDatabase.setCell("service", "service_number", serviceToEdit, "service_status", "1");
             }
         } break;
         case -1: {
