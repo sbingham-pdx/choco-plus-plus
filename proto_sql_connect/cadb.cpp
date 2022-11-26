@@ -431,11 +431,11 @@ void cadb::insertService(const string number, const string name, const string co
 		return;
 	}
 	if (name.length() > 20 || name.empty()) {
-		std::cout << ">> ERROR: Service Name must be 20 characaters or less. Service Name: " << name << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Service Name must be 20 characters or less. Service Name: " << name << " is invalid." << std::endl;
 		return;
 	}
 	if (cost.length() > 6 || cost.empty()) {
-		std::cout << ">> ERROR: Service Name must be 20 characaters or less. Service Name: " << name << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Service Cost string must be 6 characters or less. Service Cost: " << cost << " is invalid." << std::endl;
 		return;
 	}
 	/*if (cost >= 1000 || !cost) {
