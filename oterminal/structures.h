@@ -28,10 +28,10 @@ struct provider
     string city;
     string state;
     string zip;
-    int provider_id;
+    string provider_number;
 
     // Class Methods
-    bool read(const int id, const string name, const string street, const string city, const string state, const string zip);
+    bool read(const string number, const string name, const string street, const string city, const string state, const string zip);
     void insert();
 };
 
@@ -43,22 +43,22 @@ struct member
     string city;
     string state;
     string zip;
-    int member_id;
+    string number;
 
     // Class Methods
-    bool read(const int id, const string name, const string street, const string city, const string state, const string zip);
+    bool read(const string number, const string name, const string street, const string city, const string state, const string zip);
     void insert();
 };
 
 struct service
 {
     // Variables
-    int number;
+    string number;
     string name;
     float fee;
 
     // Class Methods
-    bool read(const int number, const string name, const float fee);
+    bool read(const string number, const string name, const float fee);
     bool operator<(service & operand);
     void insert();
 };

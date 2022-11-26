@@ -5,6 +5,7 @@ using namespace std;
 int main(){
 
 	int selection = 0;
+	oterminal operator_terminal;
     
 	cout << "Welcome to Choco Plus Plus\n";
 	cout << "Please enter an integer for\n(1)Manager, (2)Operator, or (3)Provider terminals\n";
@@ -17,7 +18,7 @@ int main(){
 			break;
 		case 2:
 			cout << "Operator Terminal\n";
-			oterminal();
+			operator_terminal.useTerminal();
 			break;
 		case 3:
 			cout << "Provider Terminal\n";

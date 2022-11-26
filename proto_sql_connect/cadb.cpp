@@ -218,13 +218,13 @@ int cadb::getID(const string table, const string tomatch){
 	
 	if (!strcmp(table.c_str(), "provider") || !strcmp(table.c_str(), "member")){
 		if (tomatch.length() != 9 || tomatch.empty()) {
-			std::cout << ">> ERROR: Identity Number must be 9 digits. Identity Number: " << tomatch << " is invalid." << std::endl;
+			std::cout << ">> ERROR: Identity Number must be 9 digits. Identity Number: \"" << tomatch << "\" is invalid." << std::endl;
 			return id;
 		}
 	}
 	if (!strcmp(table.c_str(), "service")){
 		if (tomatch.length() != 6 || tomatch.empty()) {
-			std::cout << ">> ERROR: Service Number must be 9 digits. Service Number: " << tomatch << " is invalid." << std::endl;
+			std::cout << ">> ERROR: Service Number must be 9 digits. Service Number: \"" << tomatch << "\" is invalid." << std::endl;
 			return id;
 		}
 	}
@@ -281,21 +281,21 @@ void cadb::insertVisit(const string date, const int provider_id, const int servi
 
 	// Error checking in here to make sure that transactions map to correct bounds of other tables.
 	if ( provider_id <= 1 || provider_id > getRows("provider") ){
-		std::cout << "ERROR: Provider ID outside of range:" << provider_id << std::endl;
+		std::cout << "ERROR: Provider ID outside of range:\"" << provider_id << "\"" << std::endl;
 		return;
 	}
 
 	if ( service_id <= 1 || service_id > getRows("service") ){
-		std::cout << "ERROR: Service ID outside of range:" << service_id << std::endl;
+		std::cout << "ERROR: Service ID outside of range:\"" << service_id << "\"" << std::endl;
 		return;
 	}
 
 	if ( member_id <= 1 || member_id > getRows("member") ){
-		std::cout << "ERROR: Member ID outside of range:" << member_id << std::endl;
+		std::cout << "ERROR: Member ID outside of range: \"" << member_id << "\"" << std::endl;
 		return;
 	}
 	if (comments.length() > 100 || comments.empty()) {
-		std::cout << ">> ERROR: Comments must be 100 characters or less. Comments entered: " << comments << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Comments must be 100 characters or less. Comments entered: \"" << comments << "\" is invalid." << std::endl;
 		return;
 	}
 	
@@ -321,33 +321,33 @@ void cadb::insertVisit(const string date, const int provider_id, const int servi
 // before building the execute statement, then calling execute(statement);
 void cadb::insertProvider(const string number, const string name, const string street, const string city, const string state, const string zip){
 	if (number.length() != 9 || number.empty()) {
-		std::cout << ">> ERROR: Provider Number must be 9 digits. Provider Number: " << number << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Provider Number must be 9 digits. Provider Number: \"" << number << "\" is invalid." << std::endl;
 		return;
 	}
 	if (name.length() > 25 || name.empty()) {
-		std::cout << ">> ERROR: Provider Name must be less than 25 characters. Provider Name: " << name << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Provider Name must be less than 25 characters. Provider Name: \"" << name << "\" is invalid." << std::endl;
 		return;
 	}
 	if (street.length() > 25 || street.empty()) {
-		std::cout << ">> ERROR: Provider Street address must be less than 25 characters. Provider Steet Address: " << street << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Provider Street address must be less than 25 characters. Provider Steet Address: \"" << street << "\" is invalid." << std::endl;
 		return;
 	}
 	if (city.length() > 14 || city.empty()) {
-		std::cout << ">> ERROR: Provider City must be less than 14 characters. Provider City: " << city << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Provider City must be less than 14 characters. Provider City: \"" << city << "\" is invalid." << std::endl;
 		return;
 	}
 	if (state.length() != 2 || state.empty()) {
-		std::cout << ">> ERROR: Provider State must be 2 characters. Provider State: " << state << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Provider State must be 2 characters. Provider State: \"" << state << "\" is invalid." << std::endl;
 		return;
 	}
 	if (zip.length() != 5 || zip.empty()) {
-		std::cout << ">> ERROR: Provider Zipcode must be 5 characters. Provider Zipcode: " << zip << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Provider Zipcode must be 5 characters. Provider Zipcode: \"" << zip << "\" is invalid." << std::endl;
 		return;
 	}
 	// Put in error check for matching provider_number here - make universal
 	// check for match
 	if (findMatch("provider", "provider_number", number)){
-		std::cout << ">> ERROR: Provider Number:" << number << " is already in use." << std::endl;
+		std::cout << ">> ERROR: Provider Number:\"" << number << "\" is already in use." << std::endl;
 		return;
 	}
 
@@ -375,33 +375,33 @@ void cadb::insertProvider(const string number, const string name, const string s
 // before building the execute statement, then calling execute(statement);
 void cadb::insertMember(const string number, const string name, const string street, const string city, const string state, const string zip){
 	if (number.length() != 9 || number.empty()) {
-		std::cout << ">> ERROR: Member Number must be 9 digits. Member Number: " << number << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Member Number must be 9 digits. Member Number: \"" << number << "\" is invalid." << std::endl;
 		return;
 	}
 	if (name.length() > 25 || name.empty()) {
-		std::cout << ">> ERROR: Member Name must be less than 25 characters. Member Name: " << name << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Member Name must be less than 25 characters. Member Name: \"" << name << "\" is invalid." << std::endl;
 		return;
 	}
 	if (street.length() > 25 || street.empty()) {
-		std::cout << ">> ERROR: Member Street address must be less than 25 characters. Member Steet Address: " << street << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Member Street address must be less than 25 characters. Member Steet Address: \"" << street << "\" is invalid." << std::endl;
 		return;
 	}
 	if (city.length() > 14 || city.empty()) {
-		std::cout << ">> ERROR: Member City must be less than 14 characters. Member City: " << city << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Member City must be less than 14 characters. Member City: \"" << city << "\" is invalid." << std::endl;
 		return;
 	}
 	if (state.length() != 2 || state.empty()) {
-		std::cout << ">> ERROR: Member State must be 2 characters. Member State: " << state << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Member State must be 2 characters. Member State: \"" << state << "\" is invalid." << std::endl;
 		return;
 	}
 	if (zip.length() != 5 || zip.empty()) {
-		std::cout << ">> ERROR: Member Zipcode must be 5 characters. Member Zipcode: " << zip << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Member Zipcode must be 5 characters. Member Zipcode: \"" << zip << "\" is invalid." << std::endl;
 		return;
 	}
 	
 	// check for matching number
 	if (findMatch("member", "member_number", number)){
-		std::cout << ">> ERROR: Member Number:" << number << " is already in use." << std::endl;
+		std::cout << ">> ERROR: Member Number:\"" << number << "\" is already in use." << std::endl;
 		return;
 	}
 
@@ -427,15 +427,15 @@ void cadb::insertMember(const string number, const string name, const string str
 
 void cadb::insertService(const string number, const string name, const string cost){
 	if (number.length() != 6 || number.empty()) {
-		std::cout << ">> ERROR: Service Number must be 6 digits. Service Number: " << number << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Service Number must be 6 digits. Service Number: \"" << number << "\" is invalid." << std::endl;
 		return;
 	}
 	if (name.length() > 20 || name.empty()) {
-		std::cout << ">> ERROR: Service Name must be 20 characaters or less. Service Name: " << name << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Service Name must be 20 characters or less. Service Name: \"" << name << "\" is invalid." << std::endl;
 		return;
 	}
 	if (cost.length() > 6 || cost.empty()) {
-		std::cout << ">> ERROR: Service Name must be 20 characaters or less. Service Name: " << name << " is invalid." << std::endl;
+		std::cout << ">> ERROR: Service Cost string must be 6 characters or less. Service Cost: \"" << cost << "\" is invalid." << std::endl;
 		return;
 	}
 	/*if (cost >= 1000 || !cost) {
@@ -444,7 +444,7 @@ void cadb::insertService(const string number, const string name, const string co
 	}*/
 	// check for matching number
 	if (findMatch("service", "service_number", number)){
-		std::cout << ">> ERROR: Service Number:" << number << " is already in use." << std::endl;
+		std::cout << ">> ERROR: Service Number:\"" << number << "\" is already in use." << std::endl;
 		return;
 	}
 	//Build your query string
