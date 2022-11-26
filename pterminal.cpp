@@ -12,6 +12,13 @@ int pterminal() {
 	int pnumber = 0;
 
 	provider this_provider;
+
+	// new service inputs
+	int new_num = 0;
+	int new_year = 0;
+	int new_month = 0;
+	int new_day = 0;
+	char*[100] new_commment = "";
 	
 	// get provider number
 	cout << "Please enter your provider number:\n";
@@ -39,7 +46,9 @@ int pterminal() {
 			// get member number
 			// check member number
 			// if invalid or suspended, ask for member number again
-			// get date of service
+			// get year of service
+			// get month of service
+			// get day of service
 			// get service code
 			// get comments
 			// print information given, y/n confirmation
