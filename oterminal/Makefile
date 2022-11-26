@@ -6,7 +6,7 @@ DEFINES =
 CFLAGS = $(DEBUG) -Wall -Wshadow -Wunreachable-code -Wredundant-decls \
         -Wmissing-declarations \
     	-Wno-return-local-addr \
-		-Wuninitialized -Werror -Wunsafe-loop-optimizations $(DEFINES)
+		-Wuninitialized -Wunsafe-loop-optimizations $(DEFINES)
 
 IFLAGS = 
 IFLAGS += -I/usr/include/mysqlcppconn
@@ -18,10 +18,21 @@ LFLAGS += -lmysqlcppconn
 FILES = \
 	cadb.h\
 	cadb.cpp\
-	test.cpp\
+	eft.cpp\
+	management.cpp\
+	mweek.cpp\
+	oterminal.cpp\
+	oterminal.h\
+	provider.cpp\
+	reports.h\
+	service_directory.cpp\
+	service.cpp\
+	structures.cpp\
+	structures.h\
+	chocoplusplus.cpp\
 	$(NULL)
 		
-PROG1 = cadb
+PROG1 = oterminaltest
 
 PROGS = $(PROG1) 
 
