@@ -36,13 +36,6 @@ bool visit::read(const string date, const int provider_id, const int service_id,
 
 void visit::insert() 
 {
-    // void insertVisit(const string date, const int provider_id, const int service_id, const int member_id)
-    
-    // Convert datatypes
-    // string p_number = to_string(provider_id);
-    // string m_number = to_string(member_id);
-    // string service_number = to_string(service_id);
-
     // Insert
     database.insertVisit(date, provider_id, service_id, member_id, comment);
 }
@@ -81,8 +74,6 @@ bool provider::read(const string number, const string name, const string street,
 
 void provider::insert()
 {
-    // void insertProvider(const string number, const string name, const string street, const string city, const string state, const string zip)
-    
     // Insert
     database.insertProvider(provider_number, name, street, city, state, zip);
 }
@@ -119,8 +110,6 @@ bool member::read(const string number, const string name, const string street, c
 
 void member::insert() 
 {
-    // void insertMember(const string number, const string name, const string street, const string city, const string state, const string zip)
-    
     // Insert
     database.insertMember(number, name, street, city, state, zip);
 }
@@ -147,8 +136,6 @@ bool service::read(const string number, const string name, const float fee)
         this->name = name;
         return true;
     }
-
-    
 }
 
 // Compare services by their service number
@@ -159,8 +146,6 @@ bool service::operator<(service & operand)
 
 void service::insert()
 {
-    // void insertService(const string number, const string name, const string cost)
-    
     // Convert datatypes
     string cost = to_string(fee);
     
