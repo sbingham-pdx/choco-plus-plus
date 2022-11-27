@@ -15,8 +15,6 @@ struct visit
 
     // Class Methods
     bool read(const string date, const int provider_id, const int service_id, const int member_id, const string comment, const float fee);
-    bool operator<(visit & operand);
-    bool compare(visit & operand);
     void insert();
 };
 
