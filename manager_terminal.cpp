@@ -35,7 +35,7 @@ main()
         cout << "\nPlease choose from the menu above: ";
         cin >> choice; cin.ignore(100,'\n');
 
-        //Execute the code based on the choice 
+        //Execute a function based on the choice 
         switch(choice){
             
             //Exits the manager terminal be setting choice to zero 
@@ -100,7 +100,7 @@ main()
     
 }
 #ifdef ERROR
-//Function definitions
+//Function definitions 
 void
 to_report(string & a_report){
 
