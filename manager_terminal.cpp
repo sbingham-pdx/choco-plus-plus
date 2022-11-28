@@ -4,16 +4,12 @@
 //Include modular files 
 #include "reports.h"
 
-
 //DEFINED Macros
 #define ERROR
 //Function prototypes 
 void to_report(string &);   //Grabs the file name 
-void to_id(int &);     //Grabs an ID
-void to_visit(int &);
-
-//int manager(); 
-
+void to_id(int &);          //Grabs an ID
+ 
 int
 main()
 {
@@ -33,8 +29,8 @@ main()
               << "\n5 = Display the account payable report to a file"
               << "\n6 = Display the electronic fund transfer to a file"
               << "\n7 = Display the provider directoy to a file"
-              << "\n8 = Display the paid visits to a file"
-              << "\n9 = Mark a visit a paid\n"; 
+              << "\n8 = Mark the visit as paid to a file\n";
+              //<< "\n9 = Mark a visit a paid\n"; 
  
         cout << "\nPlease choose from the menu above: ";
         cin >> choice; cin.ignore(100,'\n');
@@ -74,6 +70,8 @@ main()
                 manage_report.ap_report(report); 
                 break;
             //Displays the electronic fund transfer via .csv file 
+            //Creates 2 files 
+            //Once approved AP, submit back to case 8, then mark paid 
             case 6: 
                 to_report(report);
                 manage_report.eft_report(report); 
@@ -83,14 +81,12 @@ main()
                 to_report(report);
                 manage_report.provider_directory(report);
                 break; 
-            //Displays the reports to be paid 
+            //Allign with case 6
+            //Get's file that case 6 outputs
             case 8:
                 to_report(report); 
                 manage_report.batch_mark_paid(report);
-            //Marks a visit as paid based on the transaction ID
-            case 9: 
-                to_visit(id); 
-                manage_report.mark_paid(id); 
+                break;
             //Default when none of the cases are true
             default: /* ? */
                 cout << "\nNo matches found, ERROR NUMBER: " << choice << endl;
@@ -133,31 +129,14 @@ to_id(int & a_id)
         cout << "\nPlease enter the ID: ";
         cin >> a_id; //cin.ignore(100, '\n'); 
 
-        if(a_id < 9 || a_id > 9){
+        if(a_id >= 999999999 || a_id < 0){
+        //if(a_id )
             throw a_id;
         }
     }
-    catch(int a_id){
-        cout << "\nAn invalid ID # format (Must Be 9 Digits) , ERROR NUMBER: " << a_id << endl;
+    catch(int ID){
+        cout << "\nAn invalid ID # format (Must Be 9 Digits) , ERROR NUMBER: " << ID << endl;
         to_id(a_id); 
-    }
-}
-void
-to_visit(int & a_id)
-{
-    //Exception handling in case the transaction ID is not valid 
-    try{
-
-        cout << "\nPlease enter the ID: ";
-        cin >> a_id; //cin.ignore(100, '\n'); 
-
-        if(a_id < 6 || a_id > 6){
-            throw a_id;
-        }
-    }
-    catch(int a_id){
-        cout << "\nAn invalid ID # format (Must Be 6 Digits) , ERROR NUMBER: " << a_id << endl;
-        to_visit(a_id); 
     }
 }
 #endif // ERROR
