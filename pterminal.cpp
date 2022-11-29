@@ -2,29 +2,16 @@
 // Provider Terminal
 
 #include <iostream>
+#include <cstring>
+#include "pterminal.h"
 
 using namespace std;
-
-int pterminal();
 
 int pterminal() {
 	int selection = 0;
 	int pnumber = 0;
 
-	provider this_provider;
-
-	// new service inputs
-	int new_num = 0;
-	int new_year = 0;
-	int new_month = 0;
-	int new_day = 0;
-	char*[100] new_commment = "";
-	
-	// get provider number
-	cout << "Please enter your provider number:\n";
-	cin >> pnumber;
-	
-	// find provider in db, attach to this_provider
+	provider_report provider_reporter;	
 
 	// get initial selection
 	cout << "Enter an integer for (1)Directory, (2)Weekly Report, (3)New Service\n";
@@ -33,32 +20,78 @@ int pterminal() {
 	switch(selection) {
 		case 1:
 			cout << "Provider Directory\n";
-			// print directory
-			// return
+      provider_reporter.provider_directory("pdirectory");
+      cout << "Output provider directory to pdirectory.csv\n";
+      return 1;
 			break;
 		case 2:
 			cout << "Weekly Report\n";
-			// print weekly report
-			// return
+			cout << "Building weekly report\n";
+      provider_reporter.run(pnumber, "wreport");
+      cout << "Output provider directory to wreport.csv\n";
+      return 1;
 			break;
 		case 3:
 			cout << "New Service\n";
-			// get member number
-			// check member number
-			// if invalid or suspended, ask for member number again
-			// get year of service
-			// get month of service
-			// get day of service
-			// get service code
-			// get comments
-			// print information given, y/n confirmation
-			// if no, clear out new class
-			// if yes, write to db
-			// return out of pterminal
+      pterminal_service();
 			break;
 		default:
 			cout << "Invalid option, exiting.\n";
 			return 2;
 	}
 	return 1;
+}
+
+
+int pterminal_service(){
+	// new service inputs
+  char pnumber[9] = "";
+	char new_num[9] = "";
+	char new_date[30] = "";
+  int new_service = 0;
+	char new_comment[100] = "";
+  char confirmation[2] = "";
+
+  visit new_visit;
+  cadb database;
+
+	// get provider number
+	cout << "Please enter your provider number:\n";
+	cin >> pnumber;
+  new_visit.provider_id = database.getID("provider", pnumber);
+
+	// get member number
+  cout << "Enter member number for new service\n";
+  cin >> new_num;
+  new_visit.member_id = database.getID("member", new_num);
+
+	// get date of service
+  cout << "Enter date of service\n";
+  cin >> new_date;
+  new_visit.date = new_date;
+
+	// get service code
+  cout << "Enter service code\n";
+  cin >> new_service;
+  new_visit.service_id = database.getID("service", new_num);
+
+	// get comments
+  cout << "Enter comments\n";
+  cin >> new_comment;
+  new_visit.comment = new_comment;
+
+  cout << "Write service to database? [y/n]\n";
+  cin >> confirmation;
+
+  if (!strcmp(confirmation, "y")){
+    cout << "Writing to database\n";
+    new_visit.insert();
+    return 1;
+  } else if (!strcmp(confirmation, "n")){
+    cout << "Cancelling\n";
+    return 0;
+  } else {
+    cout << "Invalid option, cancelling\n";
+    return 0;
+  }
 }

@@ -1,6 +1,6 @@
 #include <iostream>
-#include "pterminal.cpp"
-#include "reports/reports.h"
+#include "pterminal.h"
+//#include "reports/reports.h"
 using namespace std; 
 
 int main(){
@@ -24,7 +24,7 @@ int main(){
 			pterminal();
 			break;
 		default:
-			cout << "Invalid entry, I will die now :(\n";
+			cout << "Invalid entry, goodnight\n";
 			return 2;
 	}
 
