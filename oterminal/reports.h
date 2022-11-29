@@ -10,8 +10,6 @@
 #include <iomanip>
 #include "cadb.h"
 #include <cmath>
-//#include <filesystem>
-//using fs = std::filesystem;
 using sysclock_t = std::chrono::system_clock;
 
 
@@ -20,13 +18,13 @@ using sysclock_t = std::chrono::system_clock;
 // The member_report, provider_report, and management report classes are the only 
 // ones dessigned to be utilized by client/terminal. 
 
-// The member service class handles service record
+// The member service_record class handles service_record record
 // data pulled from the database for the individual 
 // member report. 
 // Data Members: 
-//				date: the data the service was provided
-//				service_name: the name of the service
-//				provider: the provider who provided the service
+//				date: the data the service_record was provided
+//				service_name: the name of the service_record
+//				provider: the provider who provided the service_record
 
 class member_service
 {
@@ -44,18 +42,18 @@ class member_service
 		string provider;
 };
 
-// The provider service class handles service record
+// The provider service_record class handles service_record record
 // data pulled from the database for the individual 
 // provider report. 
 // Data Members: 
-//				service_date: the data the service was provided
-//				record_date: the date the service was recorded
-//				member_name: the name of the member who received the
-//						service.
-//				member_number: the member number of the member who received
-//						 the service. 
-//				service_code: the code of the service provided
-//				fee: the cost of the service provided
+//				sdate: the data the service_record was provided
+//				rdate: the date the service_record was recorded
+//				mname: the name of the member who received the
+//						service_record.
+//				mnumber: the member number of the member who received
+//						 the service_record. 
+//				service_code: the code of the service_record provided
+//				fee: the cost of the service_record provided
 
 class provider_service
 {
@@ -69,20 +67,20 @@ class provider_service
 		bool operator<(const provider_service &) const;
 		bool compare(const provider_service &) const;
 	protected: 
-		string service_date; 
-		string record_date; 
-		string member_name; 
-		int member_number; 
+		string sdate; 
+		string rdate; 
+		string mname; 
+		int mnumber; 
 		int service_code; 
 		float fee; 
 };
 
-// The  service class handles the service option
-// data pulled from the database for the service directory. 
+// The  service_record class handles the service_record option
+// data pulled from the database for the service_record directory. 
 // Data Members: 
-//				name: the name of the service
-//				service_code: the code of the service provided
-//				fee: the cost of the service provided
+//				name: the name of the service_record
+//				service_code: the code of the service_record provided
+//				fee: the cost of the service_record provided
 
 class service_record
 {
@@ -105,7 +103,7 @@ class service_record
 // Data Members: 
 //				name: the provider name
 //				number: the provider number
-//				service_count: the count of services rendered
+//				scount: the count of services rendered
 //				total: the total owed the the provider for the week. 
 
 class provider_ap_record
@@ -121,7 +119,7 @@ class provider_ap_record
 	protected:
 		string name;
 		int number; 
-		int service_count;
+		int scount;
 		float total;
 };
 	
@@ -152,7 +150,7 @@ class t_id
 //				Run:   Purpose: runs the report base on the Member Number
 //								 passed in by the user 
 //					   Arguments: Member Number(int), the member who's weekly 
-//								  service report should be run. 
+//								  service_record report should be run. 
 //								  fname: the name of the file where the report should be 
 //										 stored (.csv will automtically be added end).
 //										 File will be overwritten. 
@@ -183,16 +181,16 @@ class member_report
 };
 
 // The provider report class handles generating and outputing the indivudal 
-// provider report, and the service directory.
+// provider report, and the service_record directory.
 // Client Methods: 
 //				Run:   Purpose: runs the report base on the Provider Number
 //								 passed in by the user 
 //					   Arguments: Provider Number(int), the provider who's weekly 
-//								  service report should be run. 
+//								  service_record report should be run. 
 //								  fname: the name of the file where the report should be 
 //										 stored (.csv will automtically be added end).
 //										 File will be overwritten. 
-//	provider_directory:	Purpose: generates the service directory. 
+//	provider_directory:	Purpose: generates the service_record directory. 
 //						Arguments: fname: the name of the file where the report should be 
 //										 stored (.csv will automtically be added end).
 //										 File will be overwritten. 		
@@ -243,7 +241,7 @@ class accounting_report
 		int compare_total(const provider_ap_record&);
 };
 
-// The service_directory class handles generating and outputing the service
+// The service_directory class handles generating and outputing the service_record
 // directory.
 // Client Methods: None, only meant to be utilized by the management class, and 
 //				   provider class. 
@@ -292,7 +290,5 @@ int validate_date(const string & toval);
 
 //compare floats
 bool compare_float(float x, float y, float epsilon = 0.01f);
-
-
 
 #endif //REPORTS_H

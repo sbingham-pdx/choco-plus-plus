@@ -121,7 +121,7 @@ int management_report:: batch_mark_paid(const string & fname)
 
 	if(!ifile || !ofile) return 0; 
 
-	ofile << "Provider Number,Transaction ID,Service Date,Member Number,Service Cost" << endl; 
+	ofile << "Provider Number,Service ID,Service Date,Member Number,Service Cost" << endl; 
 
 	ifile.ignore(100,',');
 	ifile.ignore(100,',');
@@ -151,14 +151,6 @@ int management_report:: batch_mark_paid(const string & fname)
 		ifile >> pn;
 	}
 
-	ifile.close();
-
-	if(to_mark_paid.empty()) 
-	{
-		ofile << " Empty input file " << endl; 
-		ofile.close();
-		return 0; 
-	}
 
 	query = "SELECT b.provider_number, a.id, a.trans_date, d.member_number, c.service_cost ";
 	query+= "FROM transaction a ";
@@ -178,12 +170,7 @@ int management_report:: batch_mark_paid(const string & fname)
 
 	if(res) delete res;
 
-	if(to_compare.empty()) 
-	{
-		ofile << " No updaid services " << endl;
-		ofile.close();
-		return 0;
-	}
+	if(to_compare.empty() || to_mark_paid.empty()) return 0;
 
 	to_compare.sort();
 	to_mark_paid.sort();
@@ -209,6 +196,7 @@ int management_report:: batch_mark_paid(const string & fname)
 		}
 	}
 
+	ifile.close(); 
 	ofile.close();
 
 	return 1;
