@@ -1,5 +1,7 @@
 #include "structures.h"
 
+static cadb database;
+
 // Implementations of class methods for visit
 
 // This function will read in input from the user and set up the struct for use. A boolean will return
@@ -37,12 +39,12 @@ void visit::insert()
     // void insertVisit(const string date, const int provider_id, const int service_id, const int member_id)
     
     // Convert datatypes
-    string p_number = to_string(provider_id);
-    string m_number = to_string(member_id);
-    string service_number = to_string(service_id);
-    
+    // string p_number = to_string(provider_id);
+    // string m_number = to_string(member_id);
+    // string service_number = to_string(service_id);
+
     // Insert
-    insertProvider(date, p_number, service_number, m_number);
+    database.insertVisit(date, provider_id, service_id, member_id, comment);
 }
 
 // COMPARE NOT IMPLEMENTED YET FOR VISIT, ARE WE COMPARING SERVICE ID OR DATE? WHAT FORMAT IS DATE?
@@ -51,12 +53,12 @@ void visit::insert()
 
 // This function will read in input from the user and set up the struct for use. A boolean will return
 // true or false indicating whether or not the input was valid.
-bool provider::read(const int id, const string name, const string street, const string city, const string state, const string zip)
+bool provider::read(const string number, const string name, const string street, const string city, const string state, const string zip)
 {
-    if(id < 0) 
+    if(number.length() < 0)
     {
         // Invalid input
-        this->provider_id = 0;
+        this->provider_number = "";
         this->name = "";
         this->street = "";
         this->city = "";
@@ -67,7 +69,7 @@ bool provider::read(const int id, const string name, const string street, const 
     else 
     {
         // Everything checks out
-        this->provider_id = id;
+        this->provider_number = number;
         this->name = name;
         this->street = street;
         this->city = city;
@@ -81,23 +83,20 @@ void provider::insert()
 {
     // void insertProvider(const string number, const string name, const string street, const string city, const string state, const string zip)
     
-    // Convert datatypes
-    string number = to_string(provider_id);
-    
     // Insert
-    insertProvider(number, name, street, city, state, zip);
+    database.insertProvider(provider_number, name, street, city, state, zip);
 }
 
 // Implementations of class methods for member
 
 // This function will read in input from the user and set up the struct for use. A boolean will return
 // true or false indicating whether or not the input was valid.
-bool member::read(const int id, const string name, const string street, const string city, const string state, const string zip)
+bool member::read(const string number, const string name, const string street, const string city, const string state, const string zip)
 {
-    if(id < 0) 
+    if(number.length() < 0) 
     {
         // Invalid input
-        this->member_id = 0;
+        this->number = "";
         this->name = "";
         this->street = "";
         this->city = "";
@@ -108,7 +107,7 @@ bool member::read(const int id, const string name, const string street, const st
     else 
     {
         // Everything checks out
-        this->member_id = id;
+        this->number = number;
         this->name = name;
         this->street = street;
         this->city = city;
@@ -122,23 +121,20 @@ void member::insert()
 {
     // void insertMember(const string number, const string name, const string street, const string city, const string state, const string zip)
     
-    // Convert datatypes
-    string number = to_string(member_id);
-    
     // Insert
-    insertProvider(number, name, street, city, state, zip);
+    database.insertMember(number, name, street, city, state, zip);
 }
 
 // Implementations of class methods for service
 
 // This function will read in input from the user and set up the struct for use. A boolean will return
 // true or false indicating whether or not the input was valid.
-bool service::read(const int number, const string name, const float fee)
+bool service::read(const string number, const string name, const float fee)
 {
-    if(number < 0 || fee < 0) 
+    if(number.length() < 0 || fee < 0) 
     {
         // Invalid input
-        this->number = 0;
+        this->number = "";
         this->fee = 0;
         this->name = "";
         return false;
@@ -149,7 +145,6 @@ bool service::read(const int number, const string name, const float fee)
         this->number = number;
         this->fee = fee;
         this->name = name;
-        return false;
         return true;
     }
 
@@ -167,9 +162,8 @@ void service::insert()
     // void insertService(const string number, const string name, const string cost)
     
     // Convert datatypes
-    string service_number = to_string(number);
     string cost = to_string(fee);
     
     // Insert
-    insertProvider(service_number, name, cost);
+    database.insertService(number, name, cost);
 }
