@@ -10,6 +10,8 @@
 #include <iomanip>
 #include "cadb.h"
 #include <cmath>
+//#include <filesystem>
+//using fs = std::filesystem;
 using sysclock_t = std::chrono::system_clock;
 
 
@@ -46,11 +48,11 @@ class member_service
 // data pulled from the database for the individual 
 // provider report. 
 // Data Members: 
-//				sdate: the data the service was provided
-//				rdate: the date the service was recorded
-//				mname: the name of the member who received the
+//				service_date: the data the service was provided
+//				record_date: the date the service was recorded
+//				member_name: the name of the member who received the
 //						service.
-//				mnumber: the member number of the member who received
+//				member_number: the member number of the member who received
 //						 the service. 
 //				service_code: the code of the service provided
 //				fee: the cost of the service provided
@@ -67,10 +69,10 @@ class provider_service
 		bool operator<(const provider_service &) const;
 		bool compare(const provider_service &) const;
 	protected: 
-		string sdate; 
-		string rdate; 
-		string mname; 
-		int mnumber; 
+		string service_date; 
+		string record_date; 
+		string member_name; 
+		int member_number; 
 		int service_code; 
 		float fee; 
 };
@@ -103,7 +105,7 @@ class service_record
 // Data Members: 
 //				name: the provider name
 //				number: the provider number
-//				scount: the count of services rendered
+//				service_count: the count of services rendered
 //				total: the total owed the the provider for the week. 
 
 class provider_ap_record
@@ -119,7 +121,7 @@ class provider_ap_record
 	protected:
 		string name;
 		int number; 
-		int scount;
+		int service_count;
 		float total;
 };
 	
@@ -290,5 +292,7 @@ int validate_date(const string & toval);
 
 //compare floats
 bool compare_float(float x, float y, float epsilon = 0.01f);
+
+
 
 #endif //REPORTS_H
