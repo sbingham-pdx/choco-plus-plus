@@ -158,7 +158,6 @@ int validate_date(const string & toval)
 			year = (year*10)+toval[i]-'0';
 	}
 	if(year > 2022 || year < 1933) return 0; 
-
 	year = 0; 
 	
 	for(i = i+1; i<7 && i<toval.length(); ++i)
@@ -376,4 +375,20 @@ bool compare_float(float x, float y, float epsilon)
    if(fabs(x - y) < epsilon)
       return true;
    return false;
+}
+
+
+bool endswith(const string & original, const string & end)
+{
+	int i = 0, k = 0;
+
+	for(i=original.length()-1, k=end.length()-1; k >= 0 && i >= 0; --i, --k)
+	{
+		if(original[i] != end[k]) return false;
+	}
+
+	if(k>=0) return false;
+
+	if(!validate_date(original.substr(0, i))) return false;
+	return true;
 }

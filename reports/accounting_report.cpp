@@ -64,7 +64,7 @@ int accounting_report::run(char type, const string & fname)
 		delete summary_results; 
 
 
-	if(provider_list.empty()) return 0;
+	//if(provider_list.empty()) return 0;
 
 	t_id_list.sort();
 

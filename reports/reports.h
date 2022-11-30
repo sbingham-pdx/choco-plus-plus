@@ -273,15 +273,15 @@ class service_directory
 class management_report
 {
 	public: 
-		int all_providers(const string & fname = ""); 
-		int individual_provider(int, const string & fname = "");
-		int all_members(const string & fname = ""); 
-		int individual_member(int,const string & fname = ""); 
-		int ap_report(const string & fname = "");
-		int eft_report(const string & fname = ""); 
-		int provider_directory(const string & fname = "");
-		int batch_mark_paid(const string & fname);
-		int mark_paid(int transaction_id);
+		int all_providers(); 
+		int individual_provider(int);
+		int all_members(); 
+		int individual_member(int); 
+		int ap_report();
+		int eft_report(); 
+		int provider_directory();
+		int batch_mark_paid(const string & fname,int type=1);
+		int mark_paid(int transaction_id, int type=1);
 	protected: 
 };
 
@@ -294,5 +294,6 @@ int validate_date(const string & toval);
 bool compare_float(float x, float y, float epsilon = 0.01f);
 
 
+bool endswith(const string &, const string &);
 
 #endif //REPORTS_H
