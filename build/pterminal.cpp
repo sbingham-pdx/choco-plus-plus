@@ -20,12 +20,16 @@ int pterminal() {
   int provGood = 0;
 
   while (!provGood){
-    clearcin();
+      clearcin();
       cin.ignore(1000, '\n');
-      cout << "Welcome to the Provider Terminal\n Please enter your provider number:";
+      cout << "Welcome to the Provider Terminal\nPlease enter your provider number below.\n"
+          << "If you do not know your provider number, please use the demo number: 555554444" << endl;
+      cout << "Provider Number:";
       getline(cin, pnumber);
       if (!database.getID("provider", pnumber)){
-        cout << "Error - Invalid Provider number, please try again.";
+        //clear();
+        cout << "\n\nError - Invalid Provider number, please try again." << endl;
+        cin.get();
       }
       else{
         pname = database.getString("provider", "provider_number", pnumber, "provider_name");
@@ -36,7 +40,10 @@ int pterminal() {
   cout << "\nHello " << pname << "!\n-------------\n";
 
 	// get initial selection
-	cout << "\nEnter an integer for (1)Directory, (2)Weekly Report, (3)New Service\n";
+	cout << "\nPlease select from the options below:\n"
+    << "[1] Provider Directory - (Directory of Available Services)\n"
+    << "[2} Weekly Report - (Report of all services provided by " << pname << ")\n"
+    << "[3] New Member Visit" << endl;
   getline(cin, selection);
   clearcin();
 
@@ -44,7 +51,7 @@ int pterminal() {
 
 	switch(selectionint) {
 		case 1:
-			cout << "\nProvider Directory\n";
+			cout << "\nProvider Directory (Directory of Available Services)\n";
       provider_reporter.provider_directory("pdirectory");
       cout << "\nOutput provider directory to pdirectory.csv\n-------------\n";
       return 1;
@@ -56,7 +63,7 @@ int pterminal() {
       return 1;
 			break;
 		case 3:
-			cout << "\nNew Service\n";
+			cout << "\nNew Member Visit\n";
       pterminal_service();
 			break;
 		default:

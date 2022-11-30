@@ -7,6 +7,12 @@ void scrBrk(){
     cout << "=================================================================================================" << endl;
 }
 
+void clear(void){
+        for (int i = 0; i < 200; ++i)
+                cout << '\n';
+        cout << endl;
+}
+
 
 oterminal::oterminal() {}
 

@@ -7,10 +7,10 @@ static cadb database;
 // This function will read in input from the user and set up the struct for use. A boolean will return
 // true or false indicating whether or not the input was valid. For example, if the comment is too long,
 // false is returned.
-bool visit::read(const string date, const int provider_id, const int service_id, const int member_id, const string comment, const float fee)
+bool visit::read(const string in_date, const int in_provider_id, const int in_service_id, const int in_member_id, const string in_comment, const float in_fee)
 {
     // Check to see if the comment length meets the constraints
-    if(comment.length() > 100 || provider_id < 0 || member_id < 0 || service_id < 0 || fee < 0)
+    if(comment.length() > 100 || in_provider_id < 0 || in_member_id < 0 || in_service_id < 0 || in_fee < 0)
     {
         // Invalid input
         this->date = "00-00-0000";
@@ -24,12 +24,12 @@ bool visit::read(const string date, const int provider_id, const int service_id,
     else
     {
         // Everything checks out
-        this->date = date;
-        this->provider_id = provider_id;
-        this->member_id = member_id;
-        this->service_id = service_id;
-        this->fee = fee;
-        this->comment = comment;
+        this->date = in_date;
+        this->provider_id = in_provider_id;
+        this->member_id = in_member_id;
+        this->service_id = in_service_id;
+        this->fee = in_fee;
+        this->comment = in_comment;
         return true;
     }
 }
@@ -53,9 +53,9 @@ void visit::insert()
 
 // This function will read in input from the user and set up the struct for use. A boolean will return
 // true or false indicating whether or not the input was valid.
-bool provider::read(const string number, const string name, const string street, const string city, const string state, const string zip)
+bool provider::read(const string in_number, const string in_name, const string in_street, const string in_city, const string in_state, const string in_zip)
 {
-    if(number.length() < 0)
+    if(in_number.length() < 0)
     {
         // Invalid input
         this->provider_number = "";
@@ -69,12 +69,12 @@ bool provider::read(const string number, const string name, const string street,
     else 
     {
         // Everything checks out
-        this->provider_number = number;
-        this->name = name;
-        this->street = street;
-        this->city = city;
-        this->state = state;
-        this->zip = zip;
+        this->provider_number = in_number;
+        this->name = in_name;
+        this->street = in_street;
+        this->city = in_city;
+        this->state = in_state;
+        this->zip = in_zip;
         return true;
     }
 }
@@ -91,9 +91,9 @@ void provider::insert()
 
 // This function will read in input from the user and set up the struct for use. A boolean will return
 // true or false indicating whether or not the input was valid.
-bool member::read(const string number, const string name, const string street, const string city, const string state, const string zip)
+bool member::read(const string in_number, const string in_name, const string in_street, const string in_city, const string in_state, const string in_zip)
 {
-    if(number.length() < 0) 
+    if(in_number.length() < 0) 
     {
         // Invalid input
         this->number = "";
@@ -107,12 +107,12 @@ bool member::read(const string number, const string name, const string street, c
     else 
     {
         // Everything checks out
-        this->number = number;
-        this->name = name;
-        this->street = street;
-        this->city = city;
-        this->state = state;
-        this->zip = zip;
+        this->number = in_number;
+        this->name = in_name;
+        this->street = in_street;
+        this->city = in_city;
+        this->state = in_state;
+        this->zip = in_zip;
         return true;
     }
 }
@@ -129,9 +129,9 @@ void member::insert()
 
 // This function will read in input from the user and set up the struct for use. A boolean will return
 // true or false indicating whether or not the input was valid.
-bool service::read(const string number, const string name, const float fee)
+bool service::read(const string in_number, const string in_name, const float in_fee)
 {
-    if(number.length() < 0 || fee < 0) 
+    if(in_number.length() < 0 || fee < 0) 
     {
         // Invalid input
         this->number = "";
@@ -142,9 +142,9 @@ bool service::read(const string number, const string name, const float fee)
     else 
     {
         // Everything checks out
-        this->number = number;
-        this->fee = fee;
-        this->name = name;
+        this->number = in_number;
+        this->fee = in_fee;
+        this->name = in_name;
         return true;
     }
 
