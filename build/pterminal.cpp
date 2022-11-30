@@ -14,15 +14,26 @@ provider_report provider_reporter;
 string pnumber = "";
 
 int pterminal() {
+  string pname;
 	string selection = "";
   int selectionint = 0;
+  int provGood = 0;
 
-  clearcin();
-  cin.ignore(1000, '\n');
-  cout << "Enter your provider number\n";
-  getline(cin, pnumber);
-  clearcin();
-  cout << "\nHello!\n-------------\n";
+  while (!provGood){
+    clearcin();
+      cin.ignore(1000, '\n');
+      cout << "Welcome to the Provider Terminal\n Please enter your provider number:";
+      getline(cin, pnumber);
+      if (!database.getID("provider", pnumber)){
+        cout << "Error - Invalid Provider number, please try again.";
+      }
+      else{
+        pname = database.getString("provider", "provider_number", pnumber, "provider_name");
+        provGood = 1;
+      }
+      clearcin();
+  }
+  cout << "\nHello " << pname << "!\n-------------\n";
 
 	// get initial selection
 	cout << "\nEnter an integer for (1)Directory, (2)Weekly Report, (3)New Service\n";

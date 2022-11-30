@@ -15,18 +15,22 @@ void management_terminal()
 
     do{
         //The different options the manager terminal will carry out 
-        cout  << "\n0 = Exit the manager terminal"
-            << "\n1 = Display all providers to a file"
-            << "\n2 = Display a specific provider to a file"
-            << "\n3 = Dispaly all members to a file"
-            << "\n4 = Display a specific member to a file"
-            << "\n5 = Display the account payable report to a file"
-            << "\n6 = Display the electronic fund transfer to a file"
-            << "\n7 = Display the provider directoy to a file"
-            << "\n8 = Mark the visit as paid to a file\n";
+        scrBrk();
+        cout  << "Welcome to the Manager Terminal.\nPlease choose from the options below:" << endl;
+        scrBrk();
+        cout << "[0] Exit the manager terminal\n"
+            << "[1] Display all providers to a file\n"
+            << "[2] Display a specific provider to a file\n"
+            << "[3] Dispaly all members to a file\n"
+            << "[4] Display a specific member to a file\n"
+            << "[5] Display the account payable report to a file\n"
+            << "[6] Display the electronic fund transfer to a file\n"
+            << "[7] Display the provider directoy to a file\n"
+            << "[8] Load file to mark visits as paid" << endl;
             //<< "\n9 = Mark a visit a paid\n"; 
+        
  
-        cout << "\nPlease choose from the menu above: ";
+       
         cin >> choice; cin.ignore(100,'\n');
 
        //Execute the code based on the choice 

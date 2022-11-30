@@ -14,7 +14,7 @@ int pterminal();
 int pterminal_service();
 void clearcin();
 
-
+void scrBrk();
 
 
 class oterminal {

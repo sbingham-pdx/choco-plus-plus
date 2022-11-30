@@ -205,7 +205,7 @@ int cadb::getRows(const string table){
 	return biggest;
 }
 
-// Retur of 0 means no ID found
+// Return of 0 means no ID found
 int cadb::getID(const string table, const string tomatch){
 
 	int id = 0;

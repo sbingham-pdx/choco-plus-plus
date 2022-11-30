@@ -3,16 +3,26 @@
 #include <iostream>
 using namespace std;
 
+void scrBrk(){
+    cout << "=================================================================================================" << endl;
+}
+
+
 oterminal::oterminal() {}
 
 oterminal::~oterminal() {}
 
 void oterminal::printMenu() {
-    cout << "Welcome to Choco-Plus-Plus!\n---\n";
-    cout << "Please enter a selection:\n";
-    cout << "(1) Add new provider (2) Add new member (3) Add new service\n";
-    cout << "(4) Update existing provider (5) Update existing member (6) Update existing service\n";
-    cout << "Enter any other integer to quit.\n";
+    scrBrk();
+    cout << "Welcome to the Operator Terminal.\nPlease choose from the options below:" << endl;
+    scrBrk();
+    cout << "[0] Exit\n"
+        << "[1] Add new provider\n"
+        << "[2] Add new member\n"
+        << "[3] Add new service\n"
+        << "[4] Update provider status\n"
+        << "[5] Update member status\n"
+        << "[6] Update service status" << endl;
 }
 
 int oterminal::validateInputInteger() {

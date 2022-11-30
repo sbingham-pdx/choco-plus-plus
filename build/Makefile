@@ -64,4 +64,4 @@ $(PROG1):  $(FILES) #?akefile
 #	g++ -g -Wall -I/usr/include/mysqlcppconn -o cadb cadb.h cadb.cpp test.cpp -L/usr/lib -lmysqlcppconn
 
 clean:
-	rm -f *.o $(PROGS)
+	rm -f *.o *.csv $(PROGS)
