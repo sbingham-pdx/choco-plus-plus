@@ -16,8 +16,8 @@ int provider_report:: run(int p_id, const string & fname, int filetype)
 { 
 	string provider_query, service_query; 
 	provider_service temp;
-	cadb db;
-	sql::ResultSet *mem = NULL, *ser = NULL;
+	cadb database;
+	sql::ResultSet *provider_data = NULL, *service_records = NULL;
 	
 	start_date = date(6);
 	end_date = date(0); 
@@ -25,7 +25,7 @@ int provider_report:: run(int p_id, const string & fname, int filetype)
 	if(number) reset();
 
 	number = p_id; 
-	p_id = db.getID("provider", to_string(p_id));
+	p_id = database.getID("provider", to_string(p_id));
 
 	if(!p_id) return 0;
 
@@ -42,37 +42,37 @@ int provider_report:: run(int p_id, const string & fname, int filetype)
 	service_query += "AND a.trans_date >= '" + start_date + "' ";
 	service_query += "AND a.trans_date <= '" + end_date +"' ;";
 
-	db.queryDB(provider_query,mem);	
-	db.queryDB(service_query,ser);
+	database.queryDB(provider_query,provider_data);	
+	database.queryDB(service_query,service_records);
 
-	if(mem && mem->next())
+	if(provider_data && provider_data->next())
 	{
-		name = mem->getString(1);
-		street = mem->getString(2);
-		city  = mem->getString(3);
-		state = mem->getString(4);
-		zip = mem->getString(5);
+		name = provider_data->getString(1);
+		street = provider_data->getString(2);
+		city  = provider_data->getString(3);
+		state = provider_data->getString(4);
+		zip = provider_data->getString(5);
 
-		delete mem;
+		delete provider_data;
 	}
 	else
 	{
-		if(mem)
-			delete mem;
-		if(ser)
-			delete ser;
+		if(provider_data)
+			delete provider_data;
+		if(service_records)
+			delete service_records;
 		return 0;
 	}
 
-	while(ser && ser->next())
+	while(service_records && service_records->next())
 	{
-		temp.read(ser->getString(1),ser->getString(2), ser->getString(3),ser->getInt(4),
-				ser->getInt(5),ser->getDouble(6));
+		temp.read(service_records->getString(1),service_records->getString(2), service_records->getString(3),service_records->getInt(4),
+				service_records->getInt(5),service_records->getDouble(6));
 		provider_service_list.push_front(temp);
 	}
 
-	if(ser)
-		delete ser;
+	if(service_records)
+		delete service_records;
 	
 	provider_service_list.sort();
 
@@ -86,7 +86,7 @@ int provider_report:: run(int p_id, const string & fname, int filetype)
 void provider_report:: reset()
 {
 	zip = name = street = city = state = "";
-       	number = 0;
+    number = 0;
 	
 	provider_service_list.clear();
 }	
@@ -138,11 +138,10 @@ int provider_report:: write(const string & fname, int filetype)
 	file << "Count,Date of Service,Date of Record,Member Name,Member Number,Service Code,Fee\n";
 	for(auto it = provider_service_list.begin(); it != provider_service_list.end(); ++it)
 	{
-		file << count++ << ",";
+		file << ++count << ",";
 		week_fee += it->write(file); 
 		file << endl;
 	}
-	
 	file << "Count of Services Provided: " << count << " Fees Owed: " << week_fee << endl << endl;
 
 	file.close();

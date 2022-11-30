@@ -67,7 +67,7 @@ bool member_service::compare(const member_service & two) const
 provider_service:: provider_service()
 {
 	fee  = 0.0;
-	mnumber = service_code = 0;
+	member_number = service_code = 0;
 }
 
 provider_service:: ~provider_service()
@@ -76,10 +76,10 @@ provider_service:: ~provider_service()
 
 float provider_service::display()
 {
-	cout << left << setw(13) << sdate
-	     << left << setw(20) << rdate
-	     << left << setw(25) << mname 
-	     << left << setw(14) << mnumber
+	cout << left << setw(13) << service_date
+	     << left << setw(20) << record_date
+	     << left << setw(25) << member_name 
+	     << left << setw(14) << member_number
 	     << left << setw(13) << service_code
 	     << "$" << left << setw(10) << fee;
 	return fee;
@@ -89,7 +89,7 @@ float provider_service::write(ofstream & file)
 {
 	if(!file) return 0;
 
-	file << sdate << "," << rdate << "," << mname << "," << mnumber << "," << service_code
+	file << service_date << "," << record_date << "," << member_name << "," << member_number << "," << service_code
 	     << "," << fee;
 	return fee;
 }
@@ -97,10 +97,10 @@ float provider_service::write(ofstream & file)
 void provider_service::read(const string & nsdate, const string & nrdate, const string & nmname,
 	       		int nmnumber, int sc, float nfee)
 {
-	sdate = nsdate; 
-	rdate = nrdate;
-	mname = nmname; 
-	mnumber = nmnumber; 
+	service_date = nsdate; 
+	record_date = nrdate;
+	member_name = nmname; 
+	member_number = nmnumber; 
 	service_code = sc; 
 	fee = nfee;
 	return;
@@ -114,11 +114,11 @@ bool provider_service::operator<(const provider_service & two) const
 bool provider_service::compare(const provider_service & two) const
 {
 	string date[2][3];
-	stringstream temp(sdate); 
-	stringstream temp2(two.sdate);
+	stringstream temp(service_date); 
+	stringstream temp2(two.service_date);
 
-	if(sdate == "") return true; 
-	if(two.sdate == "") return false; 
+	if(service_date == "") return true; 
+	if(two.service_date == "") return false; 
 
 	for(int i =0; i<3 && !temp.eof() && !temp2.eof(); ++i)
 	{
@@ -155,16 +155,15 @@ int validate_date(const string & toval)
 
 	for(i=0; i < 4 && i<toval.length(); ++i)
 	{
-			year = (year*10)+toval[i];
+			year = (year*10)+toval[i]-'0';
 	}
-
 	if(year > 2022 || year < 1933) return 0; 
 
 	year = 0; 
 	
 	for(i = i+1; i<7 && i<toval.length(); ++i)
 	{
-		year = (year*10)+toval[i];
+		year = (year*10)+toval[i]-'0';
 	}
 
 	if(year > 12 || year < 1) return 0; 
@@ -173,7 +172,7 @@ int validate_date(const string & toval)
 
 	for(i = i+1; i<10 && i<toval.length(); ++i)
 	{
-		year = (year*10)+toval[i];
+		year = (year*10)+toval[i]-'0';
 	}
 
 	if(year>31 || year <1) return 0;
@@ -186,32 +185,32 @@ int validate_date(const string & toval)
 
 provider_ap_record:: provider_ap_record()
 {
-	total = scount = 0;
+	total = service_count = 0;
 }
 
 provider_ap_record:: ~provider_ap_record()
 {
 }
 
-float provider_ap_record::display(char type, int & service_count)
+float provider_ap_record::display(char type, int & service_sum)
 {
 	cout  << number << "\t\t" << name << "\t\t";
 	if(type == 'A')
-		cout << scount << "\t\t";
+		cout << service_count << "\t\t";
 	cout << total; 
-	service_count += scount;
+	service_sum += service_count;
 	return total;
 }
 
-float provider_ap_record::write(char type, ofstream & file, int & service_count)
+float provider_ap_record::write(char type, ofstream & file, int & service_sum)
 {
 	if(!file) return 0; 
 
 	file  << number << "," << name << ",";
 	if(type == 'A')
-		file << scount << ",";
+		file << service_count << ",";
 	file << total; 
-	service_count += scount;
+	service_sum += service_count;
 	return total;
 }
 
@@ -219,7 +218,7 @@ void provider_ap_record:: read(const string & nname, int nnumber, int nscount, f
 {
 	name = nname; 
 	number = nnumber; 
-	scount = nscount;
+	service_count = nscount;
 	total = ntotal; 
 	return;
 }
@@ -319,7 +318,7 @@ void t_id:: read(int pn, int tid, const string & ndate, int nm, float nfee)
 	
 	if(pn <= 999999999 &&  pn > 0)
 		provider_number = pn;
-	if(tid <= 999999999 && tid > 0)
+	if(tid <= 999999 && tid > 0)
 		id = tid; 
 	if(validate_date(ndate))
 		date = ndate;	

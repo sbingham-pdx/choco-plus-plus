@@ -11,9 +11,9 @@ accounting_report:: ~accounting_report()
 
 int accounting_report::run(char type, const string & fname)
 {
-	string query, mod_query;
-	sql::ResultSet *res=NULL, *res2=NULL;
-	cadb db;
+	string summary_query, detailed_query;
+	sql::ResultSet *summary_results=NULL, *detailed_results=NULL;
+	cadb database;
 	provider_ap_record temp;
 	t_id temp2;
 
@@ -25,43 +25,43 @@ int accounting_report::run(char type, const string & fname)
 	start_date = date(6); 
 	end_date = date(0); 
 
-	query = "SElECT a.provider_name, a.provider_number, SUM(c.service_cost), COUNT(c.service_cost) ";
-	query+= "FROM provider a JOIN transaction b ON a.id = b.provider_id ";
-	query+= "JOIN service c ON b.service_id = c.id ";
-	query+= "WHERE b.payment_status = 0 ";
-	query+= "AND b.trans_date <= '" + end_date + "' ";
-	query+= "AND b.trans_date >= '" + start_date + "' ";
-	query+= "GROUP BY a.provider_name, a.provider_number;";
+	summary_query = "SElECT a.provider_name, a.provider_number, SUM(c.service_cost), COUNT(c.service_cost) ";
+	summary_query+= "FROM provider a JOIN transaction b ON a.id = b.provider_id ";
+	summary_query+= "JOIN service c ON b.service_id = c.id ";
+	summary_query+= "WHERE b.payment_status = 0 ";
+	summary_query+= "AND b.trans_date <= '" + end_date + "' ";
+	summary_query+= "AND b.trans_date >= '" + start_date + "' ";
+	summary_query+= "GROUP BY a.provider_name, a.provider_number;";
 
-	mod_query = "SELECT b.provider_number, a.id, a.trans_date, d.member_number, c.service_cost ";
-	mod_query+= "FROM transaction a ";
-	mod_query += "JOIN service c ON a.service_id = c.id ";
-	mod_query += "JOIN provider b ON b.id = a.provider_id ";
-	mod_query += "JOIN member d ON a.member_id = d.id ";
-	mod_query += "AND a.trans_date >= '" + start_date + "' ";
-	mod_query += "AND a.trans_date <= '" + end_date +"' ";
-	mod_query += "AND a.payment_status = 0 ";
-	mod_query += "ORDER BY b.provider_number;";
+	detailed_query = "SELECT b.provider_number, a.id, a.trans_date, d.member_number, c.service_cost ";
+	detailed_query+= "FROM transaction a ";
+	detailed_query += "JOIN service c ON a.service_id = c.id ";
+	detailed_query += "JOIN provider b ON b.id = a.provider_id ";
+	detailed_query += "JOIN member d ON a.member_id = d.id ";
+	detailed_query += "AND a.trans_date >= '" + start_date + "' ";
+	detailed_query += "AND a.trans_date <= '" + end_date +"' ";
+	detailed_query += "AND a.payment_status = 0 ";
+	detailed_query += "ORDER BY b.provider_number;";
 
-	db.queryDB(query, res); 
-	db.queryDB(mod_query, res2); 
+	database.queryDB(summary_query, summary_results); 
+	database.queryDB(detailed_query, detailed_results); 
 
-	while(res && res->next())
+	while(summary_results && summary_results->next())
 	{
-		temp.read(res->getString(1), res->getInt(2), res->getInt(4), res->getDouble(3));
+		temp.read(summary_results->getString(1), summary_results->getInt(2), summary_results->getInt(4), summary_results->getDouble(3));
 		provider_list.push_front(temp); 
 	}
 
-	while(res2 && res2->next())
+	while(detailed_results && detailed_results->next())
 	{
-		temp2.read(res2->getInt(1), res2->getInt(2), res2->getString(3), res2->getInt(4), res2->getDouble(5));
+		temp2.read(detailed_results->getInt(1), detailed_results->getInt(2), detailed_results->getString(3), detailed_results->getInt(4), detailed_results->getDouble(5));
 		t_id_list.push_front(temp2);
 	}
 
-	if(res2)
-		delete res2;
-	if(res)
-		delete res; 
+	if(detailed_results)
+		delete detailed_results;
+	if(summary_results)
+		delete summary_results; 
 
 
 	if(provider_list.empty()) return 0;
@@ -175,7 +175,7 @@ int accounting_report::write(char type, const string & fname)
 	if(type == 'B' || type == 'A')
 	{
 		if (type == 'A')
-			file << "Provider Number,Provider,Service Count,,Fee Total" << endl;
+			file << "Provider Number,Provider,Service Count,Fee Total" << endl;
 		else if (type == 'B')
 			file << "Provider Number,Provider,Fee Total" << endl;
 
@@ -196,7 +196,7 @@ int accounting_report::write(char type, const string & fname)
 
 	else
 	{
-		file << "Provider Number,Service ID,Service Date,Member Number,Service Cost" << endl; 
+		file << "Provider Number,Transaction ID,Service Date,Member Number,Service Cost" << endl; 
 		for (auto it = t_id_list.begin(); it != t_id_list.end(); ++it)
 		{
 			it->write(file);

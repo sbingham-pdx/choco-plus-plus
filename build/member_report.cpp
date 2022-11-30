@@ -19,8 +19,8 @@ member_report:: ~member_report()
 int member_report:: run(int m_id, const string & fname, int filetype)
 { 
 	string member_query, service_query; 
-	sql:: ResultSet *mem = NULL, *ser = NULL;
-	cadb db;
+	sql:: ResultSet *member_data = NULL, *service_records = NULL;
+	cadb database;
 	member_service temp;
 
 	start_date = date(6);
@@ -30,7 +30,7 @@ int member_report:: run(int m_id, const string & fname, int filetype)
 
 	number = m_id;
 
-	m_id = db.getID("member",to_string(m_id));
+	m_id = database.getID("member",to_string(m_id));
 
 	if(!m_id) return 0;
 
@@ -46,35 +46,35 @@ int member_report:: run(int m_id, const string & fname, int filetype)
 	service_query += " AND a.trans_date >= '" + start_date + "' ";
 	service_query += "AND a.trans_date <= '" + end_date + "' ;";
 
-	db.queryDB(member_query,mem);	
-	db.queryDB(service_query,ser);
+	database.queryDB(member_query,member_data);	
+	database.queryDB(service_query,service_records);
 
 
-	if(mem && mem->next())
+	if(member_data && member_data->next())
 	{
-		name = mem->getString(1);
-		street = mem->getString(2);
-		city  = mem->getString(3);
-		state = mem->getString(4);
-		zip = mem->getString(5);
+		name = member_data->getString(1);
+		street = member_data->getString(2);
+		city  = member_data->getString(3);
+		state = member_data->getString(4);
+		zip = member_data->getString(5);
 
-		delete mem;
+		delete member_data;
 	}
 	else
 	{
-		if(mem) delete mem;
-		if(ser) delete ser;
+		if(member_data) delete member_data;
+		if(service_records) delete service_records;
 		return 0;
 	}
 	// should the report still be written if no services for that week? 
-	while(ser && ser->next())
+	while(service_records && service_records->next())
 	{
-		temp.read(ser->getString(1),ser->getString(2),ser->getString(3));
+		temp.read(service_records->getString(1),service_records->getString(2),service_records->getString(3));
 		member_service_list.push_front(temp);
 	}
 
-	if(ser)
-		delete ser;
+	if(service_records)
+		delete service_records;
 	
 
 	member_service_list.sort();

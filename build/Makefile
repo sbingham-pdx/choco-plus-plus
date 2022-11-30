@@ -3,10 +3,11 @@ DEBUG = -g
 DEFINES =
 #DEFINES += -DTEST
 
+
 CFLAGS = $(DEBUG) -Wall -Wshadow -Wunreachable-code -Wredundant-decls \
         -Wmissing-declarations \
     	-Wno-return-local-addr \
-		-Wuninitialized -Werror -Wunsafe-loop-optimizations $(DEFINES)
+		-Wuninitialized -Wunsafe-loop-optimizations $(DEFINES)
 
 IFLAGS = 
 IFLAGS += -I/usr/include/mysqlcppconn
@@ -15,20 +16,37 @@ LFLAGS =
 LFLAGS += -L/usr/lib
 LFLAGS += -lmysqlcppconn
 
-HFILES = \
-		cadb.h\
+CONNECTOR = cadb.h\
+			cadb.cpp\
+			$(NULL)
+
+REPORTS = reports.h\
+		accounting_report.cpp\
+		general_report_classes.cpp\
+		management.cpp\
+		member_report.cpp\
+		provider_report.cpp\
+		service_directory.cpp\
 		$(NULL)
 
-CFILES = cadb.cpp\
-		test\test.cpp\
+STRUCTS = structures.h\
+		structures.cpp\
 		$(NULL)
 
-FILES = \
-	$(HFILES)\
-	$(CFILES)\
-	$(NULL)
+
+TERMINAL = oterminal.h\
+		oterminal.cpp\
+		mterminal.cpp\
+		pterminal.cpp\
+		chocoplusplus.cpp\
+		$(NULL)
+
+FILES = $(CONNECTOR)\
+		$(REPORTS)\
+		$(STRUCTS)\
+		$(TERMINAL)\
 		
-PROG1 = cadb
+PROG1 = chocoplusplus
 
 PROGS = $(PROG1) 
 
