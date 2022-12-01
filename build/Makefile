@@ -1,8 +1,8 @@
 CC = g++
 DEBUG = -g
-DEBUG += --verbose
+#DEBUG += --verbose
 DEFINES = 
-#DEFINES += -DTEST
+#DEFINES += -DVERBOSE
 
 
 CFLAGS = $(DEBUG) -Wall -Wshadow -Wunreachable-code -Wredundant-decls \

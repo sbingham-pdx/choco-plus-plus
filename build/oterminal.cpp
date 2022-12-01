@@ -4,23 +4,35 @@
 using namespace std;
 
 void scrBrk(){
-    cout << "=================================================================================================" << endl;
+    cout << "=============================================================================================" << endl;
 }
 
 void clear(void){
-        for (int i = 0; i < 200; ++i)
+        for (int i = 0; i < 100; ++i)
                 cout << '\n';
         cout << endl;
 }
 
+void termHeader(const int flag){
+    //clear();
+    cout << "\n\n\n\n\n" << endl;
+    scrBrk();
+    scrBrk();
+    cout << "\t\tCHOCO++ DATA MANAGEMENT DEMO TERMINAL" << endl;
+    scrBrk();
+    if (flag == 1) cout << "\t\t\tDEMO MANAGER TERMINAL" << endl;
+    if (flag == 2) cout << "\t\t\tDEMO OPERATOR TERMINAL" << endl;
+    if (flag == 3) cout << "\t\t\tDEMO PROVIDER TERMINAL" << endl;
+    scrBrk();
+}
 
 oterminal::oterminal() {}
 
 oterminal::~oterminal() {}
 
 void oterminal::printMenu() {
-    scrBrk();
-    cout << "Welcome to the Operator Terminal.\nPlease choose from the options below:" << endl;
+    termHeader(2);
+    cout << "\tPlease choose from the options below:" << endl;
     scrBrk();
     cout << "[0] Exit\n"
         << "[1] Add new provider\n"
@@ -78,45 +90,48 @@ string oterminal::validateInputString() {
 
 provider oterminal::inputProvider() {
     provider newProvider;
-    cout << "Enter provider name";
+    termHeader(2);
+    cout << "Enter provider name: ";
     newProvider.name = validateInputString();
-    cout << "Enter street name of provider";
+    cout << "Enter street name of provider: ";
     newProvider.street = validateInputString();
-    cout << "Enter city name of provider";
+    cout << "Enter city name of provider: ";
     newProvider.city = validateInputString();
-    cout << "Enter state abbreviation of provider";
+    cout << "Enter state abbreviation of provider: ";
     newProvider.state = validateInputString();
-    cout << "Enter zip code of provider";
+    cout << "Enter zip code of provider: ";
     newProvider.zip = validateInputString();
-    cout << "Enter provider number";
+    cout << "Enter provider number: ";
     newProvider.provider_number = validateInputString();
     return newProvider;
 }
 
 member oterminal::inputMember() {
     member newMember;
-    cout << "Enter member name";
+    termHeader(2);
+    cout << "Enter member name: ";
     newMember.name = validateInputString();
-    cout << "Enter street name of member";
+    cout << "Enter street name of member: ";
     newMember.street = validateInputString();
-    cout << "Enter city name of member";
+    cout << "Enter city name of member: ";
     newMember.city = validateInputString();
-    cout << "Enter state abbreviation of member";
+    cout << "Enter state abbreviation of member: ";
     newMember.state = validateInputString();
-    cout << "Enter zip code of member";
+    cout << "Enter zip code of member: ";
     newMember.zip = validateInputString();
-    cout << "Enter member ID";
+    cout << "Enter member ID: ";
     newMember.number = validateInputString();
     return newMember;
 }
 
 service oterminal::inputService() {
     service newService;
-    cout << "Enter service number";
+    termHeader(2);
+    cout << "Enter service number: ";
     newService.number = validateInputString();
-    cout << "Enter service name";
+    cout << "Enter service name: ";
     newService.name = validateInputString();
-    cout << "Enter service fee";
+    cout << "Enter service fee: ";
     newService.fee = validateInputFloat();
     return newService;
 }
@@ -134,9 +149,12 @@ void oterminal::interpretProviderStatus(const int status, const string providerT
     switch(status) {
         case 1: {
             cadb tempDatabase;
+            termHeader(2);
             cout << "This provider status is ACTIVE.\n";
             cout << "Would you like to suspend or delete this provider?\n";
-            cout << "(1) Suspend (2) Delete (3) Neither\n";
+            cout << "[1] Suspend\n"
+                << "[2] Delete\n"
+                << "[3] Neither" << endl;
             int choice = validateInputInteger();
             if (choice == 1) {
                 tempDatabase.setCell("provider", "id", providerToEdit, "provider_status", "0");
@@ -147,10 +165,11 @@ void oterminal::interpretProviderStatus(const int status, const string providerT
             }
         } break;
         case 0: {
+            termHeader(2);
             cadb tempDatabase;
             cout << "This provider status is SUSPENDED.\n";
             cout << "Would you like to activate or delete this provider?\n";
-            cout << "(1) Activate (2) Delete (3) Neither\n";
+            cout << "[1] Activate\n[2] Delete\n[3] Neither\n";
             int choice = validateInputInteger();
             if (choice == 1) {
                 tempDatabase.setCell("provider", "id", providerToEdit, "provider_status", "1");
@@ -168,9 +187,10 @@ void oterminal::interpretProviderStatus(const int status, const string providerT
         } break;
         case -3: {
             cadb tempDatabase;
+            termHeader(2);
             cout << "This provider was found, but was deleted.\n";
             cout << "Would you like to reenable this provider?\n";
-            cout << "(1) Yes (2) No\n";
+            cout << "[1] Yes\n[2] No" << endl;
             int choice = validateInputInteger();
             if (choice == 1) {
                 tempDatabase.setCell("provider", "id", providerToEdit, "isDeleted", "0");
@@ -187,9 +207,10 @@ void oterminal::interpretMemberStatus(const int status, const string memberToEdi
     switch(status) {
         case 1: {
             cadb tempDatabase;
+            termHeader(2);
             cout << "This members status is ACTIVE.\n";
             cout << "Would you like to suspend or delete this member?\n";
-            cout << "(1) Suspend (2) Delete (3) Neither\n";
+            cout << "[1] Suspend\n[2] Delete\n[3] Neither" << endl;
             int choice = validateInputInteger();
             if (choice == 1) {
                 tempDatabase.setCell("member", "id", memberToEdit, "member_status", "0");
@@ -201,9 +222,10 @@ void oterminal::interpretMemberStatus(const int status, const string memberToEdi
         } break;
         case 0: {
             cadb tempDatabase;
+            termHeader(2);
             cout << "This members status is SUSPENDED.\n";
             cout << "Would you like to activate or delete this member?\n";
-            cout << "(1) Activate (2) Delete (3) Neither\n";
+            cout << "[1] Activate\n[2] Delete\n[3] Neither" << endl;
             int choice = validateInputInteger();
             if (choice == 1) {
                  tempDatabase.setCell("member", "id", memberToEdit, "member_status", "1");
@@ -221,9 +243,10 @@ void oterminal::interpretMemberStatus(const int status, const string memberToEdi
         } break;
         case -3: {
             cadb tempDatabase;
+            termHeader(2);
             cout << "Member was found, but was deleted.\n";
             cout << "Would you like to reenable this member?\n";
-            cout << "(1) Yes (2) No\n";
+            cout << "[1] Yes\n[2] No" << endl;
             int choice = validateInputInteger();
             if (choice == 1) {
                 tempDatabase.setCell("member", "id", memberToEdit, "isDeleted", "0");
@@ -242,7 +265,7 @@ void oterminal::interpretServiceStatus(const int status, const string serviceToE
             cadb tempDatabase;
             cout << "This service status is ACTIVE.\n";
             cout << "Would you like to suspend or delete this member?\n";
-            cout << "(1) Suspend (2) Delete (3) Neither\n";
+            cout << "[1] Suspend\n[2] Delete\n[3] Neither" << endl;
             int choice = validateInputInteger();
             if (choice == 1) {
                 tempDatabase.setCell("service", "id", serviceToEdit, "service_status", "0");
@@ -255,9 +278,10 @@ void oterminal::interpretServiceStatus(const int status, const string serviceToE
         } break;
         case 0: {
             cadb tempDatabase;
+            termHeader(2);
             cout << "This service status is SUSPENDED.\n";
             cout << "Would you like to activate or delete this member?\n";
-            cout << "(1) Activate (2) Delete (3) Neither\n";
+            cout << "[1] Activate\n[2] Delete\n[3] Neither" << endl;
             int choice = validateInputInteger();
             if (choice == 1) {
                 tempDatabase.setCell("service", "id", serviceToEdit, "service_status", "1");
@@ -276,9 +300,10 @@ void oterminal::interpretServiceStatus(const int status, const string serviceToE
         } break;
         case -3: {
             cadb tempDatabase;
+            termHeader(2);
             cout << "Service was found, but was deleted.\n";
             cout << "Would you like to reenable this service?\n";
-            cout << "(1) Yes (2) No\n";
+            cout << "[1] Yes\n[2] No\n";
             int choice = validateInputInteger();
             if (choice == 1) {
                 // tempDatabase.setCell("service", "id", serviceToEdit, "isDeleted", "0");
@@ -300,6 +325,7 @@ int oterminal::useTerminal() {
         cin.ignore(10000, '\n');
         switch(selection) {
             case 1: {
+                termHeader(2);
                 cout << "Adding new provider . . .\n";
                 // Creating new provider
                 provider newProvider = inputProvider();
@@ -317,6 +343,7 @@ int oterminal::useTerminal() {
                 cout << "Returning to main menu.\n---\n";
                 break;
             case 2: {
+                termHeader(2);
                 cout << "Adding new member . . .\n";
                 // Creating new member
                 member newMember = inputMember();
@@ -335,6 +362,7 @@ int oterminal::useTerminal() {
                 break;
             case 3: {
                 // TODO
+                termHeader(2);
                 cout << "Adding new service . . .\n";
                 // Creating new service
                 service newService = inputService();
@@ -351,6 +379,7 @@ int oterminal::useTerminal() {
                 break;
             case 4: {
                 cadb tempDatabase;
+                termHeader(2);
                 cout << "Updating provider . . .\n";
                 cout << "Enter provider number\n";
                 int provider_id_tocheck = tempDatabase.getID("provider", to_string(validateInputInteger()));
@@ -362,6 +391,7 @@ int oterminal::useTerminal() {
                 break;
             case 5: {
                 cadb tempDatabase;
+                termHeader(2);
                 cout << "Updating member . . .\n";
                 cout << "Enter member number\n";
                 int member_id_tocheck = tempDatabase.getID("member", to_string(validateInputInteger()));
@@ -373,6 +403,7 @@ int oterminal::useTerminal() {
                 break;
             case 6: {
                 cadb tempDatabase;
+                termHeader(2);
                 cout << "Updating service . . .\n";
                 cout << "Enter service number\n";
                 int service_id_tocheck = tempDatabase.getID("service", to_string(validateInputInteger()));

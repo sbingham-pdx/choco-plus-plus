@@ -1,4 +1,5 @@
 #include "structures.h"
+#include <sstream>
 
 static cadb database;
 
@@ -162,7 +163,9 @@ void service::insert()
     // void insertService(const string number, const string name, const string cost)
     
     // Convert datatypes
-    string cost = to_string(fee);
+    stringstream stream;
+    stream << std::fixed << std::setprecision(2) << fee;
+    string cost = stream.str();//to_string(fee);
     
     // Insert
     database.insertService(number, name, cost);

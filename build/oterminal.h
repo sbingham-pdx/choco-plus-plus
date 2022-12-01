@@ -16,6 +16,7 @@ void clearcin();
 
 void scrBrk();
 void clear(void);
+void termHeader(const int);
 
 
 class oterminal {

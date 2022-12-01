@@ -22,9 +22,10 @@ int pterminal() {
   while (!provGood){
       clearcin();
       cin.ignore(1000, '\n');
-      cout << "Welcome to the Provider Terminal\nPlease enter your provider number below.\n"
+      termHeader(3);
+      cout << "Please enter your provider number below.\n"
           << "If you do not know your provider number, please use the demo number: 555554444" << endl;
-      cout << "Provider Number:";
+      cout << "Provider Number: ";
       getline(cin, pnumber);
       if (!database.getID("provider", pnumber)){
         //clear();
@@ -37,8 +38,9 @@ int pterminal() {
       }
       clearcin();
   }
-  cout << "\nHello " << pname << "!\n-------------\n";
-
+  termHeader(3);
+  cout << "Hello " << pname << "." << endl;
+  scrBrk();
 	// get initial selection
 	cout << "\nPlease select from the options below:\n"
     << "[1] Provider Directory - (Directory of Available Services)\n"
@@ -83,41 +85,77 @@ int pterminal_service(){
 	string new_comment = "";
   string confirmation = "";
   int confirmationint = 0;
+  int numgood = 0;
 
   visit new_visit;
 
   new_visit.provider_id = database.getID("provider", pnumber);
+  while (!numgood){
+    termHeader(3);
+    // get member number
+    cout << "Please enter member number below.\n"
+        << "If you do not have a member number with you, please use the demo number: 333333333" << endl;
+    scrBrk();
+    cout << "Member Number: ";
+    getline(cin, entry);
+    cout << entry << endl;
+    if (!database.getID("member", entry)){
+      cout << "\n\nError - Invalid Member Number, please try again." << endl;
+      cin.get();
+    }
+    else{
+      new_visit.member_id = database.getID("member", entry);
+      entry = "";
+      clearcin();
+      numgood = 1;
+    }
+  }
+  
 
-	// get member number
-  cout << "\nEnter member number for new service\n";
-  getline(cin, entry);
-  cout << entry << endl;
-  new_visit.member_id = database.getID("member", entry);
-  entry = "";
-  clearcin();
-
+  termHeader(3);
 	// get date of service
   cout << "\nEnter date of service in the format\nYYYY-MM-DD\n";
+  scrBrk();
   getline(cin, entry);
   new_visit.date = entry;
   entry = "";
   clearcin();
 
-	// get service code
-  cout << "\nEnter service code\n";
-  getline(cin, entry);
-  new_visit.service_id = database.getID("service", entry);
-  entry = "";
-  clearcin();
+  numgood = 0;
+  while (!numgood){
+    termHeader(3);
+	  // get service code
+    cout << "Please enter service number below.\n"
+        << "If you do not know a service number, please use the demo number: 555444" << endl;
+    scrBrk();
+    cout << "Service Number: ";
+    getline(cin, entry);
+    if (!database.getID("service", entry)){
+      cout << "\n\nError - Invalid Service Number, please try again." << endl;
+      cin.get();
+    }
+    else{
+      new_visit.service_id = database.getID("service", entry);
+      entry = "";
+      clearcin();
+      numgood = 1;
+    }
+  }
 
+  termHeader(3);
 	// get comments
   cout << "\nEnter comments\n";
+  scrBrk();
   getline(cin, entry);
   new_visit.comment = entry;
   entry = "";
   clearcin();
 
-  cout << "\nWrite service to database? (1)yes or (2)no\n";
+  termHeader(3);
+  cout << "Write visit to database?" << endl;
+  scrBrk();
+  cout << "[1] Yes\n"
+      << "[2] No" << endl;
   getline(cin, entry);
   confirmationint = stoi(entry);
   entry = "";

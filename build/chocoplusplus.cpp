@@ -12,13 +12,14 @@ int main(){
 
 	while(run){
 
+		termHeader(0);
+		cout << "\tPlease select from the options below:" << endl;
 		scrBrk();
-		cout << "Welcome to Choco Plus Plus\nPlease select from the options below:" << endl;
-		scrBrk();
-		cout << "[1] Manager Terminal\n"
+		cout << "[0] Exit\n"
+			<< "[1] Manager Terminal\n"
 			<< "[2] Operator Terminal\n"
-			<< "[3] Provider Terminal\n"
-			<< "[4] Exit" << endl;
+			<< "[3] Provider Terminal" << endl;
+			
 		
 	
 		cin >> selection;
@@ -36,7 +37,7 @@ int main(){
 				cout << "Provider Terminal\n";
 				pterminal();
 				break;
-			case 4:
+			case 0:
 				cout << "Exiting..." << endl;
 				run = 0;
 				break;
