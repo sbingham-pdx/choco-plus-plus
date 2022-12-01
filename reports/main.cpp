@@ -238,9 +238,9 @@ void Batch_Paid_Bad_File()
 
 int main()
 {
-    //management_terminal();
+    management_terminal();
 
-   Reports_All_Providers_Success();
+   /*Reports_All_Providers_Success();
    Reports_Ind_Provider_Success();
    Reports_All_Members_Success();
    Reports_Ind_Member_Success();
@@ -253,6 +253,6 @@ int main()
    Batch_Paid_Success();
    Batch_Unpaid_Success();
    //
-   Batch_Paid_Bad_File();
+   Batch_Paid_Bad_File(); */
    
 }

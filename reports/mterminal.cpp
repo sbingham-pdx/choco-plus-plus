@@ -39,40 +39,48 @@ void management_terminal()
                 break;
             //Displays all the providers via .csv file 
             case 1:
-                manage_report.all_providers();
+                if(manage_report.all_providers())
+                    cout << "SUCCESS" << endl;
                 break; 
             //Displays an individual provider via .csv file 
             case 2:
                 to_id(id,1); 
-                manage_report.individual_provider(id); 
+                if(manage_report.individual_provider(id))
+                    cout << "SUCCESS" << endl;
                 break; 
             //Displays all members via .csv file
             case 3:
-                manage_report.all_members(); 
+                if(manage_report.all_members())
+                    cout << "SUCCESS" << endl;
                 break; 
             //Displays an individual member via .csv file 
             case 4:
                 to_id(id,2);
-                manage_report.individual_member(id); 
+                if(manage_report.individual_member(id))
+                    cout << "SUCCESS" << endl;
                 break; 
             //Displays the account apyables information via .csv file 
             case 5:
-                manage_report.ap_report(); 
+                if(manage_report.ap_report())
+                    cout << "SUCCESS" << endl;
                 break;
             //Displays the electronic fund transfer via .csv file 
             //Creates 2 files 
             //Once approved AP, submit back to case 8, then mark paid 
             case 6: 
-                manage_report.eft_report(); 
+                if(manage_report.eft_report())
+                    cout << "SUCCESS" << endl;
                 break;
             //Displays the provider directory via .csv file 
             case 7:
-                manage_report.provider_directory();
+                if(manage_report.provider_directory())
+                    cout << "SUCCESS" << endl;
                 break; 
             //Allign with case 6
             //Get's file that case 6 outputs
             case 8:
                 update_payment_status(manage_report);
+                cout << "SUCCESS" << endl;
                 break;
             //Default when none of the cases are true
             default: /* ? */
@@ -210,6 +218,7 @@ int validateInputInteger() {
     cin.ignore(10000, '\n');
     return num;
 }
+
 
 #endif // ERROR
 
