@@ -14,6 +14,9 @@ void management_terminal()
     string report; 
 
     do{
+        scrBrk();
+        cout  << "Welcome to the Manager Terminal.\nPlease choose from the options below:" << endl;
+        scrBrk();
         //The different options the manager terminal will carry out 
         cout  << "[0] Exit the manager terminal\n"
             << "[1] Create weekly report for all providers\n"
@@ -92,6 +95,9 @@ void update_payment_status(management_report & obj)
     int choice = 0;
     string to_update = "";
     int tran_id = 0;
+    scrBrk(); 
+    cout  << "Welcome to the Manager Terminal.\nPlease choose from the options below:" << endl;
+    scrBrk();
     cout << "Please Select From the Below Options: \n"
          << "[1] Update payment status to paid for individual transaction\n"
          << "[2] Update payment status to paid for multiple transactions via eft detailed report file\n"
@@ -132,6 +138,7 @@ to_report(string & a_report)
     try{
 
         cout << "\nPlease enter the name of the detailed eft report containing visits to be marked as paid: ";
+        cout << " >>> ";
         getline(cin , a_report); 
 
         if(a_report.empty() || !endswith(a_report,"_eft_detailed_report"))
@@ -165,9 +172,9 @@ to_id(int & a_id, int type)
     //Exception handling in case the ID is not valid 
     try{
         if(type == 3)
-            cout << "\nPlease enter the 3 digit ID ";
+            cout << "\nPlease enter the 3 digit transaction ID ";
         else
-            cout << "\nPlease enter the 9 digit ID ";
+            cout << "\nPlease enter the 9 digit member or provider ID ";
         a_id = validateInputInteger();
         if(type == 1 && !obj.getID("provider",to_string(a_id)))
             throw a_id;
