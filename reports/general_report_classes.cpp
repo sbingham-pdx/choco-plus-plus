@@ -393,3 +393,4 @@ bool endswith(const string & original, const string & end)
 	if(!validate_date(original.substr(0, i))) return false;
 	return true;
 }
+

@@ -23,9 +23,9 @@ void management_terminal()
             << "[5] Create weekly accounts payable report\n"
             << "[6] Create weekly electronic fund transfer report\n"
             << "[7] Create provider directory report\n"
-            << "[8] Load File to mark visits as paid" << endl;
+            << "[8] Update transaction payment status" << endl;
  
-        cin >> choice; cin.ignore(100,'\n');
+        choice = validateInputInteger();
 
        //Execute the code based on the choice 
         switch(choice){
@@ -40,7 +40,7 @@ void management_terminal()
                 break; 
             //Displays an individual provider via .csv file 
             case 2:
-                to_id(id); 
+                to_id(id,1); 
                 manage_report.individual_provider(id); 
                 break; 
             //Displays all members via .csv file
@@ -49,7 +49,7 @@ void management_terminal()
                 break; 
             //Displays an individual member via .csv file 
             case 4:
-                to_id(id);
+                to_id(id,2);
                 manage_report.individual_member(id); 
                 break; 
             //Displays the account apyables information via .csv file 
@@ -69,9 +69,7 @@ void management_terminal()
             //Allign with case 6
             //Get's file that case 6 outputs
             case 8:
-                to_report(report); 
-                if(!manage_report.batch_mark_paid(report))
-                    cout << "ERROR INVALID FILE" << endl;
+                update_payment_status(manage_report);
                 break;
             //Default when none of the cases are true
             default: /* ? */
@@ -88,6 +86,43 @@ void management_terminal()
 
 
 #ifdef ERROR
+
+void update_payment_status(management_report & obj)
+{
+    int choice = 0;
+    string to_update = "";
+    int tran_id = 0;
+    cout << "Please Select From the Below Options: \n"
+         << "[1] Update payment status to paid for individual transaction\n"
+         << "[2] Update payment status to paid for multiple transactions via eft detailed report file\n"
+         << "[3] Update payment status to unpaid for individual transaction\n"
+         << "[4] Update payment status to unpaid for multiple transactions via eft detailed report file\n"
+         << "[0] return to manager terminal\n";
+
+    choice = validateInputInteger(); 
+
+    switch(choice)
+    {
+        case 1: to_id(tran_id,3); 
+                obj.mark_paid(tran_id, 1);
+                return;
+        case 2: to_report(to_update);
+                if(!obj.batch_mark_paid(to_update))
+                    cout << "ERROR: Invalid File" << endl;
+                return;
+        case 3: to_id(tran_id,3); 
+                obj.mark_paid(tran_id,0);
+                return;
+        case 4: to_report(to_update);
+                if(!obj.batch_mark_paid(to_update,0))
+                    cout << "ERROR: Invalid File" << endl;
+                return;
+        case 0: 
+        default: return; 
+    }
+
+    return; 
+}
 
 void
 to_report(string & a_report)
@@ -124,24 +159,49 @@ to_report(string & a_report)
 }
 
 void 
-to_id(int & a_id)
+to_id(int & a_id, int type)
 { 
     cadb obj;
     //Exception handling in case the ID is not valid 
     try{
-
-        cout << "\nPlease enter the ID: ";
-        cin >> a_id; //cin.ignore(100, '\n'); 
-
-        if(!obj.getID("provider",to_string(a_id)) && !obj.getID("member", to_string(a_id)))
+        if(type == 3)
+            cout << "\nPlease enter the 3 digit ID ";
+        else
+            cout << "\nPlease enter the 9 digit ID ";
+        a_id = validateInputInteger();
+        if(type == 1 && !obj.getID("provider",to_string(a_id)))
+            throw a_id;
+        else if(type == 2 && !obj.getID("member", to_string(a_id))) 
+            throw a_id;
+        else if(type == 3 && !obj.findMatch("transaction", "id", to_string(a_id)))
             throw a_id; 
     }
     catch(...){
-        cout << "\nInvalid ID # format (Must Be 9 Digits) , ERROR NUMBER: " << a_id << endl;
-        to_id(a_id); 
+        if(type == 3)
+            cout << "\nInvalid ID # format (Must Be 3 Digits) , ERROR NUMBER: " << a_id << endl;
+        else
+            cout << "\nInvalid ID # format (Must Be 9 Digits) , ERROR NUMBER: " << a_id << endl;
+        to_id(a_id,type); 
     }
 
     return;
+}
+
+
+int validateInputInteger() {
+    int num;
+    cout << " >>> ";
+    while(!(cin >> num)) {
+        // Error message
+        cout << "Invalid integer input. Try again.\n";
+        // Clear previous input
+        cin.clear();
+        // Discard previous input
+        cin.ignore(10000, '\n');
+        cout << " >>> ";
+    }
+    cin.ignore(10000, '\n');
+    return num;
 }
 
 #endif // ERROR

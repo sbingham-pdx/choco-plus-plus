@@ -281,7 +281,7 @@ class management_report
 		int eft_report(); 
 		int provider_directory();
 		int batch_mark_paid(const string & fname,int type=1);
-		int mark_paid(int transaction_id, int type=1);
+		int mark_paid(int transaction_id, int type);
 	protected: 
 };
 
