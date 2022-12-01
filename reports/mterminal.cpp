@@ -15,18 +15,16 @@ void management_terminal()
 
     do{
         //The different options the manager terminal will carry out 
-        cout  << "\n0 = Exit the manager terminal"
-            << "\n1 = Create weekly report for all providers"
-            << "\n2 = Create weekly report for individual provider"
-            << "\n3 = Create weekly report for all members"
-            << "\n4 = Create weekly report for individual member"
-            << "\n5 = Create weekly accounts payable report"
-            << "\n6 = Create weekly electronic fund transfer report"
-            << "\n7 = Create provider directory report"
-            << "\n8 = Mark visits as paid\n";
-            //<< "\n9 = Mark a visit a paid\n"; 
+        cout  << "[0] Exit the manager terminal\n"
+            << "[1] Create weekly report for all providers\n"
+            << "[2] Create weekly report for an individual provider\n"
+            << "[3] Create weekly report for all members\n"
+            << "[4] Create weekly report for an individual member\n"
+            << "[5] Create weekly accounts payable report\n"
+            << "[6] Create weekly electronic fund transfer report\n"
+            << "[7] Create provider directory report\n"
+            << "[8] Load File to mark visits as paid" << endl;
  
-        cout << "\nPlease choose from the menu above: ";
         cin >> choice; cin.ignore(100,'\n');
 
        //Execute the code based on the choice 
@@ -87,23 +85,38 @@ void management_terminal()
     
     return;
 }
+
+
 #ifdef ERROR
 
 void
-to_report(string & a_report){
-
+to_report(string & a_report)
+{
+    ifstream file;
     //Exception handling in case the file is invalid
     try{
 
         cout << "\nPlease enter the name of the detailed eft report containing visits to be marked as paid: ";
         getline(cin , a_report); 
 
-
         if(a_report.empty() || !endswith(a_report,"_eft_detailed_report"))
             throw 0; 
+
+        file.open(a_report+".csv");
+
+        if(!file) 
+            throw 's'; 
+
+        file.close();
     }
-    catch(...){
-        cout << "\nInvalid file name (File must exist and be in following format YYYY-MM-DD_eft_detailed_report), ERROR FILE: INVALID " << endl; 
+    catch(int error)
+    {
+        cout << "\n ERROR: Invalid file name (File must be in following format YYYY-MM-DD_eft_detailed_report)" << endl; 
+        to_report(a_report);
+    }
+    catch(char error)
+    {
+        cout << "\n ERROR: File does not exist" << endl;
         to_report(a_report);
     }
 

@@ -151,7 +151,8 @@ string date(int offset)
 
 int validate_date(const string & toval)
 {
-	int year = 0, i =0;
+	int year = 0; 
+	long unsigned int i =0;
 
 	for(i=0; i < 4 && i<toval.length(); ++i)
 	{
