@@ -296,4 +296,6 @@ bool compare_float(float x, float y, float epsilon = 0.01f);
 
 bool endswith(const string &, const string &);
 
+bool comparefiles(ifstream &, ifstream &);
+
 #endif //REPORTS_H

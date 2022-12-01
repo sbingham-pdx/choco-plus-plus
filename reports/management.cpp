@@ -115,7 +115,8 @@ int management_report:: batch_mark_paid(const string & fname, int type)
 {
 	ifstream ifile; 
 	ofstream ofile;
-	int tid =0, pn = 0, mn = 0, day = 0, month = 0, year =0, count = 0;
+	int tid =0, pn = 0, mn = 0, count = 0;
+	char date[11];
 	float cost = 0;
 	forward_list<t_id> to_mark_paid, to_compare;
 	t_id temp;
@@ -124,13 +125,17 @@ int management_report:: batch_mark_paid(const string & fname, int type)
 	cadb data_base;
 	
 	if(fname == "" ) return 0;
+	cout << " here " << endl;
 	if(!endswith(fname, "_eft_detailed_report")) return 0; 
 
+	cout << " here " << endl;
 	ifile.open(fname +".csv");
 
 	if(!ifile) return 0; 
 	ofile.open(fname+"_payment_status_updated.csv");
+	cout << " here " << endl;
 	if(!ofile) return 0;
+	cout << " here " << endl;
 
 	ofile << "Provider Number,Transaction ID,Service Date,Member Number,Service Cost" << endl; 
 
@@ -147,16 +152,12 @@ int management_report:: batch_mark_paid(const string & fname, int type)
 		ifile.ignore(100, ',');	
 		ifile >> tid; 
 		ifile.ignore(100,',');
-		ifile >> year;
-		ifile.ignore(100,'-');
-		ifile >> month;
-		ifile.ignore(100,'-');
-		ifile >> day;
-		ifile.ignore(100,',');
+		ifile.get(date, 10, ',');
 		ifile >> mn;
 		ifile.ignore(100,',');
 		ifile >> cost;
-		temp.read(pn, tid, to_string(year) + "-" + to_string(month) + "-" + to_string(day), mn, cost);
+		cout << date << endl;
+		temp.read(pn, tid, date, mn, cost);
 		to_mark_paid.push_front(temp);
 		ifile.ignore(100, '\n');
 		ifile >> pn;

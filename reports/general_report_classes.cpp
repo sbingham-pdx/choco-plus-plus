@@ -390,7 +390,29 @@ bool endswith(const string & original, const string & end)
 
 	if(k>=0) return false;
 
-	if(!validate_date(original.substr(0, i))) return false;
+	if(!validate_date(original.substr(0, i+1))) return false;
+	return true;
+}
+
+
+bool comparefiles(ifstream & f1, ifstream & f2)
+{
+	if(!f1 || !f2) return false; 
+
+	char c1 = '0', c2 ='0';
+  
+	f1 >> c1; 
+	f2 >> c2; 
+
+    while(!f1.eof() && !f2.eof())
+    {
+        if (c1 != c2)
+            return false;
+		f1 >> c1;
+		f2 >> c2;
+	}
+    if(f1.eof() && !f2.eof()) return false;
+	if(!f1.eof() && f2.eof()) return false;
 	return true;
 }
 

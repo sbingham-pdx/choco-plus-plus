@@ -1,11 +1,11 @@
 #include "mterminal.h"
 
-
+/*
 int main()
 {
 
     management_terminal();
-   /* management_report obj; 
+    management_report obj; 
     //bad Provider number
     obj.individual_provider(2); 
     //bad member number
@@ -19,5 +19,4 @@ int main()
     obj.batch_mark_paid("2022-11-30_detailed_report",0);
     //obj.batch_mark_paid("eft_detailed_report");
     //obj.batch_mark_paid("eft_detailed_report",0);
-    */
-}
+}*/
