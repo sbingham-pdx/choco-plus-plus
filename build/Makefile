@@ -1,6 +1,7 @@
 CC = g++
 DEBUG = -g
-DEFINES =
+DEBUG += --verbose
+DEFINES = 
 #DEFINES += -DTEST
 
 
@@ -45,6 +46,7 @@ FILES = $(CONNECTOR)\
 		$(REPORTS)\
 		$(STRUCTS)\
 		$(TERMINAL)\
+		$(NULL)
 		
 PROG1 = chocoplusplus
 

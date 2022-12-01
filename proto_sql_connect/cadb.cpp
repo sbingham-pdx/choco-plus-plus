@@ -84,8 +84,9 @@ string cadb::getString(const string table, const string column, const string tom
 	query += " = '";
 	query += tomatch;
 	query += "';";
-
+#ifdef VERBOSE
 	cout << ">> Calling: " << query << endl;
+#endif //VERBOSE
 	
 	// Execute the Query
 	queryDB(query, caRes);
@@ -124,8 +125,9 @@ void cadb::setCell(const string table, const string column, const string tomatch
 	update += tomatch;
 	update += "';";
 	
+#ifdef VERBOSE
 	cout << ">> Calling: " << update << endl;
-
+#endif // VERBOSE
 	execute(update);
 }
 
@@ -150,8 +152,10 @@ int cadb::findMatch(const string table, const string column, const string tomatc
 	query += tomatch;
 	query += "';";
 	//query += ";";
-	
+
+#ifdef VERBOSE	
 	cout << ">> Calling: " << query << endl;
+#endif // VERBOSE
 
 	queryDB(query, caRes);
 
@@ -186,7 +190,9 @@ int cadb::getRows(const string table){
 	int ret = 0;
 	int biggest = 0;
 
+#ifdef VERBOSE
 	cout << ">> Calling: " << query << endl;
+#endif // VERBOSE
 
 	queryDB(query, caRes);
 	try{
@@ -232,7 +238,9 @@ int cadb::getID(const string table, const string tomatch){
 	table_number += "_number";
 
 	resstring = getString(table, table_number, tomatch, "id");
+#ifdef VERBOSE
 	cout << "result string: " << resstring << endl;
+#endif // VERBOSE
 	if (resstring.empty()) return 0;
 	
 	id = stoi(resstring);
@@ -312,7 +320,9 @@ void cadb::insertVisit(const string date, const int provider_id, const int servi
 	insert += comments;
 	insert += "');";
 
+#ifdef VERBOSE
 	cout << ">> Calling: " << insert << endl;
+#endif // VERBOSE
 	
 	execute(insert);
 }
@@ -366,7 +376,9 @@ void cadb::insertProvider(const string number, const string name, const string s
 	insert += zip;
 	insert += "');";
 
+#ifdef VERBOSE
 	cout << ">> Calling: " << insert << endl;
+#endif // VERBOSE
 	execute(insert);
 
 }
@@ -420,7 +432,9 @@ void cadb::insertMember(const string number, const string name, const string str
 	insert += zip;
 	insert += "');";
 
+#ifdef VERBOSE
 	cout << ">> Calling: " << insert << endl;
+#endif // VERBOSE
 	execute(insert);
 
 }
@@ -455,7 +469,10 @@ void cadb::insertService(const string number, const string name, const string co
 	insert += "', '";
 	insert += cost;
 	insert += "');";
+
+#ifdef VERBOSE
 	cout << ">> Calling: " << insert << endl;
+#endif // VERBOSE
 	execute(insert);
 }
 
