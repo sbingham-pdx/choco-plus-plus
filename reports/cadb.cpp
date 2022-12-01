@@ -124,7 +124,7 @@ void cadb::setCell(const string table, const string column, const string tomatch
 	update += tomatch;
 	update += "';";
 	
-	cout << ">> Calling: " << update << endl;
+	//cout << ">> Calling: " << update << endl;
 
 	execute(update);
 }
@@ -151,7 +151,7 @@ int cadb::findMatch(const string table, const string column, const string tomatc
 	query += "';";
 	//query += ";";
 	
-	cout << ">> Calling: " << query << endl;
+	//cout << ">> Calling: " << query << endl;
 
 	queryDB(query, caRes);
 
@@ -215,13 +215,13 @@ int cadb::getID(const string table, const string tomatch){
 	
 	if (!strcmp(table.c_str(), "provider") || !strcmp(table.c_str(), "member")){
 		if (tomatch.length() != 9 || tomatch.empty()) {
-			std::cout << ">> ERROR: Identity Number must be 9 digits. Identity Number: " << tomatch << " is invalid." << std::endl;
+			//std::cout << ">> ERROR: Identity Number must be 9 digits. Identity Number: " << tomatch << " is invalid." << std::endl;
 			return id;
 		}
 	}
 	if (!strcmp(table.c_str(), "service")){
 		if (tomatch.length() != 6 || tomatch.empty()) {
-			std::cout << ">> ERROR: Service Number must be 9 digits. Service Number: " << tomatch << " is invalid." << std::endl;
+			//std::cout << ">> ERROR: Service Number must be 9 digits. Service Number: " << tomatch << " is invalid." << std::endl;
 			return id;
 		}
 	}
@@ -238,7 +238,7 @@ int cadb::getID(const string table, const string tomatch){
 	query += tomatch;
 	query += "';";
 
-	cout << ">> Calling: " << query << endl;
+	//cout << ">> Calling: " << query << endl;
 
 	queryDB(query, caRes);
 
