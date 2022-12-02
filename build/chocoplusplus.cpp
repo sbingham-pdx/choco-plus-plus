@@ -11,7 +11,6 @@ int main(){
 	
 
 	while(run){
-
 		termHeader(0);
 		cout << "\tPlease select from the options below:" << endl;
 		scrBrk();

@@ -64,7 +64,7 @@ int pterminal() {
     {
     case 1:
       cout << "\nProvider Directory (Directory of Available Services)\n";
-      provider_reporter.provider_directory(date(0)+"provider_directory");
+      provider_reporter.provider_directory(date(0)+"_provider_directory");
       cout << "\nOutput provider directory\n-------------\n";
       break;
     case 2:
