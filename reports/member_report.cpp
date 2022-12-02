@@ -1,0 +1,153 @@
+#include "reports.h"
+//to do: 
+//	custom dates(all files)
+//	check write to file
+//	test more cases
+
+
+member_report:: member_report()
+{
+	number = 0; 
+}
+
+
+member_report:: ~member_report()
+{
+}
+
+
+int member_report:: run(int m_id, const string & fname, int filetype)
+{ 
+	string member_query, service_query; 
+	sql:: ResultSet *member_data = NULL, *service_records = NULL;
+	cadb database;
+	member_service temp;
+
+	start_date = date(6);
+	end_date = date(0);
+	
+	if(number) reset();
+
+	number = m_id;
+
+	m_id = database.getID("member",to_string(m_id));
+
+	if(!m_id) return 0;
+
+	member_query = "SELECT member_name, member_street, member_city, member_state, member_zip ";
+	member_query += "FROM member ";
+	member_query += ("WHERE id= " + to_string(m_id) +";");
+
+	service_query = "SELECT a.trans_date, b.service_name, c.provider_name ";
+	service_query += "FROM transaction a JOIN service b ";
+	service_query += "ON a.service_id  = b.id ";
+	service_query += "JOIN provider c ON c.id = a.provider_id ";
+	service_query += ("WHERE a.member_id = " + to_string(m_id));
+	service_query += " AND a.trans_date >= '" + start_date + "' ";
+	service_query += "AND a.trans_date <= '" + end_date + "' ;";
+
+	database.queryDB(member_query,member_data);	
+	database.queryDB(service_query,service_records);
+
+
+	if(member_data && member_data->next())
+	{
+		name = member_data->getString(1);
+		street = member_data->getString(2);
+		city  = member_data->getString(3);
+		state = member_data->getString(4);
+		zip = member_data->getString(5);
+
+		delete member_data;
+	}
+	else
+	{
+		if(member_data) delete member_data;
+		if(service_records) delete service_records;
+		return 0;
+	}
+	// should the report still be written if no services for that week? 
+	while(service_records && service_records->next())
+	{
+		temp.read(service_records->getString(1),service_records->getString(2),service_records->getString(3));
+		member_service_list.push_front(temp);
+	}
+
+	if(service_records)
+		delete service_records;
+	
+
+	member_service_list.sort();
+
+	if(fname == "") display(); 
+	else write(fname,filetype);
+	return 1; 
+}
+
+void member_report:: reset()
+{
+	name = street = city = state = zip = "";
+    number = 0;
+	
+	member_service_list.clear();
+}	
+
+int member_report:: display()
+{
+	int count = 0;
+
+	if(!number) return 0; 
+	cout << "Member: " << name << endl; 
+	cout << "Address: " << street <<  endl << city << ", " << state << ", " << zip << endl; 
+	cout << "Service Report from " << start_date << " to " << end_date << endl;
+	cout << " Service Date   Service Name            Provider\n";
+	for(auto it = member_service_list.begin(); it != member_service_list.end(); ++it)
+	{
+		cout << ++count << ": ";
+		it->display();
+		cout << endl;
+	}
+
+	return 1;
+}
+
+int member_report:: write(const string & fname, int filetype)
+{
+	ofstream file;
+	int count = 0;
+
+	if(!number) return 0; 
+	if(!filetype)
+		file.open(fname + ".csv");
+	else 
+		file.open(fname + ".csv", ios::app);
+
+	if(!file) return 0;
+
+	file << "Member: " << name << endl;
+	file  << "Address: " << street << ", " << city << ", " << state << ", " << zip << endl; 
+	file << "Service Report from " << start_date << " to " << end_date << endl;
+	file << "Count, Service Date,Service,Provider" << endl;
+	for(auto it = member_service_list.begin(); it != member_service_list.end(); ++it)
+	{
+		file << ++count << ",";
+		it->write(file); 
+		file << endl;
+	}
+	file << endl;
+	file.close();
+
+	return 1;
+}
+
+
+
+
+	
+	
+
+
+
+
+
+

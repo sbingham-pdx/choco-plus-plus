@@ -25,9 +25,9 @@ void member_service::write(ofstream & file)
 }
 
 void member_service::read(const string & ndate, const string & nservice, const string & nprovider)
-{
+{	
 	date = ndate;
-       	service_name = nservice; 
+    service_name = nservice; 
 	provider = nprovider; 
 	
 	return; 
@@ -149,19 +149,51 @@ string date(int offset)
 	return string(date);
 }
 
-	
-/************* provider *****************************/
+int validate_date(const string & toval)
+{
+	int year = 0, i =0;
 
-provider:: provider()
+	for(i=0; i < 4 && i<toval.length(); ++i)
+	{
+			year = (year*10)+toval[i];
+	}
+
+	if(year > 2022 || year < 1933) return 0; 
+
+	year = 0; 
+	
+	for(i = i+1; i<7 && i<toval.length(); ++i)
+	{
+		year = (year*10)+toval[i];
+	}
+
+	if(year > 12 || year < 1) return 0; 
+
+	year = 0;
+
+	for(i = i+1; i<10 && i<toval.length(); ++i)
+	{
+		year = (year*10)+toval[i];
+	}
+
+	if(year>31 || year <1) return 0;
+
+	return 1;
+}
+
+	
+/************* provider_ap_record *****************************/
+
+provider_ap_record:: provider_ap_record()
 {
 	total = scount = 0;
 }
 
-provider:: ~provider()
+provider_ap_record:: ~provider_ap_record()
 {
 }
 
-float provider::display(char type, int & service_count)
+float provider_ap_record::display(char type, int & service_count)
 {
 	cout  << number << "\t\t" << name << "\t\t";
 	if(type == 'A')
@@ -171,7 +203,7 @@ float provider::display(char type, int & service_count)
 	return total;
 }
 
-float provider::write(char type, ofstream & file, int & service_count)
+float provider_ap_record::write(char type, ofstream & file, int & service_count)
 {
 	if(!file) return 0; 
 
@@ -183,7 +215,7 @@ float provider::write(char type, ofstream & file, int & service_count)
 	return total;
 }
 
-void provider:: read(const string & nname, int nnumber, int nscount, float ntotal)
+void provider_ap_record:: read(const string & nname, int nnumber, int nscount, float ntotal)
 {
 	name = nname; 
 	number = nnumber; 
@@ -192,19 +224,29 @@ void provider:: read(const string & nname, int nnumber, int nscount, float ntota
 	return;
 }
 
+int provider_ap_record:: compare(float sum) const
+{
+	if(compare_float(sum,total)) return 1;
+	return 0;
+}
 
-/**************** service ***********************************/ 
+int provider_ap_record:: compare_provider(int pn) const
+{
+	if(pn != number) return 0; 
+	return 1;
+}
+/**************** service_record ***********************************/ 
 
 
-service:: service()
+service_record:: service_record()
 {
 }
 
-service:: ~service()
+service_record:: ~service_record()
 {
 }
 
-void service:: display()
+void service_record:: display()
 {
 	cout << left << setw(24) << name
 	     << left << setw(15) << service_code
@@ -212,7 +254,7 @@ void service:: display()
 	return; 
 }
 
-void service:: write(ofstream & file)
+void service_record:: write(ofstream & file)
 {
 	if(!file) return;
 
@@ -222,7 +264,7 @@ void service:: write(ofstream & file)
 	return; 
 }
 
-void service:: read(const string & nname, int nservice_code, float nfee)
+void service_record:: read(const string & nname, int nservice_code, float nfee)
 {
 	name = nname; 
 	service_code = nservice_code; 
@@ -232,11 +274,107 @@ void service:: read(const string & nname, int nservice_code, float nfee)
 }
 
 
-bool service:: operator<(const service & two) const
+bool service_record:: operator<(const service_record & two) const
 {
 	if(name < two.name) return true; 
 	return false; 
 }
 
 
+/***************** trannsaction ID **********************/
 
+t_id:: t_id()
+{
+	date = "1800-01-01";
+}
+
+t_id:: ~t_id()
+{
+}
+
+float t_id:: display()
+{
+	cout << left << setw(24) << provider_number
+	     << left << setw(15) << id
+	     << left << setw(24) << date
+	     << left << setw(24) << member
+	     << left << setw(14) << fee;
+	return fee;
+}
+
+float t_id:: write(ofstream & file)
+{
+	if(!file) return 0;
+
+	file << provider_number<< ","
+	     << id << ","
+		 << date << ","
+		 << member << ","
+	     << fee;
+	return fee;
+}
+
+void t_id:: read(int pn, int tid, const string & ndate, int nm, float nfee)
+{
+	
+	if(pn <= 999999999 &&  pn > 0)
+		provider_number = pn;
+	if(tid <= 999999999 && tid > 0)
+		id = tid; 
+	if(validate_date(ndate))
+		date = ndate;	
+	if(nm <= 999999999 && nm > 0)
+		member = nm;
+	if(nfee<50000  && nfee >0)
+		fee = nfee;
+	return;
+}
+
+bool t_id:: operator<(const t_id & two) const
+{
+	if(provider_number < two.provider_number) return true; 
+	if(provider_number > two.provider_number) return false;
+	if(id < two.id) return true; 
+	return false; 
+}
+
+float t_id:: get_cost() const
+{
+	return fee;
+}
+
+int t_id:: compare_provider(const provider_ap_record & to_comp) const
+{
+	return to_comp.compare_provider(provider_number);
+}
+
+int t_id:: compare_provider(const t_id & to_comp) const
+{
+	if(provider_number != to_comp.provider_number) return 0;
+	return 1;
+}
+
+bool t_id:: operator==(const t_id & two) const
+{
+	if(provider_number != two.provider_number) return false;
+	if(id != two.id) return false;
+	if(date != two.date) return false; 
+	if(member != two.member) return false;
+	if(!compare_float(fee, two.fee)) return false;
+	return true;
+}
+
+int t_id:: get_id() const
+{
+	return id;
+}
+
+
+
+/***************compare floats *****************************/
+bool compare_float(float x, float y, float epsilon)
+{
+   if(fabs(x - y) < epsilon)
+      return true;
+   return false;
+}

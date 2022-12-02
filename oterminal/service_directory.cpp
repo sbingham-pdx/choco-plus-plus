@@ -11,8 +11,8 @@ service_directory:: ~service_directory()
 
 int service_directory:: run(const string & fname)
 {
-	cadb database; 
-	sql::ResultSet *results = NULL;
+	cadb db; 
+	sql::ResultSet *ptr = NULL;
 	string query; 
 	service_record temp; 
 	
@@ -23,18 +23,18 @@ int service_directory:: run(const string & fname)
 	if(!service_list.empty())
 		service_list.clear();
 
-	database.queryDB(query, results); 
+	db.queryDB(query, ptr); 
 
-	if(!results) return 0; 
+	if(!ptr) return 0; 
 
-	while(results->next())
+	while(ptr->next())
 	{
-		temp.read(results->getString(1), results->getInt(2), results->getDouble(3));
+		temp.read(ptr->getString(1), ptr->getInt(2), ptr->getDouble(3));
 		service_list.push_front(temp); 
 	}
 	
-	if(results)
-		delete results;
+	if(ptr)
+		delete ptr;
 
 	service_list.sort(); 
 

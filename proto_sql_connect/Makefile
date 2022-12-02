@@ -4,7 +4,7 @@ DEFINES =
 #DEFINES += -DTEST
 
 CFLAGS = $(DEBUG) -Wall -Wshadow -Wunreachable-code -Wredundant-decls \
-        -Wmissing-declarations \
+        -Wmissing-declarations\
     	-Wno-return-local-addr \
 		-Wuninitialized -Werror -Wunsafe-loop-optimizations $(DEFINES)
 
@@ -15,28 +15,39 @@ LFLAGS =
 LFLAGS += -L/usr/lib
 LFLAGS += -lmysqlcppconn
 
+HFILES = \
+		cadb.h\
+		$(NULL)
+
+CFILES = cadb.cpp\
+		main.cpp\
+		$(NULL)
+
 FILES = \
-	cadb.h\
-	cadb.cpp\
-	test.cpp\
+	$(HFILES)\
+	$(CFILES)\
 	$(NULL)
+
+TFILES = $(HFILES)\
+		cadb.cpp\
+		test.cpp\
+		$(NULL)
 		
 PROG1 = cadb
+PROG2 = unit_tests
 
-PROGS = $(PROG1) 
+PROGS = $(PROG1) $(PROG2)
 
 all: $(PROGS)
 
-#$(PROG1): $(PROG1).o
-#	#$(CC) $(CFLAGS) -o $@ $< $(LFLAGS)
-#	chmod a+rx,g-w $@
 
-$(PROG1):  $(FILES) #?akefile
+$(PROG1):  $(FILES)
 	$(CC) $(CFLAGS) $(IFLAGS) -o $@ $^ $(LFLAGS)
 	chmod a+rx,g-w $@
 
-#all: cadb.h
-#	g++ -g -Wall -I/usr/include/mysqlcppconn -o cadb cadb.h cadb.cpp test.cpp -L/usr/lib -lmysqlcppconn
+$(PROG2): $(TFILES)
+	$(CC) $(CFLAGS) -DVERBOSE $(IFLAGS) -o $@ $^ $(LFLAGS)
+	chmod a+rx,g-w $@
 
 clean:
 	rm -f *.o $(PROGS)

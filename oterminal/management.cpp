@@ -1,13 +1,12 @@
 #include "reports.h" 
 
 // Change file to append rather than overwrite
-int management_report:: all_providers()
+int management_report:: all_providers(const string & fname)
 {
 	sql::ResultSet *ptr = NULL; 
 	string query;
 	cadb db;
 	provider_report obj;
-	int count = 0;
 
 	query = " SELECT DISTINCT provider_number ";
 	query += "FROM provider;";
@@ -20,10 +19,7 @@ int management_report:: all_providers()
 	{
 		int num = ptr->getInt(1);
 		if(!num) continue;
-		if(count)
-			obj.run(num, date(0)+"_all_providers",1); 
-		else
-			obj.run(num, date(0)+"_all_providers",count++);
+		obj.run(num, fname,1); 
 	}
 
 	if(ptr) delete ptr;
@@ -31,21 +27,20 @@ int management_report:: all_providers()
 	return 1;
 }
 
-int management_report:: individual_provider(int p_id)
+int management_report:: individual_provider(int p_id, const string & fname)
 {
 	provider_report obj; 
 	
-	return obj.run(p_id, date(0)+"_"+to_string(p_id)+"_report");
+	return obj.run(p_id, fname);
 }
 
 // Change file to append rather than overwrite
-int management_report:: all_members()
+int management_report:: all_members(const string & fname)
 {
 	sql::ResultSet *ptr = NULL; 
 	string query;
 	cadb db;
 	member_report obj;
-	int count = 0;
 
 	query = " SELECT DISTINCT member_number ";
 	query += "FROM member ";
@@ -59,10 +54,7 @@ int management_report:: all_members()
 	{	
 		int num = ptr->getInt(1);
 		if(!num) continue;
-		if(count)
-			obj.run(num, date(0)+"_all_members",1); 
-		else
-			obj.run(num, date(0)+"_all_members",count++);
+		obj.run(num, fname,1); 
 	}
 
 	if(ptr) delete ptr;
@@ -72,51 +64,49 @@ int management_report:: all_members()
 }
 
 
-int management_report:: individual_member(int m_id)
+int management_report:: individual_member(int m_id, const string & fname)
 {
 	member_report obj; 
 
-	return obj.run(m_id, date(0)+"_"+to_string(m_id)+"_report");
+	return obj.run(m_id, fname);
 }
 
 
-int management_report:: ap_report()
+int management_report:: ap_report(const string & fname)
 {
 	accounting_report obj;
 
-	return obj.run('A', date(0)+"_ap_report");
+	return obj.run('A', fname);
 }
 
-int management_report:: eft_report()
+int management_report:: eft_report(const string & fname)
 {
 	accounting_report  obj; 
 
-	return obj.run('C', date(0)+"_eft"); 
+	return obj.run('C', fname); 
 }
 
-int management_report:: provider_directory()
+int management_report:: provider_directory(const string & fname)
 {
 	service_directory obj;
 
-	return obj.run(date(0)+"_provider_directory");
+	return obj.run(fname);
 }
 
-int management_report:: mark_paid(int transaction_id, int type)
+int management_report:: mark_paid(int transaction_id)
 {
 	cadb obj; 
-	if(type)
-		obj.setCell("transaction","id", to_string(transaction_id), "payment_status", "1");	
-	else
-		obj.setCell("transaction","id", to_string(transaction_id), "payment_status", "0");	
+
+	obj.setCell("transaction","id", to_string(transaction_id), "payment_status", "1");	
+
 	return 1;
 }
 
-int management_report:: batch_mark_paid(const string & fname, int type)
+int management_report:: batch_mark_paid(const string & fname)
 {
 	ifstream ifile; 
 	ofstream ofile;
-	int tid =0, pn = 0, mn = 0, count = 0;
-	char date[12];
+	int tid =0, pn = 0, mn = 0, day = 0, month = 0, year =0;
 	float cost = 0;
 	forward_list<t_id> to_mark_paid, to_compare;
 	t_id temp;
@@ -125,15 +115,13 @@ int management_report:: batch_mark_paid(const string & fname, int type)
 	cadb data_base;
 	
 	if(fname == "" ) return 0;
-	if(!endswith(fname, "_eft_detailed_report")) return 0; 
 
 	ifile.open(fname +".csv");
-
-	if(!ifile) return 0; 
 	ofile.open(fname+"_payment_status_updated.csv");
-	if(!ofile) return 0;
 
-	ofile << "Provider Number,Transaction ID,Service Date,Member Number,Service Cost" << endl; 
+	if(!ifile || !ofile) return 0; 
+
+	ofile << "Provider Number,Service ID,Service Date,Member Number,Service Cost" << endl; 
 
 	ifile.ignore(100,',');
 	ifile.ignore(100,',');
@@ -148,34 +136,28 @@ int management_report:: batch_mark_paid(const string & fname, int type)
 		ifile.ignore(100, ',');	
 		ifile >> tid; 
 		ifile.ignore(100,',');
-		ifile.get(date, 11, ',');
+		ifile >> year;
+		ifile.ignore(100,'-');
+		ifile >> month;
+		ifile.ignore(100,'-');
+		ifile >> day;
 		ifile.ignore(100,',');
 		ifile >> mn;
 		ifile.ignore(100,',');
 		ifile >> cost;
-		temp.read(pn, tid, date, mn, cost);
+		temp.read(pn, tid, to_string(year) + "-" + to_string(month) + "-" + to_string(day), mn, cost);
 		to_mark_paid.push_front(temp);
 		ifile.ignore(100, '\n');
 		ifile >> pn;
 	}
 
-	ifile.close();
-
-	if(to_mark_paid.empty()) 
-	{
-		ofile.close();
-		return 1; 
-	}
 
 	query = "SELECT b.provider_number, a.id, a.trans_date, d.member_number, c.service_cost ";
 	query+= "FROM transaction a ";
 	query += "JOIN service c ON a.service_id = c.id ";
 	query += "JOIN provider b ON b.id = a.provider_id ";
 	query += "JOIN member d ON a.member_id = d.id ";
-	if(type)
-		query += "AND a.payment_status = 0 ";
-	else
-		query += "AND a.payment_status = 1 ";
+	query += "AND a.payment_status = 0 ";
 	query += "ORDER BY b.provider_number;";
 
 	data_base.queryDB(query, res);
@@ -188,11 +170,7 @@ int management_report:: batch_mark_paid(const string & fname, int type)
 
 	if(res) delete res;
 
-	if(to_compare.empty()) 
-	{
-		ofile.close();
-		return 1;
-	}
+	if(to_compare.empty() || to_mark_paid.empty()) return 0;
 
 	to_compare.sort();
 	to_mark_paid.sort();
@@ -207,9 +185,8 @@ int management_report:: batch_mark_paid(const string & fname, int type)
 
 			if(*it2 == *it)
 			{
-				if(mark_paid(it->get_id(),type))
+				if(mark_paid(it->get_id()))
 				{
-					++count;
 					it->write(ofile);
 					ofile << endl;
 					to_compare.remove(*it2);
@@ -219,12 +196,7 @@ int management_report:: batch_mark_paid(const string & fname, int type)
 		}
 	}
 
-	if(!count)
-	{
-		ofile.close();
-		return 1;
-	}
-
+	ifile.close(); 
 	ofile.close();
 
 	return 1;
