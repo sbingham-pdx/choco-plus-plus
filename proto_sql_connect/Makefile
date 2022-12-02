@@ -29,6 +29,7 @@ FILES = \
 	$(NULL)
 
 TFILES = $(HFILES)\
+		structures.cpp\
 		cadb.cpp\
 		test.cpp\
 		$(NULL)
