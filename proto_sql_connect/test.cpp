@@ -102,7 +102,7 @@ void readVisit()
 {
 	cout << "Feeding visit structs with junk data" << endl;
 	visit testVisit;
-	assert(!testVisit.read("01/20/22", "-111", "-1", "-3221", "Junk", "1.0"));
+	assert(!testVisit.read("01/20/22", -111, -1, -3221, "Junk", 1.0));
 	cout << "Passed!"<< endl;
 }
 
@@ -110,7 +110,7 @@ void readService()
 {
 	cout << "Feeding service structs with junk data" << endl;
 	service testService;
-	assert(!testService.read("1234", "Random", "-1.0"));
+	assert(!testService.read("1234", "Random", -1.0));
 	cout << "Passed!"<< endl;
 }
 
