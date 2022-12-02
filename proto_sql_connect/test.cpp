@@ -3,6 +3,8 @@
 #include "cadb.h"
 #include <iostream>
 #include <cassert>
+#include <sys/time.h>
+#include <ctime>
 
 using namespace sql;
 using namespace std;
@@ -15,6 +17,8 @@ void Connector_getID_Failure();
 void Connector_getStatus_Success();
 void Connector_getStatus_Failure();
 void Connector_setCell_Success();
+
+//void Connector_insertVisit_Success();
 
 
 void Connector_getString_Success(){
@@ -95,6 +99,9 @@ void Connector_setCell_Success(){
 	cout << "Passed part 2!" << endl;
 }
 
+//void Connector_insertVisit_Success(){
+
+//}
 
 
 int

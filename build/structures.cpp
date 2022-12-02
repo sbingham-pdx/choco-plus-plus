@@ -11,7 +11,7 @@ static cadb database;
 bool visit::read(const string in_date, const int in_provider_id, const int in_service_id, const int in_member_id, const string in_comment, const float in_fee)
 {
     // Check to see if the comment length meets the constraints
-    if(comment.length() > 100 || in_provider_id < 0 || in_member_id < 0 || in_service_id < 0 || in_fee < 0)
+    if(comment.length() > 100 || comment.empty() || in_date.empty() || in_date.length() || in_provider_id <= 1 || in_member_id <= 1 || in_service_id <= 1 || in_fee <= 0)
     {
         // Invalid input
         this->date = "00-00-0000";
@@ -56,7 +56,8 @@ void visit::insert()
 // true or false indicating whether or not the input was valid.
 bool provider::read(const string in_number, const string in_name, const string in_street, const string in_city, const string in_state, const string in_zip)
 {
-    if(in_number.length() < 0)
+    if(in_number.length() != 9 || in_name.length() > 25 || in_street.length() > 25 || in_city.length() > 14 || in_state.length() > 2 || in_zip.length() > 5
+        || in_number.empty() || in_name.empty() || in_street.empty() || in_city.empty() || in_state.empty() || in_zip.empty())
     {
         // Invalid input
         this->provider_number = "";
@@ -94,7 +95,8 @@ void provider::insert()
 // true or false indicating whether or not the input was valid.
 bool member::read(const string in_number, const string in_name, const string in_street, const string in_city, const string in_state, const string in_zip)
 {
-    if(in_number.length() < 0) 
+    if(in_number.length() != 9 || in_name.length() > 25 || in_street.length() > 25 || in_city.length() > 14 || in_state.length() > 2 || in_zip.length() > 5
+        || in_number.empty() || in_name.empty() || in_street.empty() || in_city.empty() || in_state.empty() || in_zip.empty()) 
     {
         // Invalid input
         this->number = "";
@@ -119,9 +121,7 @@ bool member::read(const string in_number, const string in_name, const string in_
 }
 
 void member::insert() 
-{
-    // void insertMember(const string number, const string name, const string street, const string city, const string state, const string zip)
-    
+{  
     // Insert
     database.insertMember(number, name, street, city, state, zip);
 }
@@ -132,7 +132,7 @@ void member::insert()
 // true or false indicating whether or not the input was valid.
 bool service::read(const string in_number, const string in_name, const float in_fee)
 {
-    if(in_number.length() < 0 || fee < 0) 
+    if(in_number.length() != 6 || fee < 0) 
     {
         // Invalid input
         this->number = "";
@@ -160,12 +160,11 @@ bool service::operator<(service & operand)
 
 void service::insert()
 {
-    // void insertService(const string number, const string name, const string cost)
-    
+  
     // Convert datatypes
     stringstream stream;
     stream << std::fixed << std::setprecision(2) << fee;
-    string cost = stream.str();//to_string(fee);
+    string cost = stream.str();
     
     // Insert
     database.insertService(number, name, cost);

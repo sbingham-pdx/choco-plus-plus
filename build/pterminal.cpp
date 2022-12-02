@@ -111,15 +111,24 @@ int pterminal_service(){
     }
   }
   
-
-  termHeader(3);
-	// get date of service
-  cout << "\nEnter date of service in the format\nYYYY-MM-DD\n";
-  scrBrk();
-  getline(cin, entry);
-  new_visit.date = entry;
-  entry = "";
-  clearcin();
+  numgood = 0;
+  while(!numgood){
+    termHeader(3);
+    // get date of service
+    cout << "\nEnter date of service in the format\nYYYY-MM-DD\n";
+    scrBrk();
+    getline(cin, entry);
+    if(!validate_date(entry)){
+      cout << "\n\nError - Invalid Date Entered, please try again." << endl;
+      cin.get();
+    }
+    else{
+      new_visit.date = entry;
+      entry = "";
+      clearcin();
+      numgood = 1;
+    }
+  }
 
   numgood = 0;
   while (!numgood){

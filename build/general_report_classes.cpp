@@ -148,10 +148,10 @@ string date(int offset)
 
 	return string(date);
 }
-
+// 1 for valid 0 for invalid
 int validate_date(const string & toval)
 {
-	int year = 0;
+	int year = 0; 
 	long unsigned int i =0;
 
 	for(i=0; i < 4 && i<toval.length(); ++i)
@@ -159,7 +159,6 @@ int validate_date(const string & toval)
 			year = (year*10)+toval[i]-'0';
 	}
 	if(year > 2022 || year < 1933) return 0; 
-
 	year = 0; 
 	
 	for(i = i+1; i<7 && i<toval.length(); ++i)
@@ -378,3 +377,42 @@ bool compare_float(float x, float y, float epsilon)
       return true;
    return false;
 }
+
+
+bool endswith(const string & original, const string & end)
+{
+	int i = 0, k = 0;
+
+	for(i=original.length()-1, k=end.length()-1; k >= 0 && i >= 0; --i, --k)
+	{
+		if(original[i] != end[k]) return false;
+	}
+
+	if(k>=0) return false;
+
+	if(!validate_date(original.substr(0, i+1))) return false;
+	return true;
+}
+
+
+bool comparefiles(ifstream & f1, ifstream & f2)
+{
+	if(!f1 || !f2) return false; 
+
+	char c1 = '0', c2 ='0';
+  
+	f1 >> c1; 
+	f2 >> c2; 
+
+    while(!f1.eof() && !f2.eof())
+    {
+        if (c1 != c2)
+            return false;
+		f1 >> c1;
+		f2 >> c2;
+	}
+    if(f1.eof() && !f2.eof()) return false;
+	if(!f1.eof() && f2.eof()) return false;
+	return true;
+}
+

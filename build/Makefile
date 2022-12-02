@@ -1,8 +1,6 @@
 CC = g++
 DEBUG = -g
-#DEBUG += --verbose
 DEFINES = 
-#DEFINES += -DVERBOSE
 
 
 CFLAGS = $(DEBUG) -Wall -Wshadow -Wunreachable-code -Wredundant-decls \
@@ -42,6 +40,15 @@ TERMINAL = oterminal.h\
 		chocoplusplus.cpp\
 		$(NULL)
 
+TEST = test.cpp\
+		$(NULL)
+
+TFILES = $(CONNECTOR)\
+		$(REPORTS)\
+		$(STRUCTS)\
+		$(TEST)\
+		$(NULL)
+
 FILES = $(CONNECTOR)\
 		$(REPORTS)\
 		$(STRUCTS)\
@@ -49,21 +56,19 @@ FILES = $(CONNECTOR)\
 		$(NULL)
 		
 PROG1 = chocoplusplus
+PROG2 = tests
 
-PROGS = $(PROG1) 
+PROGS = $(PROG1) $(PROG2)
 
 all: $(PROGS)
 
-#$(PROG1): $(PROG1).o
-#	#$(CC) $(CFLAGS) -o $@ $< $(LFLAGS)
-#	chmod a+rx,g-w $@
-
-$(PROG1):  $(FILES) #?akefile
+$(PROG1):  $(FILES)
 	$(CC) $(CFLAGS) $(IFLAGS) -o $@ $^ $(LFLAGS)
 	chmod a+rx,g-w $@
 
-#all: cadb.h
-#	g++ -g -Wall -I/usr/include/mysqlcppconn -o cadb cadb.h cadb.cpp test.cpp -L/usr/lib -lmysqlcppconn
+$(PROG2):  $(TFILES)
+	$(CC) $(CFLAGS) -DVERBOSE $(IFLAGS) -o $@ $^ $(LFLAGS)
+	chmod a+rx,g-w $@
 
 clean:
 	rm -f *.o *.csv $(PROGS)

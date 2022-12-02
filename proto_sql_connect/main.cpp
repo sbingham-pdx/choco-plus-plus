@@ -10,7 +10,11 @@ main()
 
 	struct timeval start_time;
 	gettimeofday(&start_time, NULL);
+
+	cout << "Unix timestamp is: " << start_time.tv_usec << endl;
 	srand(start_time.tv_usec);
+
+
 	time_t now = time(0);
 
 	tm *ltm = localtime(&now);
@@ -31,7 +35,7 @@ main()
 
 	//cout << start_time.tv << endl;
 
-	int provider_id = 0;//(rand() % 25) + 1;
+	/*int provider_id = 0;//(rand() % 25) + 1;
 	int service_id = 0; //(rand() % 15) + 1;
 	int member_id = 0;//(rand() % 31) + 1;
 	
@@ -47,7 +51,7 @@ main()
 		member_id = (rand() % 31) + 2;
 	
 		mydb.insertVisit(date, provider_id, service_id, member_id, comments);
-	}
+	}*/
 	
 
 	

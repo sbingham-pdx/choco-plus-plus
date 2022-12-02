@@ -2,7 +2,7 @@
 # define _MANAGER
 
 //Include modular files
-#include "oterminal.h"
+#include "mterminal.h"
 
 //Function definitions
 void management_terminal()
@@ -14,8 +14,8 @@ void management_terminal()
     string report; 
 
     do{
-        termHeader(1);
-        cout  << "Please choose from the options below:" << endl;
+        scrBrk();
+        cout  << "Welcome to the Manager Terminal.\nPlease choose from the options below:" << endl;
         scrBrk();
         //The different options the manager terminal will carry out 
         cout  << "[0] Exit the manager terminal\n"
@@ -103,8 +103,8 @@ void update_payment_status(management_report & obj)
     int choice = 0;
     string to_update = "";
     int tran_id = 0;
-    termHeader(1); 
-    cout  << "Please choose from the options below:" << endl;
+    scrBrk(); 
+    cout  << "Welcome to the Manager Terminal.\nPlease choose from the options below:" << endl;
     scrBrk();
     cout << "Please Select From the Below Options: \n"
          << "[1] Update payment status to paid for individual transaction\n"
@@ -144,7 +144,7 @@ to_report(string & a_report)
     ifstream file;
     //Exception handling in case the file is invalid
     try{
-        termHeader(1);
+
         cout << "\nPlease enter the name of the detailed eft report containing visits to be marked as paid: ";
         cout << " >>> ";
         getline(cin , a_report); 
@@ -180,7 +180,7 @@ to_id(int & a_id, int type)
     //Exception handling in case the ID is not valid 
     try{
         if(type == 3)
-            cout << "\nPlease enter the transaction ID ";
+            cout << "\nPlease enter the 3 digit transaction ID ";
         else
             cout << "\nPlease enter the 9 digit member or provider ID ";
         a_id = validateInputInteger();
@@ -193,7 +193,7 @@ to_id(int & a_id, int type)
     }
     catch(...){
         if(type == 3)
-            cout << "\nInvalid ID #, ERROR NUMBER: " << a_id << endl;
+            cout << "\nInvalid ID # format (Must Be 3 Digits) , ERROR NUMBER: " << a_id << endl;
         else
             cout << "\nInvalid ID # format (Must Be 9 Digits) , ERROR NUMBER: " << a_id << endl;
         to_id(a_id,type); 
