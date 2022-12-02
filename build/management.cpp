@@ -48,8 +48,7 @@ int management_report:: all_members()
 	int count = 0;
 
 	query = " SELECT DISTINCT member_number ";
-	query += "FROM member ";
-	query += "WHERE member_status = 1;";
+	query += "FROM member ;";
 
 	db.queryDB(query, ptr);
 	

@@ -93,11 +93,11 @@ provider oterminal::inputProvider() {
     termHeader(2);
     cout << "Enter provider name: ";
     newProvider.name = validateInputString();
-    cout << "Enter street name of provider: ";
+    cout << "Enter street address of provider: ";
     newProvider.street = validateInputString();
     cout << "Enter city name of provider: ";
     newProvider.city = validateInputString();
-    cout << "Enter state abbreviation of provider: ";
+    cout << "Enter state abbreviation of provider(2 Characters): ";
     newProvider.state = validateInputString();
     cout << "Enter zip code of provider: ";
     newProvider.zip = validateInputString();
@@ -111,11 +111,11 @@ member oterminal::inputMember() {
     termHeader(2);
     cout << "Enter member name: ";
     newMember.name = validateInputString();
-    cout << "Enter street name of member: ";
+    cout << "Enter street address of member: ";
     newMember.street = validateInputString();
     cout << "Enter city name of member: ";
     newMember.city = validateInputString();
-    cout << "Enter state abbreviation of member: ";
+    cout << "Enter state abbreviation of member(2 Characters): ";
     newMember.state = validateInputString();
     cout << "Enter zip code of member: ";
     newMember.zip = validateInputString();
@@ -381,7 +381,7 @@ int oterminal::useTerminal() {
                 cadb tempDatabase;
                 termHeader(2);
                 cout << "Updating provider . . .\n";
-                cout << "Enter provider number, if you do not know one, use the demo provider number: 555554444\n";
+                cout << "Enter provider number\n";
                 int provider_id_tocheck = tempDatabase.getID("provider", to_string(validateInputInteger()));
                 int status = tempDatabase.getStatus("provider", provider_id_tocheck);
                 interpretProviderStatus(status, to_string(provider_id_tocheck));
@@ -393,7 +393,7 @@ int oterminal::useTerminal() {
                 cadb tempDatabase;
                 termHeader(2);
                 cout << "Updating member . . .\n";
-                cout << "Enter member number,i fyou do not know one, use the demo member number: 333333333\n";
+                cout << "Enter member number\n";
                 int member_id_tocheck = tempDatabase.getID("member", to_string(validateInputInteger()));
                 int status = tempDatabase.getStatus("member", member_id_tocheck);
                 interpretMemberStatus(status, to_string(member_id_tocheck));
@@ -405,7 +405,7 @@ int oterminal::useTerminal() {
                 cadb tempDatabase;
                 termHeader(2);
                 cout << "Updating service . . .\n";
-                cout << "Enter service number, if you do not know one, use the demo service number: 555444\n";
+                cout << "Enter service number\n";
                 int service_id_tocheck = tempDatabase.getID("service", to_string(validateInputInteger()));
                 int status = tempDatabase.getStatus("service", service_id_tocheck);
                 interpretServiceStatus(status, to_string(service_id_tocheck));

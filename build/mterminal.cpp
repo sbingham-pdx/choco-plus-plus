@@ -145,7 +145,7 @@ to_report(string & a_report)
     //Exception handling in case the file is invalid
     try{
         termHeader(1);
-        cout << "\nPlease enter the name of the detailed eft report containing visits to be marked as paid: ";
+        cout << "\nPlease enter the name of the detailed eft report(without .csv exentsion) containing visits to be marked as paid: ";
         cout << " >>> ";
         getline(cin , a_report); 
 
