@@ -108,12 +108,12 @@ int member_status()
     }
     else if(!database.getStatus("member",database.getID("member", entry)))
     {
-      cout << "\n\nError - Suspended Member, do not provide service" << endl;
+      cout << "\n\nError - Member Suspended, do not provide service" << endl;
       return 1;
     }
     else{
       clearcin();
-      cout << "\n\n Active Member, go ahead with service\n";
+      cout << "\n\n Validated Member, go ahead with service\n";
       return 1;
     }
   }
@@ -147,7 +147,7 @@ int pterminal_service(){
     }
     else if(!database.getStatus("member",database.getID("member", entry)))
     {
-      cout << "\n\nError - Suspended Member, do not provide service" << endl;
+      cout << "\n\nError - Member Suspended, do not provide service" << endl;
       return 1;
     }
     else{
@@ -195,10 +195,23 @@ int pterminal_service(){
       return 1;
     }
     else{
-      new_visit.service_id = database.getID("service", entry);
-      entry = "";
-      clearcin();
-      numgood = 1;
+      string name = database.getString("service","service_number", entry,"service_name");
+
+      cout << "Service chosen: " << name << " Is this Correct?\n[1] Yes\n[2] No\n"; 
+      int confirm = validateInputInteger(); 
+
+      if(confirm == 1)
+      {
+        new_visit.service_id = database.getID("service", entry);
+        entry = "";
+        clearcin();
+        numgood = 1;
+      }
+      else 
+      { 
+        cout << " Error - Incorrect service chosen, please try again\n";
+      }
+
     }
   }
 
@@ -230,6 +243,7 @@ int pterminal_service(){
   case 1:
     cout << "\nWriting to database\n-------------\n";
     new_visit.insert();
+    cout << "Service Fee: $" << database.getString("service", "id", to_string(new_visit.service_id), "service_cost") << endl;
     return 1;
   case 2:
     cout << "Cancelling\n-------------\n";
