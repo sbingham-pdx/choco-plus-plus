@@ -69,7 +69,7 @@ int pterminal() {
       break;
     case 2:
       cout << "\nWeekly Report\n";
-      provider_reporter.run(stoi(pnumber), date(0)+"_"+pnumber+"_report");
+      provider_reporter.run(stoi(pnumber), database.getString("provider", "provider_number", pnumber, "provider_name")+"_"+date(0)+"_report");
       cout << "\nOutput provider weekly report\n-------------\n";
       break;
     case 3: 
