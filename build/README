@@ -76,7 +76,8 @@ Finally, "make all" or simply "make" will compile both targets.
             This function will create the list of what is owed to all 
             providers from services provided in the past 7 days.
     [6] - Create electronic fund transfer report
-            This function will generate the EFT report for Provider Payments.
+            This function will generate the EFT (bank) report for Provider Payments, as well
+            as a detailed report of all transactions included in the EFT. 
     [7] - Create provider directory report (report of services available)
             This function will generate a report of all services available.
     [8] - Update transaction payment status
