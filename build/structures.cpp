@@ -24,7 +24,7 @@ bool visit::read(const string in_date, const int in_provider_id, const int in_se
     }
     else
     {
-        // Everything checks outgit 
+        // Everything checks out
         this->date = in_date;
         this->provider_id = in_provider_id;
         this->member_id = in_member_id;
