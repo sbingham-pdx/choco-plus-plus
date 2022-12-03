@@ -45,6 +45,7 @@ void test_Out(){
 }
 
 void Connector_getString_Success(){
+	cout << "CALLING: " << __FUNCTION__ << endl;
 	cout << "Testing valid getString() data..." << endl;
 	string compare = "Charlie Day";
 	cadb mydb;// new cadb();
@@ -54,6 +55,7 @@ void Connector_getString_Success(){
 }
 
 void Connector_getString_Failure(){
+	cout << "CALLING: " << __FUNCTION__ << endl;
 	cout << "Testing invalid getString() data..." << endl;
 	string compare = "Charlie Day";
 	cadb mydb;
@@ -72,6 +74,7 @@ void Connector_getString_Failure(){
 }*/
 
 void Connector_getID_Success(){
+	cout << "CALLING: " << __FUNCTION__ << endl;
 	cout << "Testing valid getID() data..." << endl;
 	int compare = 33;
 	cadb mydb;// new cadb();
@@ -81,6 +84,7 @@ void Connector_getID_Success(){
 }
 
 void Connector_getID_Failure(){
+	cout << "CALLING: " << __FUNCTION__ << endl;
 	cout << "Testing invalid getID() data..." << endl;
 	int compare = 0;
 	cadb mydb;// new cadb();
@@ -90,6 +94,7 @@ void Connector_getID_Failure(){
 }
 
 void Connector_getStatus_Success(){
+	cout << "CALLING: " << __FUNCTION__ << endl;
 	cout << "Testing valid getStatus() data..." << endl;
 	int compare = 1;
 	cadb mydb;
@@ -99,6 +104,7 @@ void Connector_getStatus_Success(){
 }
 
 void Connector_getStatus_Failure(){
+	cout << "CALLING: " << __FUNCTION__ << endl;
 	cout << "Testing invalid getStatus() data..." << endl;
 	int compare = -1;
 	cadb mydb;
@@ -108,6 +114,7 @@ void Connector_getStatus_Failure(){
 }
 
 void Connector_setCell_Success(){
+	cout << "CALLING: " << __FUNCTION__ << endl;
 	cout << "Testing valid setCell() data..." << endl;
 	int compare = -3;
 	cadb mydb;
@@ -126,6 +133,7 @@ void Connector_setCell_Success(){
 //READ TESTS
 void readVisit()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
 	cout << "Feeding visit structs with junk data" << endl;
 	visit testVisit;
 	assert(!testVisit.read("01/20/22", -111, -1, -3221, "Junk", 1.0));
@@ -134,6 +142,7 @@ void readVisit()
 
 void readService()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
 	cout << "Feeding service structs with junk data" << endl;
 	service testService;
 	assert(!testService.read("1234", "Random", -1.0));
@@ -143,6 +152,7 @@ void readService()
 //REPORTS TESTS
 void Reports_All_Providers_Success()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
     ifstream file;
     management_report obj;
 
@@ -163,6 +173,7 @@ void Reports_All_Providers_Success()
 
 void Reports_Ind_Provider_Success()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
 
     ifstream file;
     management_report obj;
@@ -184,6 +195,7 @@ void Reports_Ind_Provider_Success()
 
 void Reports_All_Members_Success()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
     ifstream file;
     management_report obj;
 
@@ -205,6 +217,7 @@ void Reports_All_Members_Success()
 
 void Reports_Ind_Member_Success()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
     ifstream file;
     management_report obj;
 
@@ -226,6 +239,7 @@ void Reports_Ind_Member_Success()
 
 void Reports_Ind_Member_Bad_ID()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
     ifstream file;
     management_report obj;
 
@@ -236,6 +250,7 @@ void Reports_Ind_Member_Bad_ID()
 
 void Reports_Ind_Provider_Bad_ID()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
     ifstream file;
     management_report obj;
 
@@ -246,6 +261,7 @@ void Reports_Ind_Provider_Bad_ID()
 
 void AP_Report_Success()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
     ifstream file;
     management_report obj;
 
@@ -266,6 +282,7 @@ void AP_Report_Success()
 
 void EFT_Report_Success()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
     ifstream file;
     ifstream file2;
     management_report obj;
@@ -290,6 +307,7 @@ void EFT_Report_Success()
 
 void Directory_Sucess()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
     ifstream file;
     management_report obj;
 
@@ -311,6 +329,7 @@ void Directory_Sucess()
 
 void Batch_Paid_Success()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
     ifstream f1, f2;
     management_report obj;
 
@@ -333,6 +352,7 @@ void Batch_Paid_Success()
 
 void Batch_Unpaid_Success()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
     ifstream f1, f2;
     management_report obj;
 
@@ -353,6 +373,7 @@ void Batch_Unpaid_Success()
 
 void Batch_Paid_Bad_File()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
     management_report obj;
 
     assert(!obj.batch_mark_paid(date(0)+"eft_detailed_report"));
@@ -366,6 +387,7 @@ void Batch_Paid_Bad_File()
 int
 main()
 {
+	cout << "CALLING: " << __FUNCTION__ << endl;
 	counter = 0;
 	
 	test_Out();
