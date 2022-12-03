@@ -1,35 +1,59 @@
-###########################################################################
-#
-#           WELCOME TO CHOCO++ DATA MANAGEMENT SYSTEM
-#                  A Linked-Fist, LLC Program
-#
-###########################################################################
+#################################################################################
+#                                                                               #
+#                  WELCOME TO CHOCO++ DATA MANAGEMENT SYSTEM                    #
+#                           A Linked-Fist, LLC Program                          #
+#                                                                               #
+#################################################################################
 
 Welcome to the Choco++ Data Management System, this readme file will guide you
 through compiling and running this program.
 
-###########################################################################
-#
-#                           MAKEFILE OPTIONS
-#
-###########################################################################
+#################################################################################
+#                                                                               #
+#                               SYSTEM REQUIREMENTS                             #     
+#                                                                               #
+#################################################################################
+
+This software is designed to be compiled and run on the following systems
+and parameters:
+
+[Operating System] -    Ubuntu 22.04.1 LTS - Portland State University Managed
+                        If you are not on PSU's Linux Servers, you may need
+                        the following additional libraries and linkers installed:
+                                - mysqlcppcon
+
+[Network Environment] - Portland State University Servers or Network. If you 
+                        are not on the PSU network, please use a vpn tunnel 
+                        attached to "cecs".  You can find information to connect
+                        to PSU's network via vpn at: 
+                                https://cat.pdx.edu/services/network/vpn-services/
+
+
+#################################################################################
+#                                                                               #
+#                                MAKEFILE OPTIONS                               #
+#                                                                               #
+#################################################################################
 
 The Makefile comes with two primary compile targets:
+
     chocoplusplus - This executable is the demonstration terminal for testing 
                     and demonstrating a potential user experience of Choco++'s
                     datamanagement services.
+
     tests - This executable will run a series of tests on Choco++'s component
             functions. This target will compile in verbose mode, and will 
             output MySQL calls as well as other debugging information.
             run the program with the command: "./tests > logfile" in order
             to save the output to a log which you can inspect at your leisure.
+
 Finally, "make all" or simply "make" will compile both targets.
 
-###########################################################################
-#
-#                           MENU OPTIONS
-#
-###########################################################################
+#################################################################################
+#                                                                               #
+#                                MENU OPTIONS                                   #
+#                                                                               #
+#################################################################################
 
 [1] - Manager terminal
         This terminal will allow you to access the functions identified as 
@@ -97,7 +121,10 @@ Finally, "make all" or simply "make" will compile both targets.
     [2] - Weekly Report
             This function will output a report for the services provided by 
             the proferred Provider in the past 7 days.
-    [3] - New Member Visit
+    [3] - Check Member Status
+            This function will validate whether the member is active or
+            suspended
+    [4] - New Member Visit
             This function will guide the user through constructing a 
             Provider-Member visit with Chocoholics Anonymous. It will first
             ask you for a Member Number, if you do not know one, please use
@@ -106,4 +133,31 @@ Finally, "make all" or simply "make" will compile both targets.
             you to select a service, if you do not know a service number, please
             use the number: 555444. Finally, enter comments for the visit.
             Lastly, it will allow you to enter your visit into the database, or
-            choose to discard the visi. 
+            choose to discard the visit. 
+
+#################################################################################
+#                                                                               #
+#                                OUR THANKS                                     #
+#                                                                               #
+#################################################################################
+
+The Team at Linked-Fist thanks you for your interest in our products for handling
+the data management needs of your organization. We are excited for what we have 
+to offer you, and we are confident that it will meet and exceed your needs. 
+
+The Linked-Fist Team:
+        Benjamin A
+        Samuel B
+        Victor C
+        Steven D
+        Alexander G
+        Lily M     
+
+#################################################################################
+#                                                                               #
+#                                SUPPORT                                        #
+#                                                                               #
+#################################################################################
+
+For questions, feedback, and support, please contact Samuel Bingham at:
+        sbingham@pdx.edu
