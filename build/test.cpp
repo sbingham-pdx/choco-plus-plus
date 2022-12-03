@@ -169,7 +169,7 @@ void Reports_Ind_Provider_Success()
 
     obj.individual_provider(158452334); 
     
-    file.open(date(0)+"_158452334_report.csv");
+    file.open("Bruce Maddox_"+date(0)+"_report.csv");
 
     assert(file); 
     
@@ -210,7 +210,7 @@ void Reports_Ind_Member_Success()
 
     obj.individual_member(631375719); 
     
-    file.open(date(0)+"_631375719_report.csv");
+    file.open("Bob Firstname_"+date(0)+"_report.csv");
 
     assert(file);
 
@@ -229,13 +229,7 @@ void Reports_Ind_Member_Bad_ID()
     ifstream file;
     management_report obj;
 
-    obj.individual_member(631375); 
-    
-    file.open(date(0)+"_6313757190_report.csv");
-
-    assert(!file);
-
-    file.close();
+    assert(!obj.individual_member(631375));
 
     cout << "Passed" << endl; 
 }
@@ -245,13 +239,7 @@ void Reports_Ind_Provider_Bad_ID()
     ifstream file;
     management_report obj;
 
-    obj.individual_provider(631); 
-    
-    file.open(date(0)+"_6313757190_report.csv");
-
-    assert(!file);
-
-    file.close();
+    assert(!obj.individual_provider(631));
 
     cout << "Passed" << endl; 
 }
