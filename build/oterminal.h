@@ -22,6 +22,7 @@ void update_payment_status(management_report &);
 
 int pterminal();
 int pterminal_service();
+int member_status();
 void clearcin();
 
 void scrBrk();

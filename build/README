@@ -1,0 +1,164 @@
+#################################################################################
+#                                                                               #
+#                  WELCOME TO CHOCO++ DATA MANAGEMENT SYSTEM                    #
+#                           A Linked-Fist, LLC Program                          #
+#                                                                               #
+#################################################################################
+
+Welcome to the Choco++ Data Management System, this readme file will guide you
+through compiling and running this program.
+
+#################################################################################
+#                                                                               #
+#                               SYSTEM REQUIREMENTS                             #     
+#                                                                               #
+#################################################################################
+
+This software is designed to be compiled and run on the following systems
+and parameters:
+
+[Operating System] -    Ubuntu 22.04.1 LTS - Portland State University Managed
+                        If you are not on PSU's Linux Servers, you may need
+                        the following additional libraries and linkers installed:
+                                - mysqlcppcon
+
+[Network Environment] - Portland State University Servers or Network. If you 
+                        are not on the PSU network, please use a vpn tunnel 
+                        attached to "cecs".  You can find information to connect
+                        to PSU's network via vpn at: 
+                                https://cat.pdx.edu/services/network/vpn-services/
+
+
+#################################################################################
+#                                                                               #
+#                                MAKEFILE OPTIONS                               #
+#                                                                               #
+#################################################################################
+
+The Makefile comes with two primary compile targets:
+
+    chocoplusplus - This executable is the demonstration terminal for testing 
+                    and demonstrating a potential user experience of Choco++'s
+                    datamanagement services.
+
+    tests - This executable will run a series of tests on Choco++'s component
+            functions. This target will compile in verbose mode, and will 
+            output MySQL calls as well as other debugging information.
+            run the program with the command: "./tests > logfile" in order
+            to save the output to a log which you can inspect at your leisure.
+
+Finally, "make all" or simply "make" will compile both targets.
+
+#################################################################################
+#                                                                               #
+#                                MENU OPTIONS                                   #
+#                                                                               #
+#################################################################################
+
+[1] - Manager terminal
+        This terminal will allow you to access the functions identified as 
+        "manager Functions.
+    [1] - Create weekly report for all providers
+            This function will output a report for the services provided by
+            all providers in the past 7 days.
+    [2] - Create weekly report for an individual providers
+            This function will output a report for the services provided by 
+            the proferred Provider in the past 7 days. If you do not know a
+            provider number for this, use the Demo Provider Number: 555554444.
+    [3] - Create weekly report for all members
+            This function will output a report of all the services provided
+            to all members in the past 7 days.
+    [4] - Create weekly report for an individual mamber
+            This function will output a report of all the services provided
+            to the proferred Member in the past 7 days. If you do not know a
+            member number for this, use the Demo Member Number: 333333333.
+    [5] - Create weekly accounts payable report
+            This function will create the list of what is owed to all 
+            providers from services provided in the past 7 days.
+    [6] - Create electronic fund transfer report
+            This function will generate the EFT (bank) report for Provider Payments, as well
+            as a detailed report of all transactions included in the EFT. 
+    [7] - Create provider directory report (report of services available)
+            This function will generate a report of all services available.
+    [8] - Update transaction payment status
+            This function will allow you to select from multiple options to 
+            mark Member Visits as paid or unpaid.
+        [1] - Update payment status to paid for individual transaction
+                This function will mark an individual visit as paid. 
+        [2] - Update payment status to paid for multiple transactions via eft detailed report file
+                This function will mark all visits listed in an EFT Detailed Report as paid for.
+        [3] - Update payment status to unpaid for individual transaction
+                This function will mark an individual visit as unpaid.
+        [4] - Update payment status to unpaid for multiple transactions via eft detailed report file
+                This function will mark all visits listed in an EFT Detailed Report as unpaid.
+
+[2] - Operator Terminal
+        This terminal interface will allow the user to access any additional 
+        functions provided by the Choco++ Data Management System which are
+        not covered by the Manager Terminal or the Provider Terminal
+    [1] - Add new provider
+            This function will allow you to add a new provider to the system
+    [2] - Add new member
+            This function will allow you to add a new member to the system
+    [3] - Add new service
+            This function will allow you to add a new service to the system
+    [4] - Update provider status
+            This function will allow you to mark a Provider as Suspended or Deleted
+            If you do not know a Provider Number, use the demo number: 555554444
+    [5] - Update member status"
+            This function will allow you to mark a Member as Suspended or Deleted
+            If you do not know a Member Number, use the demo number: 333333333
+    [6] - Update service status
+            This function will allow you to mark a Service as Suspended or Deleted
+            If you do not know a Service Number, use the demo number: 555444
+
+[3] - Provider Terminal
+        This terminal will allow the user to test out functions designed
+        for the Provider Terminal. It will first ask you to enter a Provider
+        Number, if you do not know a provider number, please use the
+        demo number: 555554444
+    [1] - Provider Directory
+            This function will generate a report of all services available.
+    [2] - Weekly Report
+            This function will output a report for the services provided by 
+            the proferred Provider in the past 7 days.
+    [3] - Check Member Status
+            This function will validate whether the member is active or
+            suspended
+    [4] - New Member Visit
+            This function will guide the user through constructing a 
+            Provider-Member visit with Chocoholics Anonymous. It will first
+            ask you for a Member Number, if you do not know one, please use
+            the demo number of 333333333. Next, it will ask you for the Date 
+            of the visit, please use the format: YYYY-MM-DD.  It will also ask
+            you to select a service, if you do not know a service number, please
+            use the number: 555444. Finally, enter comments for the visit.
+            Lastly, it will allow you to enter your visit into the database, or
+            choose to discard the visit. 
+
+#################################################################################
+#                                                                               #
+#                                OUR THANKS                                     #
+#                                                                               #
+#################################################################################
+
+The Team at Linked-Fist thanks you for your interest in our products for handling
+the data management needs of your organization. We are excited for what we have 
+to offer you, and we are confident that it will meet and exceed your needs. 
+
+The Linked-Fist Team:
+        Benjamin A
+        Samuel B
+        Victor C
+        Steven D
+        Alexander G
+        Lily M     
+
+#################################################################################
+#                                                                               #
+#                                SUPPORT                                        #
+#                                                                               #
+#################################################################################
+
+For questions, feedback, and support, please contact Samuel Bingham at:
+        sbingham@pdx.edu

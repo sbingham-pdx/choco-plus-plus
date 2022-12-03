@@ -34,8 +34,8 @@ int management_report:: all_providers()
 int management_report:: individual_provider(int p_id)
 {
 	provider_report obj; 
-	
-	return obj.run(p_id, date(0)+"_"+to_string(p_id)+"_report");
+	cadb obj2;
+	return obj.run(p_id, obj2.getString("provider", "provider_number", to_string(p_id), "provider_name")+"_"+date(0)+"_report");	
 }
 
 // Change file to append rather than overwrite
@@ -48,8 +48,7 @@ int management_report:: all_members()
 	int count = 0;
 
 	query = " SELECT DISTINCT member_number ";
-	query += "FROM member ";
-	query += "WHERE member_status = 1;";
+	query += "FROM member ;";
 
 	db.queryDB(query, ptr);
 	
@@ -75,8 +74,9 @@ int management_report:: all_members()
 int management_report:: individual_member(int m_id)
 {
 	member_report obj; 
+	cadb obj2;
 
-	return obj.run(m_id, date(0)+"_"+to_string(m_id)+"_report");
+	return obj.run(m_id, obj2.getString("member", "member_number", to_string(m_id), "member_name")+"_"+date(0)+"_report");	
 }
 
 

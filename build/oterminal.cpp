@@ -93,11 +93,11 @@ provider oterminal::inputProvider() {
     termHeader(2);
     cout << "Enter provider name: ";
     newProvider.name = validateInputString();
-    cout << "Enter street name of provider: ";
+    cout << "Enter street address of provider: ";
     newProvider.street = validateInputString();
     cout << "Enter city name of provider: ";
     newProvider.city = validateInputString();
-    cout << "Enter state abbreviation of provider: ";
+    cout << "Enter state abbreviation of provider(2 Characters): ";
     newProvider.state = validateInputString();
     cout << "Enter zip code of provider: ";
     newProvider.zip = validateInputString();
@@ -111,11 +111,11 @@ member oterminal::inputMember() {
     termHeader(2);
     cout << "Enter member name: ";
     newMember.name = validateInputString();
-    cout << "Enter street name of member: ";
+    cout << "Enter street address of member: ";
     newMember.street = validateInputString();
     cout << "Enter city name of member: ";
     newMember.city = validateInputString();
-    cout << "Enter state abbreviation of member: ";
+    cout << "Enter state abbreviation of member(2 Characters): ";
     newMember.state = validateInputString();
     cout << "Enter zip code of member: ";
     newMember.zip = validateInputString();
