@@ -10,7 +10,7 @@ cadb::cadb(void){
 	// And Log In
 	try{
 		caDriver = get_driver_instance();
-		caConn = caDriver->connect("db.cecs.pdx.edu", "sbingham", "x6Tcbcs5*a");
+		caConn = caDriver->connect("db", "uid", "password");
 		caConn->setSchema("sbingham");
 	}
 	catch (sql::SQLException &e) {
